@@ -78,7 +78,29 @@ Ideal
 
 \section{本章小结}
 
-\chapter{单变量环境下的机制}
+\chapter{简单可并行计算下的机制}
+
+\section{引言}
+
+\section{基本假设}
+在简单可并行计算下的机制建立之前，首先给出相关合理假设。
+
+假设1：参与者是有限理性的个体，总是执行理性条件下最大化各自效用函数的策略。
+
+假设2：除参与者对原位计算任务代价的内心估值为私密知识以外，其余均为公共知识，为平台方和其它参与者所知。
+
+\section{基础模型定义}
+机制中有$n$个参与者$\mathbf{agent}$可以进入原位计算任务$T$的竞拍环节。原位计算任务$T$共需要$datademand$单位的计算。对于$1\leq i\leq n$,参与者$agent_i$可以针对任务书$T$提供$datacount_i$单位的原位计算。参与者$agent_i$拥有私密值$val_i\leq 0$, $-val_i$表示$agent_i$对提供每单位原位计算所付出的真实代价。私密值$val_i$只对参与者$agent_i$可见，平台方及其余参与者不可见。在机制中，每个参与者会公布自己的标的$b_i$,形成标的向量$\mathbf{bid}$。分配函数$\mathbf{allocation}(\mathbf{bid})$也是一个向量，表示了机制对参与者分配的原位计算任务数量。$agent_i$的效用函数定义为$utility_i=val_i*allocation_i-payment_i$。总社会福利$\mathbf{SW}$定义为$\sum_{i=1}^n{val_i*allocation_i}$,其是所有参与者的效用函数与平台方收益的总和。即：$\boldsymbol{SW} = \sum_{i=1}^n{utility_i}+\sum_{i=1}^{n}{payment_i}$
+
+\section{基础模型求解}
+本文的目标是设计一种参与者具有占优策略的机制。由显示定理可知，对于任意一个参与者总是具有占优策略的机制$M$，总是存在一个等价的直接显示(direct-revelation)占优策略激励相容(DSIC)机制$M'$。因此，本文在DSIC机制的范围中寻找合适的解。而在前述基础模型定义中，参与者的私密值仅为其对原位计算任务的代价估值$val_i$，且效用函数为准线性函数。这属于单变量环境，需要麦尔森引理来主导机制设计的流程。
+
+假设所有参与者已经真实地表达原位计算任务的代价，并给出标的，即$bid_i = val_i$。 此时对于平台方来说，社会福利最大化等价于如下最优化问题。
+\begin{align}
+    \max_{\vec{allocation}} \quad&\sum_{i=1}^{n}{bid_i*allocation_i}\\
+    s.t                     \quad& 0\leq allocation_i\leq datacount_i,\quad allocation_i = {0,1,2...}\notag\\
+                            \quad& \sum_{i=1}^{n}{allocation_i}\leq datademand\notag
+\end{align}
 
 \section{本章小结}
 
