@@ -85,22 +85,61 @@ Ideal
 \section{基本假设}
 在简单可并行计算下的机制建立之前，首先给出相关合理假设。
 
-假设1：参与者是有限理性的个体，总是执行理性条件下最大化各自效用函数的策略。
+假设1：参与者是有限理性的个体，总是执行理性条件下最大化各自效用函数的策略，且不存在共谋
 
 假设2：除参与者对原位计算任务代价的内心估值为私密知识以外，其余均为公共知识，为平台方和其它参与者所知。
-
 \section{基础模型定义}
 机制中有$n$个参与者$\mathbf{agent}$可以进入原位计算任务$T$的竞拍环节。原位计算任务$T$共需要$datademand$单位的计算。对于$1\leq i\leq n$,参与者$agent_i$可以针对任务书$T$提供$datacount_i$单位的原位计算。参与者$agent_i$拥有私密值$val_i\leq 0$, $-val_i$表示$agent_i$对提供每单位原位计算所付出的真实代价。私密值$val_i$只对参与者$agent_i$可见，平台方及其余参与者不可见。在机制中，每个参与者会公布自己的标的$b_i$,形成标的向量$\mathbf{bid}$。分配函数$\mathbf{allocation}(\mathbf{bid})$也是一个向量，表示了机制对参与者分配的原位计算任务数量。$agent_i$的效用函数定义为$utility_i=val_i*allocation_i-payment_i$。总社会福利$\mathbf{SW}$定义为$\sum_{i=1}^n{val_i*allocation_i}$,其是所有参与者的效用函数与平台方收益的总和。即：$\boldsymbol{SW} = \sum_{i=1}^n{utility_i}+\sum_{i=1}^{n}{payment_i}$
 
 \section{基础模型求解}
-本文的目标是设计一种参与者具有占优策略的机制。由显示定理可知，对于任意一个参与者总是具有占优策略的机制$M$，总是存在一个等价的直接显示(direct-revelation)占优策略激励相容(DSIC)机制$M'$。因此，本文在DSIC机制的范围中寻找合适的解。而在前述基础模型定义中，参与者的私密值仅为其对原位计算任务的代价估值$val_i$，且效用函数为准线性函数。这属于单变量环境，需要麦尔森引理来主导机制设计的流程。
+本文的目标是设计一种参与者具有占优策略的拍卖机制。由显示定理可知，对于任意一个参与者总是具有占优策略的机制$M$，总是存在一个等价的直接显示(direct-revelation)占优策略激励相容(DSIC)机制$M'$。因此，本文在DSIC机制的范围中寻找合适的解。而在前述基础模型定义中，参与者的私密值仅为其对原位计算任务的代价估值$val_i$，且效用函数为准线性函数。这属于单变量环境，需要麦尔森引理来主导机制设计的流程。
 
 假设所有参与者已经真实地表达原位计算任务的代价，并给出标的，即$bid_i = val_i$。 此时对于平台方来说，社会福利最大化等价于如下最优化问题。
+
 \begin{align}
-    \max_{\vec{allocation}} \quad&\sum_{i=1}^{n}{bid_i*allocation_i}\\
+    \label{jichumoxing}\max_{\vec{allocation}} \quad&\sum_{i=1}^{n}{bid_i*allocation_i}\\
     s.t                     \quad& 0\leq allocation_i\leq datacount_i,\quad allocation_i = {0,1,2...}\notag\\
-                            \quad& \sum_{i=1}^{n}{allocation_i}\leq datademand\notag
+                            \quad& \sum_{i=1}^{n}{allocation_i}\leq datademand\notag 
 \end{align}
+
+给出贪心算法：
+
+\begin{algorithm}[H] 
+    \KwIn{$\mathbf{datacount},\mathbf{bid},datademand$}
+    \KwOut{$\mathbf{allocation}$}
+    $i \leftarrow 1$\;
+    $total \leftarrow datademand $\;
+    对二元组序列$list = \{(bid_j,j)|1 \leq j \leq n\}$以第一关键字进行降序排列，第一关键字相同的情况下，以第二关键字升序排列\;
+    \While{total > 0}{
+        \If{i > n}{
+            break\;
+        }
+        $temp \leftarrow \min(total,\quad datacount_{list[i].second})$\;
+        $total \leftarrow total - temp$\;
+        $allocation_i \leftarrow temp$\;
+        $i \leftarrow i + 1$\;
+    }
+\caption{贪心算法求解基础模型}
+\label{tanxin}
+\end{algorithm}
+
+\begin{theorem}
+算法\ref{tanxin}是问题\ref{jichumoxing}的解。
+\end{theorem}
+
+\begin{proof}
+    算法\ref{tanxin}的思想是在供应$datademand$有限的情况下，优先满足代价估值$bid_i$更大的参与者的需求。假设存在一个更优解$S^1(SW^1 > SW)$与该思想相悖。即存在$1 \leq i \neq j \leq n,bid_i > bid_j$, 使得$allocation_i < datacount_i \text{, } allocation_j > 0$。不妨将分配给参与者$agent_j$的$temp = min(datacount_i - allocation_i,allocation_j)$单位计算任务重新分配给参与者$agent_i$,得到解$S^2$,此时新的社会福利$SW^2= SW^1- temp*bid_j + temp*bid_i=SW^1+temp*(bid_i-bid_j)$，由前述条件可知,$temp > 0$且$bid_i - bid_j > 0$。易得,$SW^1<SW^2 $。继续对$S^2$执行以上流程，直到前提条件不满足。此时，解$S^n$优先满足代价估值更大的参与者的需求。由贪心算法可知$SW^n = SW$，则$SW^1<SW^2...<SW^n=SW$,这与假设不符。故不存在上述更优解。
+\end{proof}
+
+分配函数已经确定，为了引用麦尔森引理确定价格函数，需要首先分析分配函数关于标的$bid_i$的单调性。
+
+\begin{theorem}
+    对于任意参与者$agent_i$以及任意$\mathbf{bid_{-i}}$\footnote{表示除$bid_i$分量以外的总标的向量}，算法\ref{tanxin}所示分配规则$allocation_i(z,\mathbf{bid_{-i}})$是关于$agent_i$的标的$z$的单调不减函数。
+\end{theorem}
+
+\begin{proof}
+   在保持其余标的不变的情况条件下，若$agent_i$的标的$z$变大，则其在算法\ref{tanxin}中list序列中的排位只会更加靠前，从而获得更高优先级的分配权力。而算法的不确定性已经由第二关键字排序消除。
+\end{proof}
 
 \section{本章小结}
 
