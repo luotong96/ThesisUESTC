@@ -88,24 +88,26 @@ Ideal
 假设1：参与者是有限理性的个体，总是执行理性条件下最大化各自效用函数的策略，且不存在共谋
 
 假设2：除参与者对原位计算任务代价的内心估值为私密知识以外，其余均为公共知识，为平台方和其它参与者所知。
-\section{基础模型定义}
-机制中以虚拟代币作为货币。机制中有$n$个参与者$\mathbf{agent}$可以进入原位计算任务$T$的竞拍环节。原位计算任务$T$共需要$datademand$单位的计算。对于$1\leq i\leq n$,参与者$agent_i$可以针对任务书$T$提供$datacount_i$单位的原位计算任务。
-在机制中，平台方会给予胜出参与者每单位计算任务$CENT$个货币作为奖赏。然而
-参与者$agent_i$拥有私密值$0 \leq val_i = INCENT-cost_i$,$INCENT$是平台方给予胜出者的每单位计算任务的固定奖赏，由平台方或者原位计算任务发起者确定。$0 \leq cost_i \leq INCENT$，否则，参与者$agent_i$应当退出此次竞拍来避免自己受损。 于是，$val_i$表示$agent_i$对购买每单位原位计算任务带来的真实价值。其$val_i$只对参与者$agent_i$可见，平台方及其余参与者不可见。在机制中，每个参与者会提交自己的标的$b_i$,形成标的向量$\mathbf{bid}$。分配函数$\mathbf{allocation}(\mathbf{bid})$也是一个向量，表示了机制对参与者分配的原位计算任务数量。$agent_i$的效用函数定义为准线性函数$utility_i = val_i*allocation_i-payment_i$。总社会福利$\mathbf{SW}$定义为$\sum_{i=1}^n{val_i*allocation_i}$,其是所有参与者的效用函数与平台方收益的总和。即：$\mathbf{SW} = \sum_{i=1}^n{utility_i}+\sum_{i=1}^{n}{payment_i}$
 
-\section{基础模型求解}
+\section{基础模型}
+
+\subsection{模型定义}\label{jichumoxingdingyi}
+机制中以虚拟代币作为货币。机制中有$n$个参与者$\mathbf{agent}$可以进入原位计算任务$T$的竞拍环节。原位计算任务$T$共需要$datademand$单位的计算。对于$1\leq i\leq n$,参与者$agent_i$可以针对任务书$T$提供$datacount_i$单位的原位计算任务。
+而参与者$agent_i$拥有私密值$0 \leq val_i = INCENT-cost_i$,$INCENT$是平台方给予胜出者的每单位计算任务的固定奖赏，由平台方或者原位计算任务发起者确定\footnote{本文中不特意区分平台方与计算任务发起者，因为他们可能是同一角色}。$0 \leq cost_i \leq INCENT$，否则，参与者$agent_i$应当退出此次竞拍来避免自己受损。 于是，$val_i$表示$agent_i$对购买每单位原位计算任务带来的真实价值。其$val_i$只对参与者$agent_i$可见，平台方及其余参与者不可见。在机制中，每个参与者会提交自己的标的$b_i$,形成标的向量$\mathbf{bid}$。分配函数$\mathbf{allocation}(\mathbf{bid})$也是一个向量，表示了机制对参与者分配的原位计算任务数量。$agent_i$的效用函数定义为准线性函数$utility_i = val_i*allocation_i-payment_i$。总社会福利$\mathbf{SW}$定义为$\sum_{i=1}^n{val_i*allocation_i}$,其是所有参与者的效用函数与平台方收益的总和。即：$\mathbf{SW} = \sum_{i=1}^n{utility_i}+\sum_{i=1}^{n}{payment_i}$
+
+\subsection{模型求解}
 本文的目标是设计一种参与者具有占优策略的拍卖机制。由显示定理可知，对于任意一个参与者总是具有占优策略的机制$M$，总是存在一个等价的直接显示(direct-revelation)占优策略激励相容(DSIC)机制$M'$。因此，本文在DSIC机制的范围中寻找合适的解。而在前述基础模型定义中，参与者的私密值仅为其对购买原位计算任务的收益真实估值$val_i$，且效用函数为准线性函数。这属于单变量环境，需要麦尔森引理来主导机制设计的流程。
 
-假设所有参与者已经真实地表达原位计算任务的估值，并给出标的，即$\mathbf{bid} = \mathbf{val}$。 此时对于平台方来说，社会福利最大化等价于如下最优化问题。
+假设所有参与者已经真实地表达原位计算任务的估值，并给出标的，即$\mathbf{bid} = \mathbf{val}$。 此时对于平台方来说，社会福利最大化等价于最优化问题\ref{jichumoxing}。
 
 \begin{align}
     \label{jichumoxing}\max_{\vec{allocation}} \quad&\sum_{i=1}^{n}{bid_i*allocation_i}\\
     s.t                     \quad& 0\leq allocation_i\leq datacount_i,\quad allocation_i = {0,1,2...}\notag\\
-                            \quad& \sum_{i=1}^{n}{allocation_i}\leq datademand\notag 
+                            \quad& \sum_{i=1}^{n}{allocation_i} = datademand\notag 
 \end{align}
 
 给出贪心算法：\footnote{本文中数组下标均从1开始计数}
-\footnote{可以通过first和second来分别指代二元组的第一、二关键字}
+\footnote{可以通过first和second来分别指代二元组的第一、二关键字}时间复杂度$O(n)$
 
 \begin{algorithm}[H] 
     \KwIn{$\mathbf{datacount},\mathbf{bid},datademand$}
@@ -115,6 +117,7 @@ Ideal
     对二元组序列$list = \{(bid_j,j)|1 \leq j \leq n\}$以第一关键字进行降序排列，第一关键字相同的情况下，以第二关键字升序排列\;
     \While{total > 0}{
         \If{i > n}{
+            datademand单位的计算任务无法被分配完毕，返回错误信息。
             break\;
         }
         $temp \leftarrow \min(total,\quad datacount_{list[i].second})$\;
@@ -144,13 +147,16 @@ Ideal
    在保持其余标的不变的情况条件下，若$agent_i$的标的$z$变大，则其在算法\ref{tanxin}中list序列中的排位只会更加靠前，从而获得更高优先级的分配权力。而算法的不确定性已经由第二关键字排序消除。
 \end{proof}
 
-$allocation_i(z,\mathbf{bid_{-i}})$的函数图像如下所示。
 
-\begin{figure}
-    
+
+\begin{figure}[h]
+    \includegraphics{pic/tanxin_allocation.pdf}
+    \caption{贪心算法分配函数示例}
+    \label{tanxin_allocation}
 \end{figure}
 
-根据麦尔森引理，阴影部分面积即为$agent_i$向平台方支付的报酬。现给出支付函数计算规则，如算法\ref{tanxin_zhifu}所示
+不失一般性，$allocation_i(z,\mathbf{bid_{-i}})$函数图像如图\ref{tanxin_allocation}所示。
+根据麦尔森引理，阴影部分面积即为$agent_i$向平台方支付的报酬。由图像可知，需要求解出这些阶跃变化值。根据贪心算法的流程，假设已知根据$\mathbf{bid}$降序排列的$\mathbf{datacount}$前缀和数组$\mathbf{prefix}$,则可以迭代求出这些阶跃值，从而求得阴影部分总面积。其余$agent$的代价计算亦然。总体$\mathbf{payment}$计算具体细节如算法\ref{tanxin_zhifu}所示，算法时间复杂度$O(n^2)$。
 
 \begin{algorithm}[H]
     \KwIn{$\mathbf{datacount},\mathbf{bid},datademand$}
@@ -158,7 +164,7 @@ $allocation_i(z,\mathbf{bid_{-i}})$的函数图像如下所示。
     运行算法\ref{tanxin},获得list\;
     \tcp{根据标的排序求count的各前缀和}
     prefix 置为初始值为0的数组\;
-    \For{$i = 1 \KwTo n$}
+    \For{$i = 1$ \KwTo $n$}
     {
         \If{i > 1}{
             $prefix[i] \leftarrow prefix[i-1]$\;
@@ -166,10 +172,11 @@ $allocation_i(z,\mathbf{bid_{-i}})$的函数图像如下所示。
         $prefix[i]  += datacount_{list[i].second}$\;
     }
     \tcp{求每个参与者的支付$payment_i$}
-    \For{$i = 1 \KwTo n$}
+    \For{$i = 1$ \KwTo $n$}
     {
         $payment_{list[i].second} \leftarrow 0$\;
-        $ind \leftarrow i + 1$\tcp*{ind存储遍历下标}\;
+        \tcp{ind存储遍历下标}
+        $ind \leftarrow i + 1$
         \tcp{y存储当前分配值}
         \eIf{$i = 1$}
         {
@@ -181,13 +188,74 @@ $allocation_i(z,\mathbf{bid_{-i}})$的函数图像如下所示。
         {
             $newy \leftarrow min(max(datademand - prefix[ind]+ datacount_{list[i].second},0),datacount_{list[i].second})$\;
             $payment_{list[i].second} += (y - newy)*list[ind].first$\;
-            $y = newy$\;
+            $y \leftarrow newy$\;
             $ind += 1$\;
         }
     }
-    \caption{贪心算法求解基础模型的支付流程}
-    \label{tanxin_zhifu}
+\caption{贪心算法求解基础模型的支付流程}
+\label{tanxin_zhifu}
 \end{algorithm}
+
+\section{多重指标限制问题}
+\subsection{问题描述及定义}
+    原位计算任务竞拍场景中，平台方或者任务提交方对于任务购买方存在总体偏好设置或者限制条件。例如：平台方可以出于总体计算结果来源异构性等需求要求竞拍胜出者的数量不能超过某给定阈值；或者要求原位计算任务$T$的总体响应时间不能大于给定目标值。在本场景中，参与者会被赋予不同的信誉等级及可靠性评估。而平台方也可以根据自己对任务难易程度的估量，制定不同的限制条件。假设限制指标集$Limit$是有限集。本文中使用表\ref{zhibiao}所示指标作为分析。
+
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}} %放在导言区
+
+\begin{table}[h]
+\caption{限制指标集}
+\begin{tabular}{cp{10em}cc}
+    \toprule
+    指标名称& 描述&符号&计算(产生)方式\\
+    \midrule
+    一级参与者的数量阈值&来自信誉系统&$Parti_1$&由平台方或任务方确定\\
+    二级参与者的数量阈值& 同上&$Parti_2$&由平台方或任务方确定\\
+    三级参与者的数量阈值& 同上&$Parti_3$&由平台方或任务方确定\\
+    总体响应时间和&各个胜出者完成来自任务$T$所指派计算花费的时间总和&TIME&由平台方或任务方确定\\
+    计算需求量&&datademand&任务$T$固有属性\\
+    \bottomrule
+\end{tabular}
+\label{zhibiao}
+\end{table}
+
+上述指标集中，前三项来自于对参与者的信誉等级及可靠性评估。前三项指标是同类指标，以第一项为例，它意味着平台方要求任务$T$的胜出者中一级参与者刚好有$Parti_1$个。第四项指标衡量了原位计算任务$T$的总体完成效率。$TIME$值越小，意味平台方对于任务的响应要求越高，对于拍卖环节的限制也就更强。第五项$datademand$是来自于原位计算任务本身的需求，机制需要尽可能使$datademand$被满足，这里也将其视为平台方对原位计算任务分配的限制指标之一。
+\subsubsection{形式化定义}
+\label{dpdingyi}
+在\ref{jichumoxingdingyi}节所示基础上引入上述指标集限制条件。$level_i\in {1,2,3}$为$agent_i$的信誉及可靠性评估。对于$1\leq j \leq 3$,胜出者集合中第$j$级参与者数量$=parti_j$。$timeperunit_i$是$agent_i$关于$任务T$完成每单位
+计算任务所花费的时间。$transmitcost_i$是$agent_i$向平台方提交结果数据所花费的平均时间，主要由网络时延、吞吐量等因素决定。分配规则需要满足时效性要求指标：$\sum_{i=1}^{n}{timeperunit_i*allocation_i+\mathbf{I}(allocation_i > 0)*transmitcost_i} < TIME$
+\footnote{$\mathbf{I}(\text{表达式}) = \begin{cases}{}
+        0&,\text{表达式为假}\\
+        1&,\text{表达式为真}
+        \end{cases}$
+}%，$timeperunit_i$和$transmitcost_i$的定义见\ref{dpdingyi}节。}
+社会福利$SW$的定义仍然不变。
+假设所有参与者已经真实地表达原位计算任务的估值，并给出标的，即$\mathbf{bid} = \mathbf{val}$，此时对于平台方来说，社会福利最大化等价于最优化问题\ref{dpmoxing}
+\begin{align}
+    \label{dpmoxing}\max_{\vec{allocation}} \quad&\sum_{i=1}^{n}{bid_i*allocation_i}\\
+    s.t\quad& 0\leq allocation_i\leq datacount_i,\quad allocation_i = {0,1,2...}\notag\\
+        \quad& \sum_{i=1}^{n}{allocation_i} = datademand\notag\\
+        \quad& \left(\sum_{i=1}^{n}{timeperunit_i*allocation_i+\mathbf{I}(allocation_i > 0)*transmitcost_i}\right) < TIME\notag\\
+        \quad& \left(\sum_{i=1}^{n}{\mathbf{I}(allocation_i > 0,level_i = j)}\right)=parti_j, j = {1,2,3}\notag
+\end{align}
+
+\subsection{模型求解}
+最优化问题\ref{dpmoxing}是一个NPC问题，此处尝试以动态规划的方式进行求解。拟定6维状态$dp[i,j,a,b,c,t]$，表示考虑前$i$个参与者，刚好分配$j$单位原位计算任务，其中一级参与者$a$个，二级参与者$b$个，三级参与者$c$个，最多花费$t$单位总时间，所能够获得的最大收益。通过枚举分配给$agent_i$的计算任务数量，可以得到状态转移方程\ref{dpfangcheng}。
+\begin{gather}
+    \label{dpfangcheng}  
+    dp[i,j,a,b,c,t] = max
+    \begin{cases}
+    1 \leq k \leq datacount_i \\
+    \text{If}level_i = 1,\\
+    dp[i-1,j-k,a-1,b,c,t-k*timeperunit_i-transmitcost_i]+ k*val_i,\\
+    \text{If}level_i = 2,\\
+    dp[i-1,j-k,a,b-1,c,t-k*timeperunit_i-transmitcost_i]+ k*val_i,\\
+    \text{If}level_i = 3,\\
+    dp[i-1,j-k,a,b,c-1,t-k*timeperunit_i-transmitcost_i]+ k*val_i,\\
+    \text{all condition},\\
+    dp[i-1,j,a,b,c,t]\\
+    \end{cases}\\
+    dp[0,]\notag
+\end{gather}
 
 \section{本章小结}
 
