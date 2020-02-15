@@ -282,10 +282,44 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
 对于任意参与者$agent_i$以及任意$\mathbf{bid_{-i}}$，算法\ref{jiyihua}所示分配规则$allocation_i(z,\mathbf{bid_{-i}})$是关于$agent_i$的标的$z$的单调不减函数。
 \end{theorem}
 \begin{proof}
-由算法\ref{jiyihua}及转移方程\ref{dpfangcheng}可知，参与者$agent_i$的分配$allocation_i$依赖于子空间$dp[i-1,,,,,]$中$datacount_i+1$个状态(分别对应于分配0、1、2...$datacount_i$件计算任务),以及$bid_i$的值。$dp[i-1,,,,,]$中的状态由参与者的许多信息(包括$\mathbf{bid_{-i}}$)及所有环境参量(如\ref{dpdingyi}节中定义的限制指标)决定。因此其不受$bid_i$影响。当$bid_i$变化时，这些状态可以看做固定值。
+\label{dpdandiao}
+将$agent_i$移至所有参与者的最后一位。由算法\ref{jiyihua}及转移方程\ref{dpfangcheng}可知，参与者$agent_i$的分配$allocation_i$依赖于子空间$dp[n-1,,,,,]$中$datacount_i+1$个状态(分别对应于分配0、1、2...$datacount_i$件计算任务),以及$bid_i$的值。$dp[i-1,,,,,]$中的状态由参与者的许多信息(包括$\mathbf{bid_{-i}}$)及所有环境参量(如\ref{dpdingyi}节中定义的限制指标)决定。因此其不受$bid_i$影响。当$bid_i$变化时，这些状态可以看做固定值。
 
-记$allocation_i(z,\mathbf{bid_{-i}})$为$al_i(z)$，$dp[i-1,,,,,]$中对应的$datacount_i+1$个状态分别为$dp[0],dp[1],...dp[datacount_i]$。不妨假设$a < b$, 且当$bid_i = a$时，$al_i(z) = j$。这意味着$dp[j]+j*a$是$\{dp[k] + k*a|0 \leq k \leq j\}$中的极大值。此时再考虑$bid_i=b$时的情景。对于$ 0\leq k\leq j$，对应的状态分别为$dp[k]+k*b=dp[k]+k*a+k*(b-a)$,由于$dp[k]+k*a\leq dp[j]+j*a$(来自于$bid_i=a$的假设)，且$k(b-a)\leq j*(b-a)$，所以$dp[k]+k*b \leq dp[j]+j*b$。那么$al_i(a)\leq al_i(b)$
+记$allocation_i(z,\mathbf{bid_{-i}})$为$al_i(z)$，$dp[i-1,,,,,]$中对应的$datacount_i+1$个状态分别为$ndp[0],ndp[1],...ndp[datacount_i]$。不妨假设$a < b$, 且当$bid_i = a$时，$al_i(z) = j$。这意味着$ndp[j]+j*a$是$\{ndp[k] + k*a|0 \leq k \leq j\}$中的极大值。此时再考虑$bid_i=b$时的情景。对于$ 0\leq k\leq j$，对应的状态分别为$ndp[k]+k*b=ndp[k]+k*a+k*(b-a)$,由于$ndp[k]+k*a\leq ndp[j]+j*a$(来自于$bid_i=a$的假设)，且$k*(b-a)\leq j*(b-a)$，所以$ndp[k]+k*b \leq ndp[j]+j*b$。那么$al_i(a)\leq al_i(b)$
 \end{proof}
+
+为了确定多重指标限制问题下的价格函数，针对每一个$agent_i$，需要确定证明\ref{dpdandiao}中$dp[n-1,,,,,]$子空间中的$datacount_i+1$个状态的值。然后根据这些值找出分配函数$al_i(z)$中的那些阶跃点。由于本场景中，对于每个阶跃点，其$y$轴的阶跃值仅为1。那么可以根据麦尔森引理,求得$agent_i$所需支付的价格。
+\begin{equation}
+\label{jieyuedian}
+ \begin{aligned}
+ ndp[1]+1*b_1&=ndp[0]\\
+ ndp[2]+2*b_2&=ndp[1]+b_2\\
+ ndp[3]+3*b_3&=ndp[2]+2*b_3\\
+ &\vdots\\
+ ndp[k]+k*b_k&=ndp[k-1]+(k-1)*b_{k-1}
+ \end{aligned}
+\end{equation}
+
+解方程组\ref{jieyuedian},可以得到所有阶跃点序列$b_1,b_2,b_3...b_k$。值得注意的是，该序列不一定单调递增。
+
+\begin{algorithm}[H]
+\KwIn{$\mathbf{datacount,timeperunit,level,bid},datademand$,及\ref{dpdingyi}节中定义的限制指标}
+    \KwOut{$\mathbf{payment}$}
+    运行算法\ref{jiyihua},得到分配$allocation_i$\;
+    \For{每个参与者$agent_i$}
+    {
+        $payment_i \leftarrow 0$\;
+        将$agent_i$移至末位，重新运行算法\ref{jiyihua},得到:\;
+        $ndp[0] = dp[n-1,datademand,parti_1,parti_2,parti_3,TIME]$\;
+        $ndp[k] = dp[n-1,datademand-k,parti_1-\mathbf{I}(level_i=1),parti_2-\mathbf{I}(level_i=2),parti_3-\mathbf{I}(level_i=3),TIME-k*timeperunit_i-transmitcost_i],1\leq k\leq datacount_i$\;
+        $record \leftarrow 0$\;
+        \For{$ind \leftarrow 1$\KwTo $allocation_i$}{
+            $record \leftarrow max(record,ndp[ind-1] - ndp[ind])$\;
+            $payment_i \leftarrow payment_i + record$\;
+        }
+    }
+\caption{多重指标限制问题价格规则}
+\end{algorithm}
 
 
 \section{本章小结}
