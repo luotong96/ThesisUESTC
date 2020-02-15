@@ -240,22 +240,53 @@ Ideal
 
 \subsection{模型求解}
 最优化问题\ref{dpmoxing}是一个NPC问题，此处尝试以动态规划的方式进行求解。拟定6维状态$dp[i,j,a,b,c,t]$，表示考虑前$i$个参与者，刚好分配$j$单位原位计算任务，其中一级参与者$a$个，二级参与者$b$个，三级参与者$c$个，最多花费$t$单位总时间，所能够获得的最大收益。通过枚举分配给$agent_i$的计算任务数量，可以得到状态转移方程\ref{dpfangcheng}。
+
 \begin{gather}
-    \label{dpfangcheng}  
-    dp[i,j,a,b,c,t] = max
-    \begin{cases}
-    1 \leq k \leq datacount_i \\
-    \text{If}level_i = 1,\\
-    dp[i-1,j-k,a-1,b,c,t-k*timeperunit_i-transmitcost_i]+ k*val_i,\\
-    \text{If}level_i = 2,\\
-    dp[i-1,j-k,a,b-1,c,t-k*timeperunit_i-transmitcost_i]+ k*val_i,\\
-    \text{If}level_i = 3,\\
-    dp[i-1,j-k,a,b,c-1,t-k*timeperunit_i-transmitcost_i]+ k*val_i,\\
-    \text{all condition},\\
-    dp[i-1,j,a,b,c,t]\\
-    \end{cases}\\
-    dp[0,]\notag
+\label{dpfangcheng}  
+dp[i,j,a,b,c,t] = max
+\begin{cases}
+1 \leq k \leq datacount_i \\
+\text{If} \quad level_i = 1,\\
+dp[i-1,j-k,a-1,b,c,t-k*timeperunit_i-transmitcost_i]+ k*bid_i,\\
+\text{If}\quad level_i = 2,\\
+dp[i-1,j-k,a,b-1,c,t-k*timeperunit_i-transmitcost_i]+ k*bid_i,\\
+\text{If} \quad level_i = 3,\\
+dp[i-1,j-k,a,b,c-1,t-k*timeperunit_i-transmitcost_i]+ k*bid_i,\\
+\text{all condition},\\
+dp[i-1,j,a,b,c,t]
+\end{cases}\\
+dp[0,0...datademand,0...parti_1,0...parti_2,0...parti_3,0...TIME] =-\infty \notag\\
+dp[0,0,0,0,0,0...TIME] = 0 \notag
 \end{gather}
+上述转移方程中，值得一提的是状态的初始化方法。考虑最优化问题\ref{dpmoxing}的限制条件可知，只有总体响应时间和是不等式限制，其余四项限制指标均等式。这可以通过设置初始状态的合法性来解决。如\ref{dpfangcheng}所示，在限制指标张成的五维空间中，仅有关于运行时间的一维子空间\footnote{此处并非完整定义的子空间}被赋予合法性。其余非法状态置$-\infty$。当限制指标集扩展时，针对不同类型的限制属性也可以按此思路进行初始状态设定。
+为了减少状态存储，转移方程\ref{dpfangcheng}可以记忆化搜索的方式进行。
+\begin{algorithm}[H]
+    \KwIn{$\mathbf{datacount,timeperunit,level,bid},datademand$,及\ref{dpdingyi}节中定义的限制指标}
+    \KwOut{$\mathbf{allocation}$}
+    对参与者按照默认优先级进行排序，优先级较高的排位靠前。
+    $Search(n,datademand,parti_1,parti_2,parti_3,TIME)$\;
+    以最优路径对$\mathbf{allocation}$进行赋值\;
+    \;
+    $Search(i,j,a,b,c,t)$定义为：\;
+    检查状态是否访问过，是则直接返回最优解，否则继续向下。\;
+    根据方程\ref{dpfangcheng}所示进行状态转移\;
+    \For{$i \leftarrow 0$ \KwTo $k$}{
+        Search(新的状态)
+    }
+    记录当前状态最优值，若存在多个最优解，选择$k$值较小的那个，同时记录最优路径。\;
+\caption{记忆化搜索}
+\label{jiyihua}
+\end{algorithm}
+
+\begin{theorem}
+对于任意参与者$agent_i$以及任意$\mathbf{bid_{-i}}$，算法\ref{jiyihua}所示分配规则$allocation_i(z,\mathbf{bid_{-i}})$是关于$agent_i$的标的$z$的单调不减函数。
+\end{theorem}
+\begin{proof}
+由算法\ref{jiyihua}及转移方程\ref{dpfangcheng}可知，参与者$agent_i$的分配$allocation_i$依赖于子空间$dp[i-1,,,,,]$中$datacount_i+1$个状态(分别对应于分配0、1、2...$datacount_i$件计算任务),以及$bid_i$的值。$dp[i-1,,,,,]$中的状态由参与者的许多信息(包括$\mathbf{bid_{-i}}$)及所有环境参量(如\ref{dpdingyi}节中定义的限制指标)决定。因此其不受$bid_i$影响。当$bid_i$变化时，这些状态可以看做固定值。
+
+记$allocation_i(z,\mathbf{bid_{-i}})$为$al_i(z)$，$dp[i-1,,,,,]$中对应的$datacount_i+1$个状态分别为$dp[0],dp[1],...dp[datacount_i]$。不妨假设$a < b$, 且当$bid_i = a$时，$al_i(z) = j$。这意味着$dp[j]+j*a$是$\{dp[k] + k*a|0 \leq k \leq j\}$中的极大值。此时再考虑$bid_i=b$时的情景。对于$ 0\leq k\leq j$，对应的状态分别为$dp[k]+k*b=dp[k]+k*a+k*(b-a)$,由于$dp[k]+k*a\leq dp[j]+j*a$(来自于$bid_i=a$的假设)，且$k(b-a)\leq j*(b-a)$，所以$dp[k]+k*b \leq dp[j]+j*b$。那么$al_i(a)\leq al_i(b)$
+\end{proof}
+
 
 \section{本章小结}
 
