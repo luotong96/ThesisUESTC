@@ -47,7 +47,7 @@ With the widespread engineering applications ranging from broadband signals and 
 \section{本章小结}
 
 \chapter{相关理论基础}
-时域积分方程（TDIE）方法作为分析瞬态电磁波动现象最主要的数值算法之一，常用于求解均匀散射体和表面散射体的瞬态电磁散射问题。
+此部分主要抄书
 
 \section{基本概念}
 hello
@@ -76,11 +76,21 @@ Ideal
 
 \section{无金钱机制设计}
 
+\section{动态规划}
+\subsection{背包问题}
+
+
 \section{本章小结}
 
 \chapter{简单可并行计算下的机制}
 
 \section{引言}
+\subsection{原位计算}
+
+原位计算的介绍及总体基本场景描述待补
+
+\subsection{信誉系统}
+待补，之前看过的文章有。此部分也可能放在第四章
 
 \section{基本假设}
 在简单可并行计算下的机制建立之前，首先给出相关合理假设。
@@ -197,6 +207,7 @@ Ideal
 \end{algorithm}
 
 \section{多重指标限制问题}
+\label{dptou}
 \subsection{问题描述及定义}
     原位计算任务竞拍场景中，平台方或者任务提交方对于任务购买方存在总体偏好设置或者限制条件。例如：平台方可以出于总体计算结果来源异构性等需求要求竞拍胜出者的数量不能超过某给定阈值；或者要求原位计算任务$T$的总体响应时间不能大于给定目标值。在本场景中，参与者会被赋予不同的信誉等级及可靠性评估。而平台方也可以根据自己对任务难易程度的估量，制定不同的限制条件。假设限制指标集$Limit$是有限集。本文中使用表\ref{zhibiao}所示指标作为分析。
 
@@ -204,9 +215,10 @@ Ideal
 
 \begin{table}[h]
 \caption{限制指标集}
+\label{zhibiao}
 \begin{tabular}{cp{10em}cc}
     \toprule
-    指标名称& 描述&符号&计算(产生)方式\\
+    指标名称& 描述&符号&产生方式\\
     \midrule
     一级参与者的数量阈值&来自信誉系统&$Parti_1$&由平台方或任务方确定\\
     二级参与者的数量阈值& 同上&$Parti_2$&由平台方或任务方确定\\
@@ -215,7 +227,6 @@ Ideal
     计算需求量&&datademand&任务$T$固有属性\\
     \bottomrule
 \end{tabular}
-\label{zhibiao}
 \end{table}
 
 上述指标集中，前三项来自于对参与者的信誉等级及可靠性评估。前三项指标是同类指标，以第一项为例，它意味着平台方要求任务$T$的胜出者中一级参与者刚好有$Parti_1$个。第四项指标衡量了原位计算任务$T$的总体完成效率。$TIME$值越小，意味平台方对于任务的响应要求越高，对于拍卖环节的限制也就更强。第五项$datademand$是来自于原位计算任务本身的需求，机制需要尽可能使$datademand$被满足，这里也将其视为平台方对原位计算任务分配的限制指标之一。
@@ -239,7 +250,7 @@ Ideal
 \end{align}
 
 \subsection{模型求解}
-最优化问题\ref{dpmoxing}是一个NPC问题，此处尝试以动态规划的方式进行求解。拟定6维状态$dp[i,j,a,b,c,t]$，表示考虑前$i$个参与者，刚好分配$j$单位原位计算任务，其中一级参与者$a$个，二级参与者$b$个，三级参与者$c$个，最多花费$t$单位总时间，所能够获得的最大收益。通过枚举分配给$agent_i$的计算任务数量，可以得到状态转移方程\ref{dpfangcheng}。
+最优化问题\ref{dpmoxing}是一个NP-hard问题，此处尝试以动态规划的方式进行求解。拟定6维状态$dp[i,j,a,b,c,t]$，表示考虑前$i$个参与者，刚好分配$j$单位原位计算任务，其中一级参与者$a$个，二级参与者$b$个，三级参与者$c$个，最多花费$t$单位总时间，所能够获得的最大收益。通过枚举分配给$agent_i$的计算任务数量，可以得到状态转移方程\ref{dpfangcheng}。
 
 \begin{gather}
 \label{dpfangcheng}  
@@ -302,6 +313,8 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
 
 解方程组\ref{jieyuedian},可以得到所有阶跃点序列$b_1,b_2,b_3...b_k$。值得注意的是，该序列不一定单调递增。
 
+\setcounter{footnote}{0}
+
 \begin{algorithm}[H]
 \KwIn{$\mathbf{datacount,timeperunit,level,bid},datademand$,及\ref{dpdingyi}节中定义的限制指标}
     \KwOut{$\mathbf{payment}$}
@@ -311,7 +324,7 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
         $payment_i \leftarrow 0$\;
         将$agent_i$移至末位，重新运行算法\ref{jiyihua},得到:\;
         $ndp[0] = dp[n-1,datademand,parti_1,parti_2,parti_3,TIME]$\;
-        $ndp[k] = dp[n-1,datademand-k,parti_1-\mathbf{I}(level_i=1),parti_2-\mathbf{I}(level_i=2),parti_3-\mathbf{I}(level_i=3),TIME-k*timeperunit_i-transmitcost_i],1\leq k\leq datacount_i$\;
+        $ndp[k] = dp[n-1,datademand-k,parti_1-\mathbf{I\footnotemark}(level_i=1),parti_2-\mathbf{I}(level_i=2),parti_3-\mathbf{I}(level_i=3),TIME-k*timeperunit_i-transmitcost_i],1\leq k\leq datacount_i$\;
         $record \leftarrow 0$\;
         \For{$ind \leftarrow 1$\KwTo $allocation_i$}{
             $record \leftarrow max(record,ndp[ind-1] - ndp[ind])$\;
@@ -319,13 +332,129 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
         }
     }
 \caption{多重指标限制问题价格规则}
+\label{dp_zhifu}
+\end{algorithm}
+\footnotetext{$\mathbf{I}(\text{表达式}) = \begin{cases}{}
+        0&,\text{表达式为假}\\
+        1&,\text{表达式为真}
+        \end{cases}$
+}
+
+\section{场景扩展及额外偏好}
+\subsection{问题描述及定义}
+在本章场景中，原位计算任务$T$竞拍流程中的参与者的真实角色是拥有计算资源及相应数据访问权限的计算节点。这些计算节点隶属于不同的部门机构。就相对严格而紧密的组织而言，其部门机构可能存在较为显著的上下级关系。这种关系最典型的案例是树形关系。如\ref{jigoushu}所示。在这种树形关系中，各机构可能会出于成本管理、机构职能、安全性保障等多方面因素对其自身及下属机构参与原位计算任务提出新的要求及限制。例如，\ref{zhibiao}所示的各种限制性指标。这些要求及限制形成每个机构的偏好信息。如图\ref{jigoushu}，每个机构都拥有一个偏好信息描述。（图中并未完全画出所有偏好信息）
+
+\begin{figure}[h]
+\center
+    \includegraphics[width=350pt]{jigou_tree.pdf}
+    \caption{机构部门间的树形关系}
+    \label{jigoushu}
+\end{figure}
+
+另一方面，同一机构内部可能具有多个可提供计算能力的单位，他们具有相同的原位计算数据访问权，但他们的计算能力、质量又是参差不齐的。当同一机构内部的不同计算单位作为参与者进入到原位计算任务$T$的竞争环节中时，多个参与者可能提供的是数据相同而计算方式或者服务质量具有差异的原位计算。相同的计算内容对于同一原位计算任务$T$来说是冗余的。因此在前述场景中，这些数据同质的参与者之间实质存在互斥关系。即在这些数据同质的参与者中，分配规则最多只能选择1个胜出者。同一机构可能拥有多个不同的数据源，因此在一家机构内部也可能存在多组这样的互斥关系。目前我们只考虑在来自一家机构的参与者中存在数据同质的现象。
+\begin{figure}[h]
+    \includegraphics[width=350pt]{huchi_tree.pdf}
+    \caption{机构内部参与者的互斥关系示例}
+    \label{huchishu}
+\end{figure}
+
+在图\ref{huchishu}的示例中，机构2的计算单元$A,B,C$拥有数据源$1$的访问权，计算单元$D,E$拥有数据源$2$的访问权。当这些计算单元参与至原位计算任务竞争环节时，计算单元$A,B,C$及$D,E$中各自最多只能有一个胜出者。
+\subsubsection{形式化}
+
+在前文的形式化定义中增加机构的概念。机制中共有$m$个机构，所有参与者$agent_i,1 \leq i \leq n$隶属于这些机构。每个机构具有参与者偏好$prefer_i$,描述了其对自身管辖的部门参与原位计算的限制条件。现仅考虑如下限制：该机构及其管辖部门的参与者所提供的总原位计算任务不能超过$limit_i$单位。此节的分析及结论可以被推广至所有限制指标$\leq$某一阈值的更一般情况。机构之间形成森林结构，即对于$org_i$，其最多仅有一个父亲节点。
+
+$agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参与者集合。该集合可以根据参与者对数据源的依赖关系被划分为$datasourcenum$个子集，每个子集最多产生一名胜出者。
+
+\subsection{问题求解}
+为森林状的机构添加虚根，使其转为树形结构。然后将上述场景抽象成图\ref{chouxiangtree}。其中圆形代表机构，三角形代表机构中的计算单元，即机制的参与者。颜色的不同体现了其数据来源的差异性，从而将他们划分为不同的互斥组。此时的社会福利最大化问题解决思路与前两节相似，不同点在于动态规划需要在整个树形结构上进行。
+
+\begin{figure}[h]
+    \includegraphics[width=350pt]{chouxiangtree.pdf}
+    \caption{树形结构抽象图}
+    \label{chouxiangtree}
+\end{figure}
+
+仿照方程\ref{dpfangcheng}拟定6维状态$dp[i,j,a,b,c,t]$，表示考虑第$i$个机构，刚好分配$j$单位原位计算任务，其中一级参与者$a$个，二级参与者$b$个，三级参与者$c$个，最多花费$t$单位总时间，所能够获得的最大收益。
+所能够获得的最大收益。
+
+由泛化物品的概念可知，每一个状态可以理解为一个泛化物品。那么原状态转移则是这些泛化物品在树上自底向上不断求和的过程。值得注意的是，图\ref{chouxiangtree}中每个机构所属的三角形(计算单元)首先要根据其互斥关系，以动态规划的方式合成一个泛化物品，然后再参与到树上的泛化物品合并流程。在此过程中同时记录最优路径。
+
+另一方面，各个机构的偏好$prefer_i$也可以在树上最优化的过程中解决。树上最优化流程进行到机构i时，他可以直接将状态$dp[i,limit_i+1...datademand,,,,]$全部置为非法状态。然后沿着树形结构继续最优化过程。本场景中的问题求解思想与\ref{dptou}节中的思想是一致的。故此处直接给出分配规则。
+
+\begin{algorithm}[H]
+\KwIn{$\mathbf{datacount,timeperunit,level,bid},datademand$,\ref{dpdingyi}节中定义的限制指标,本节新定义的量}
+    \KwOut{$\mathbf{allocation}$}
+    $generalizeditem(\text{虚根},datademand,parti_1,parti_2,parti_3,TIME)$\;
+    以最优路径对$\mathbf{allocation}$进行赋值。\;
+\;
+\;
+    $generalizeditem(i,j,a,b,c,t)$定义为:\;
+    
+    \eIf{i具有计算单元，即$agentpinorg_i \neq \emptyset$}
+    {
+        以其计算单元的信息运行算法思想\ref{jiyihua},注意同一组内最多选取一个参与者分配计算任务,得到泛化物品$init$\;
+        记录最优路径\;
+    }{
+        $init$是一个不产生任何影响的初始泛化物品。
+    }
+    \For{机构i的每一个下属单位u}
+    {
+        计算$generalizeditem=(u,0...datademand,0...parti_1,0...parti_3,0...parti_3,0...TIME)$，得到泛化物品u\;
+        将泛化物品u并入$init$\;
+        \tcp{按照既定的优先级处理多解的情况}
+        记录最优路径\;
+    }
+    将$init[,limit_i+1...datademand,,,,]$中的所有状态置为非法状态\;
+    \Return $init$\;
+\caption{树形场景下的分配规则}
+\label{tree_allocation}
 \end{algorithm}
 
+算法\ref{tree_allocation}中，时间复杂度较高，约为$O(m*S^2)$，$S$为除第一维状态以外的五维子空间的总状态数。其关键步骤在于泛化物品之间的和并，思想是直接枚举费用状态在两者之间的分配。
+
+\begin{theorem}
+ 算法\ref{tree_allocation}所示的分配规则仍然单调。 
+\end{theorem}
+
+\begin{proof}
+证明思想与\ref{dpdandiao} 完全一致
+\end{proof}
+
+由于互斥组的存在，动态规划的无后效性被破坏，难以像前文一样直接将$agent_i$移至末位，然后算出各个阶跃值。当然，若为每个互斥组增加一维二值状态，仍然可解，但此时的状态空间大小似乎难以接受。接下来直接以二分查找的方式来寻找这些阶跃值，时间复杂度为$O(allocation_i*log(INCENT))$。若$bid_i$的范围较小，也可以直接枚举求解。应根据具体数据量做相应调整。
+
+\begin{algorithm}[H]
+\KwIn{$\mathbf{datacount,timeperunit,level,bid},datademand$,\ref{dpdingyi}节中定义的限制指标,本节新定义的量}
+    \KwOut{$\mathbf{payment}$}
+    运行算法\ref{tree_allocation}，得到$\mathbf{allocation}$\;
+    \For{每个$agent_i$}
+    {
+        $payment_i \leftarrow 0$\;
+        \For{$ks \leftarrow 0$ \KwTo $allocation_i$}
+        {
+            二分$bid_i$，运行算法\ref{tree_allocation},找到$allocation_i = ks$的临界标的$b$。
+            $payment_i \leftarrow payment_i + b$
+        }
+    }
+\caption{树形场景下的支付规则}
+\label{tree_zhifu}
+\end{algorithm}
 
 \section{本章小结}
+在简单可并行计算场景下，本文中的竞争拍卖机制设计部分依次讨论了基础模型、多重指标限制、场景扩展及额外偏好等议题。基础模型是拍卖机制的基础部分。在有限理性人、准线性效用等假设下，分配规则为满足任务方数据量需求和参与者数据限制条件下的社会福利最大化。多重指标限制引入了任务方对待分配的原位计算任务的进一步细节要求。例如：时效性，参与者数量，信誉评级等。而场景扩展及额外偏好更进一步考虑了参与者的上下级关系带来的新的偏好限制，以及数据同质参与者之间的互斥性。以上三种机制均满足社会福利最大化、DSIC。基础模型可以在多项式时间内求解，而多重指标限制和场景扩展及额外偏好需要在伪多项式时间内求解。
 
-\chapter{多变量环境下的机制}
+\chapter{计算依赖相关的机制设计}
+\section{引言}
+\section{问题描述及定义}
+主要研究子计算任务具有DAG依赖关系的场景。在前一章的基础上加入平台方要求分配函数满足，总计算任务需要在$time$单位时间内完成。本问题和关键路径求解有关。可能NP-hard难以求解只能近似贪心。
+\section{模型求解}
+\section{期望税收最大化机制}
+\section{本章小结}
 
+\chapter{面向数据价值共享的激励机制设计与实现}
+\section{实验概述}
+\section{总体设计}
+\section{模块设计}
+\section{界面展示}
 \section{本章小结}
 
 \chapter{全文总结与展望}
@@ -337,7 +466,7 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
 时域积分方程方法的研究近几年发展迅速，在本文研究工作的基础上，仍有以下方向值得进一步研究：
 
 \thesisacknowledgement
-在攻读博士学位期间，首先衷心感谢我的导师XXX教授
+在攻读硕士学位期间，首先衷心感谢我的导师XXX教授
 
 
 \nocite{*}
