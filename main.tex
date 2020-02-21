@@ -444,9 +444,48 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 
 \chapter{计算依赖相关的机制设计}
 \section{引言}
-\section{问题描述及定义}
-主要研究子计算任务具有DAG依赖关系的场景。在前一章的基础上加入平台方要求分配函数满足，总计算任务需要在$time$单位时间内完成。本问题和关键路径求解有关。可能NP-hard难以求解只能近似贪心。
-\section{模型求解}
+\section{基础场景}
+\subsection{问题描述及定义}
+原位计算环境中，由于任务$T$对数据依赖的内在复杂性，数据分布的差异性等因素，更一般的情形是计算不可分布式并行完成。此时，原计算任务$T$被分割算法根据所需数据划分为若干个更小的计算子任务。每个子任务满足原位计算的限制，即其计算仅依赖于本地数据。然后合并算法将这些子任务的计算结果重新合并成原始计算问题$T$的解。而合并的结果的方式并不单一，可能包含了若干次迭代操作。这些反复的结果传输带来的时延会造成总计算时间增加。这是分布式计算环境不可避免的问题。而另一方面，参与原位计算的各个节点的计算能力可能有较大差异。若是将子任务分配给了效率极低的计算节点，原位计算的时效性将会进一步降低。这对于响应时间敏感的计算任务而言是难以接受的。因此，本章主要以时间限制来分析计算依赖相关的机制设计问题。
+
+\subsubsection{形式化定义}
+对于计算任务$T$，分割算法将其划分为子任务集合$\mathbf{SubTask},|\mathbf{SubTask}| = ST$。这些子任务之间的同步存在拓扑序关系。为了描述这种关系，我们借用AOE网的思想。构建有向无环图$D=(\mathbf{V},\mathbf{E})$，集合$\mathbf{V}$是所有同步节点的集合。有向边$<u,v> \in \mathbf{E}$表示子任务的进行。另有关于有向边的函数$t(e)$，其值是子任务$e$由该任务的胜出者进行计算所需时长。每个子任务$SubTask_i$拥有竞争该任务的参与者列表$list_i$，每个参与者$agent_{ij} \in list_i$有关于任务$SubTask_i$的私密估值$val_i$以及其完成该计算任务所需时间$timefromagent_i$。每个列表中只能产生也必须产生一名胜出者，来完成该子任务的计算。此处假定所有参与者仅参与一项子任务的竞争。最重要的限制条件是：所有子任务的胜出
+者确定后，总任务的完成时间$finishedtime \leq $某一阈值$timelimit$。包括效用函数、社会福利等其余定义与假设均与第三章类似，此处不做赘述。
+
+\subsection{模型分析及求解}
+\begin{figure}[h]
+\includegraphics[width=350pt]{zirennwu_aoe.pdf}
+\caption{子任务的AOE网示例}
+\label{zirennwu_aoe}
+\end{figure}
+
+如图\ref{zirennwu_aoe}所示，每个顶点意味着子任务的同步等待。只有当指向该节点的所有边上所示子任务均完成时，同步等待方结束，继续进行后续子任务计算。给定$AOE$网，可以利用关键路径算法求出该网络的最少花费时长。对于图\ref{zirennwu_aoe}中的顶点$i$,同步等待结束当且仅当其所有前驱顶点等待结束且对应边上的子任务完成。而顶点$i$结束等待所需花费的时长是其所有前驱花费时长与对应子任务时长之和的最大值。此时产生明显的最优子结构，而在DAG中，这些子结构是会被重复求解的。
+拟定状态$dp[i],1 \leq i\leq |V|$，表示同步节点$i$完成等待所需的时间。则有转移方程$dp[i] = max(dp[k]+t(<k,i>)|<k,i> \in \mathbf{E}),dp[\text{源}] = 0$。总任务所需时间$finishedtime$即为$dp[\text{汇}]$。
+
+假设所有参与者已经真实地表达对各自计算子任务的估值，并给出标的，即$\mathbf{bid}=\mathbf{val}$。此时社会福利最大化可以形式化问题\ref{jichumoxing2}。
+\begin{align}
+    \label{jichumoxing2}\max_{\vec{allocation}} \quad&\sum_{i=1}^{n}{bid_i*allocation_i}\\
+    s.t                     \quad&allocation_i = \{0,1\}\notag\\
+    \quad&\left(\sum_{i=1}^{n}{I(agent_i \in list_j)*allocation_i}\right) = 1,\text{for every }1 \leq j \leq ST\notag\\
+    \quad&finishedtime(\mathbf{allocation}) \leq timelimit
+    \notag
+\end{align}
+
+考虑$SubTask_i$的胜出者选择过程，对于参与者$i,j$，若$val_i < val_j$，且$timefromagent_i > timefromagent_j$，则$agent_i$完全劣于$agent_j$，故可以将$allocation_i$直接置为0。此时可以认为，$timefromagent$随着$val$单调递增。这意味着选取更大估值的参与者会带来更长的计算时长，在$AOE$网中，若该子任务对应的边在关键路径上。那么会引起总的时长增加，可能违反限制条件。总体来看，假设每条边共有$a$种选择(对应与该子任务的$a$个竞争者)，那么$b$条边，总可行集大小就有$a^b$种，似乎难以接受。
+
+不妨从另一个角度来考虑该问题。若有向边$<u,v>$上的权值发生改变，仅会影响节点$v$及其后继节点的完成同步等待时间，而对节点$u$及其前驱节点无影响。这呈现明显的最优子结构及无后效性：每条边上的胜出者选择可以看做是阶段性决策，该阶段的决策不受后继节点决策影响，仅依赖于前驱的决策状态。
+
+拟定二维状态$dp[i,w],1 \leq i \leq |V|,0 \leq j \leq timelimit$，表示节点$i$的前驱边全部确定胜出者，且节点$i$完成同步等待的总时间不超过$j$时，所获得的最大价值。状态转移方程如\ref{dpfangcheng2}所示。
+
+\begin{gather}
+\label{dpfangcheng2}  
+dp[i,w] = \sum_{<j,i>\in \mathbf{E}}{\max_{agent_k \in list_{<j,i>}}{dp[j,w-timefromagent_k]+bid_k}}
+\\
+dp[\text{源}][0...timelimit] = 0 \notag
+\end{gather} 
+
+
+
 \section{期望税收最大化机制}
 \section{本章小结}
 
@@ -461,6 +500,7 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 
 \section{全文总结}
 本文以时域积分方程方法为研究背景，主要对求解时域积分方程的时间步进算法以及两层平面波快速算法进行了研究。
+
 
 \section{后续工作展望}
 时域积分方程方法的研究近几年发展迅速，在本文研究工作的基础上，仍有以下方向值得进一步研究：
