@@ -471,10 +471,142 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
     \notag
 \end{align}
 
-考虑$SubTask_i$的胜出者选择过程，对于参与者$i,j$，若$val_i < val_j$，且$timefromagent_i > timefromagent_j$，则$agent_i$完全劣于$agent_j$，故可以将$allocation_i$直接置为0。此时可以认为，$timefromagent$随着$val$单调递增。这意味着选取更大估值的参与者会带来更长的计算时长，在$AOE$网中，若该子任务对应的边在关键路径上。那么会引起总的时长增加，可能违反限制条件。总体来看，假设每条边共有$a$种选择(对应与该子任务的$a$个竞争者)，那么$b$条边，总可行集大小就有$a^b$种，似乎难以接受。
+考虑$SubTask_i$的胜出者选择过程，对于参与者$i,j$，若$val_i < val_j$，且$timefromagent_i > timefromagent_j$，则$agent_i$完全劣于$agent_j$，故可以将$allocation_i$直接置为0。此时可以认为，$timefromagent$随着$val$单调递增。这意味着选取更大估值的参与者会带来更长的计算时长，在$AOE$网中，若该子任务对应的边在关键路径上。那么会引起总的时长增加，可能违反限制条件。总体来看，假设每条边共有$a$种选择(对应于该子任务的$a$个竞争者)，那么$b$条边，总可行集大小就有$a^b$种，似乎难以接受。
+
+\begin{theorem}
+   问题\ref{jichumoxing2}属于NP-hard问题。
+\end{theorem}
+
+\begin{proof}
+    令$S$表示问题\ref{jichumoxing2}。要证$S\in NP-hard$，需要存在一个现有NPC问题$S'$归约至$S$。此处以0-1背包作为$S'$。
+
+    对于$S'$的任意实例$ins$，共有$n$\footnote{此处的变量名仅在本证明内有效}个物品，n维向量$\mathbf{size}$和$\mathbf{val}$分别是物品质量向量和价值向量。$B$是背包容量。构建有向图$D=(\mathbf{V},\mathbf{E})$，$\mathbf{V} = {1,2,...,n,n+1},\mathbf{E} = \{(i,i+1)|1 \leq i \leq n\}$。对于$1 \leq i \leq n$，构建$list_i$，有两个参与者，$(timefromagent,bid) = \{(size_{i-1},val_{i-1}),(0,0)\}$。$timelimit = B$。得到问题\ref{jichumoxing2}的一个实例$ins'$。
+
+    原问题$ins$的最优化等价于现问题$ins'$的求解。故任意0-1背包问题实例都可以在多项式时间内归约至问题\ref{jichumoxing2}的一个实例。故$S\in NP-hard$。
+\end{proof}
+
+由于问题\ref{jichumoxing2}是难以在多项式时间内精确求解的。本文研究一种贪心算法对其在伪多项式时间内进行近似求解。
+
+贪心的思想是从初始可行解$S$开始，每次寻找一个满足时间限制条件的更优解$S'$取代原可行解，直到时间限制无法满足为止。
+
+\begin{algorithm}[H]
+    \KwIn{前文形式化定义的所有相关量}
+    \KwOut{$\mathbf{allocation}$}
+    对于任意子任务竞争列表中的任意参与者$i,j$，若$val_i < val_j$，且$timefromagent_i > timefromagent_j$，置$allocation_i = 0$，并将参与者$i$从该竞争列表中删除。然后将各个竞争者列表$list_i$中的参与者各自按照$timefromagent$关键字递增排序。\;
+
+    初始化解$S$，其中所有子任务的胜出者为各自竞争列表中时长花费最小的参与者。\;
+    若以$index_i$表示子任务$i$的当前胜出者在$list_i$中的下标。则$index_i = 1$。\;
+    根据转移方程$dp[i] = max(dp[k]+t(<k,i>)|<k,i> \in \mathbf{E}),dp[\text{源}] = 0$计算$S$所需时间$ftime = dp[\text{汇}]$。\;
+    \If{ftime > finishedtime}
+    {
+        任务无法在给定时限内完成，输出错误信息。\;
+    }
+    \While{True}
+    {
+        选出$\{bid_{index_i+1}-bid_{index_i}/timefromagent_{index_i+1}-timefromagent_{index_i}\}$中的最大值所对应的子任务下标j。\;
+        构造新的解$S' = S$,除了$index_j = index_j+1$\;
+        根据上述状态转移方程计算解$S'$是否满足时间限制条件。\;
+        \If{$S'$不是可行解}
+        {
+            continue\;
+        }
+        $S = S'$\;
+    } 
+    根据最终解$S$中的胜出者确定分配向量$\mathbf{allocation}$\;
+\caption{贪心近似求解计算依赖相关的问题}
+\label{jichumoxing2tanxin}
+\end{algorithm}
+
+算法\ref{jichumoxing2tanxin}的思想是从最小社会福利的解开始，每次选择一个子任务$j$，该子任务选择更优胜出者的价值收益与时间花费损失的比值最大。然后判断新的解是否满足最长路时间限制条件。若新解是可行解则更新。否则当前解为此贪心算法下的最优解。算法时间复杂度为$O(|V|*n)$，n为总的参与者数量。由于总DAG是连通图，则$|V|- 1\leq |E|$，且$|E| = ST$。则时间复杂度约为$O((ST+1)*n)$，ST为子任务的数量。
+
+\begin{theorem}
+    算法\ref{jichumoxing2tanxin}所示分配规则$allocation_i(z,\mathbf{bid_{-i}})$不一定关于$agent_i$的标的$z$的单调不减。
+\end{theorem}
+
+\begin{proof}
+    要证上述分配规则不一定单增，可以举一反例说明。一实例如图所示，共有两个串行的子任务，每个子任务有$3$个竞争的参与者。$list_1=\{(1,1),(2,3),(3,5)\},list_2=\{(1,1),(2,2),(3,9)\}$，二元组$(a,b)$表示$timefromagent=a,bid=b$，$timelimit=5$。运行算法\ref{jichumoxing2tanxin},可知$(2,2)$对应的参与者为胜出者之一。
+
+    此时将$(2,2)$对应参与者$agent_z$的标的增加至$4$，即用$(2,4)$替代原$(2,2)$,再次运行算法\ref{jichumoxing2tanxin}。新的胜出者是$(3,9)$。因而对于$agent_z$来说，其分配函数并非关于其标的$bid_z$单增。
+\end{proof}
+
+更一般的可知，这种从初始状态开始，每一步选取选择下一个参与者的收益增量最大的子任务进行阶段性迭代更新的贪心策略对应的分配函数均不满足单增的性质。因为总是存在前述证明中的参与者$agent_z$的情况。由麦尔森引理及DSIC机制的必要条件可知此类贪心策略无法实施。
+
+接下来考虑每次直接选择标的最大的参与者作为胜出者的贪心策略。
+
+\begin{algorithm}[H]
+    \KwIn{前文形式化定义的所有相关量}
+    \KwOut{$\mathbf{allocation}$}
+    对于任意子任务竞争列表中的任意参与者$i,j$，若$val_i < val_j$，且$timefromagent_i > timefromagent_j$，置$allocation_i = 0$，并将参与者$i$从该竞争列表中删除。然后将各个竞争者列表$list_i$中的参与者各自按照$timefromagent$关键字递增排序。\;
+
+    初始化解$S$，其中所有子任务的胜出者为各自竞争列表中时长花费最小的参与者。\;
+    
+    根据转移方程$dp[i] = max(dp[k]+t(<k,i>)|<k,i> \in \mathbf{E}),dp[\text{源}] = 0$计算$S$所需时间$ftime = dp[\text{汇}]$。\;
+    \If{ftime > finishedtime}
+    {
+        任务无法在给定时限内完成，输出错误信息。\;
+    }
+
+    对于所有参与者$agent_i$，其拥有二元组$(bid,timefromagent)$\;
+    \tcp{(a,b)是$agent_i$所在竞争列表中时长花费最小的参与者对应的二元组信息}
+    init $lst =\{(bid_i-a,timefromagent_i-b)\}$\;
+
+    置所有子任务为未访问状态。
+
+    \While{$lst$不为空}
+    {
+        根据第一关键字选出$lst$中的最大值对应的参与者$k$。\;
+        \If{参与者$k$对应的子任务$SubTask_u$已经被访问过}
+        {
+            continue\;
+        }
+        构造新的解$S' = S$，除了$agent_k$是$SubTask_u$的胜出者。\;
+        根据上述状态转移方程检查解$S'$是否满足时间限制条件。\;
+        \If{$S'$不是可行解}
+        {
+            continue\;
+        }
+        $S=S'$
+        置$SubTask_u$为已被访问状态。
+    } 
+    根据最终解$S$中的胜出者确定分配向量$\mathbf{allocation}$\;
+\caption{贪心近似求解计算依赖相关的问题2}
+\label{jichumoxing2tanxin2}
+\end{algorithm}
+
+类似的，时间复杂度为$O(|E|*|V|+n)$。
+
+
+
+考虑在参与者对各子任务的估值及相差不多的情况下，此时DAG中长路相较于短路应当提供更多的价值贡献。因而可以优先确定长路上的规划问题的解，然后再考虑较短路上的规划问题。
+
+拟定二维状态$dp[i,w]$表示单链 的规划过程中，本链上节点$i$的前驱子任务在时间$w$内依次完成，所获得最大价值。则有状态转移方程\ref{dpfangchengdanlian}
+
+
+\begin{gather}
+\label{dpfangchengdanlian}
+dp[i,w] = \max_{agent_k \in list_{<j,i>}}{dp[j,w-timefromagent_k]+bid_k},j\text{是}i\text{在本链上的前驱节点}
+\\
+dp[\text{源}][0...timelimit] = 0 \notag
+\end{gather}
+
+
+\begin{algorithm}[H]
+    \KwIn{前文形式化定义的所有相关量}
+    \KwOut{$\mathbf{allocation}$}
+    对于任意子任务竞争列表中的任意参与者$i,j$，若$val_i < val_j$，且$timefromagent_i > timefromagent_j$，置$allocation_i = 0$，并将参与者$i$从该竞争列表中删除。\;
+
+    对于
+
+    inital dp[|V|][timelimit]\;
+
+\caption{changluyouxian}
+\label{tree_zhifu}
+\end{algorithm}
+
 
 不妨从另一个角度来考虑该问题。若有向边$<u,v>$上的权值发生改变，仅会影响节点$v$及其后继节点的完成同步等待时间，而对节点$u$及其前驱节点无影响。这呈现明显的最优子结构及无后效性：每条边上的胜出者选择可以看做是阶段性决策，该阶段的决策不受后继节点决策影响，仅依赖于前驱的决策状态。
 
+//
 拟定二维状态$dp[i,w],1 \leq i \leq |V|,0 \leq j \leq timelimit$，表示节点$i$的前驱边全部确定胜出者，且节点$i$完成同步等待的总时间不超过$j$时，所获得的最大价值。状态转移方程如\ref{dpfangcheng2}所示。
 
 \begin{gather}
@@ -483,6 +615,7 @@ dp[i,w] = \sum_{<j,i>\in \mathbf{E}}{\max_{agent_k \in list_{<j,i>}}{dp[j,w-time
 \\
 dp[\text{源}][0...timelimit] = 0 \notag
 \end{gather} 
+//
 
 
 
