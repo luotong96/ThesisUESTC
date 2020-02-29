@@ -555,11 +555,12 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
     \While{$lst$不为空}
     {
         根据第一关键字选出$lst$中的最大值对应的参与者$k$。\;
+        然后在$lst$中删除参与者$k$\;
         \If{参与者$k$对应的子任务$SubTask_u$已经被访问过}
         {
             continue\;
         }
-        构造新的解$S' = S$，除了$agent_k$是$SubTask_u$的胜出者。\;
+        构造新的解$S' = S$，$agent_k$是$SubTask_u$的胜出者。\;
         根据上述状态转移方程检查解$S'$是否满足时间限制条件。\;
         \If{$S'$不是可行解}
         {
@@ -567,14 +568,23 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
         }
         $S=S'$
         置$SubTask_u$为已被访问状态。
-    } 
+    }
     根据最终解$S$中的胜出者确定分配向量$\mathbf{allocation}$\;
 \caption{贪心近似求解计算依赖相关的问题2}
 \label{jichumoxing2tanxin2}
 \end{algorithm}
 
-类似的，时间复杂度为$O(|E|*|V|+n)$。
+类似的，时间复杂度为$O(|E|*|V|+n)$，n为参与者数量。接下来说明分配规则的单调性。
 
+\begin{theorem}
+对于任意参与者$agent_i$以及任意$\mathbf{bid_{-i}}$，算法\ref{jichumoxing2tanxin2}所示分配规则$allocation_i(z,\mathbf{bid_{-i}})$是关于$agent_i$的标的$z$的单调不减函数。
+\end{theorem}
+
+\begin{proof}
+记$al(z) = allocation_i(z,\mathbf{bid_{-i}})$，由前述场景可知，$al(z)\in\{0,1\}$。不妨假设$a<b,\text{且}al(a)=1$(对于$al(a)=0$的情况，$al(a)\leq al(b)$一定成立)。考虑算法\ref{jichumoxing2tanxin2}的流程，假设到$agent_i$之前根据标的递减排序的参与者序列为$p_1p_2p_3...p_k=agent_i$，若增大标的$z$会将$agent_i$的位次提前。在$z=b$的情况下，假设新的参与者序列为$p_1p_2p_3...p_u=agent_i...p_{k-1}p_{k+1}$。当贪心算法考虑到$p_u$时，由于$u<k,\text{且}al(a)=1$，$agent_i$所属子任务$SubTask$一定未曾被访问过。算法\ref{jichumoxing2tanxin2}中的新解$S'$也一定是可行解。否则，$al(a) = 0$。(因为算法确定序列$p_{u+1}...p_{k-1}$中新的胜出者的过程只会使得DAG的总时长不减少)。故$agent_i$会继续成为其所属子任务的胜出者，$al(a)\leq al(b)=1$。
+\end{proof}
+ 
+本场景下的分配向量$\mathbf{allocation}$被限制于0-1向量，故对于每个胜出者，只需找出其无法继续胜出的临界标的作为其支付的价格。
 
 
 考虑在参与者对各子任务的估值及相差不多的情况下，此时DAG中长路相较于短路应当提供更多的价值贡献。因而可以优先确定长路上的规划问题的解，然后再考虑较短路上的规划问题。
