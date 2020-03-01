@@ -532,8 +532,7 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 更一般的可知，这种从初始状态开始，每一步选取选择下一个参与者的收益增量最大的子任务进行阶段性迭代更新的贪心策略对应的分配函数均不满足单增的性质。因为总是存在前述证明中的参与者$agent_z$的情况。由麦尔森引理及DSIC机制的必要条件可知此类贪心策略无法实施。
 
 接下来考虑每次直接选择标的最大的参与者作为胜出者的贪心策略。
-
-\begin{algorithm}[H]
+\begin{algorithm}[p]
     \KwIn{前文形式化定义的所有相关量}
     \KwOut{$\mathbf{allocation}$}
     对于任意子任务竞争列表中的任意参与者$i,j$，若$val_i < val_j$，且$timefromagent_i > timefromagent_j$，置$allocation_i = 0$，并将参与者$i$从该竞争列表中删除。然后将各个竞争者列表$list_i$中的参与者各自按照$timefromagent$关键字递增排序。\;
@@ -548,13 +547,13 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 
     对于所有参与者$agent_i$，其拥有二元组$(bid,timefromagent)$\;
     \tcp{(a,b)是$agent_i$所在竞争列表中时长花费最小的参与者对应的二元组信息}
-    init $lst =\{(bid_i-a,timefromagent_i-b)\}$\;
+    init $lst =\{(bid_i-a,timefromagent_i)\}$\;
 
-    置所有子任务为未访问状态。
+    置所有子任务为未访问状态。\;
 
     \While{$lst$不为空}
     {
-        根据第一关键字选出$lst$中的最大值对应的参与者$k$。\;
+        根据第一关键字选出$lst$中的最大值对应的参与者$agent_k$。\;
         然后在$lst$中删除参与者$k$\;
         \If{参与者$k$对应的子任务$SubTask_u$已经被访问过}
         {
@@ -566,70 +565,121 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
         {
             continue\;
         }
-        $S=S'$
-        置$SubTask_u$为已被访问状态。
+        $S=S'$\;
+        置$SubTask_u$为已被访问状态。\;
     }
     根据最终解$S$中的胜出者确定分配向量$\mathbf{allocation}$\;
 \caption{贪心近似求解计算依赖相关的问题2}
 \label{jichumoxing2tanxin2}
 \end{algorithm}
-
-类似的，时间复杂度为$O(|E|*|V|+n)$，n为参与者数量。接下来说明分配规则的单调性。
+类似的，最坏时间复杂度为$O(n*|V|)$，n为参与者数量。接下来说明分配规则的单调性。
 
 \begin{theorem}
 对于任意参与者$agent_i$以及任意$\mathbf{bid_{-i}}$，算法\ref{jichumoxing2tanxin2}所示分配规则$allocation_i(z,\mathbf{bid_{-i}})$是关于$agent_i$的标的$z$的单调不减函数。
 \end{theorem}
 
 \begin{proof}
-记$al(z) = allocation_i(z,\mathbf{bid_{-i}})$，由前述场景可知，$al(z)\in\{0,1\}$。不妨假设$a<b,\text{且}al(a)=1$(对于$al(a)=0$的情况，$al(a)\leq al(b)$一定成立)。考虑算法\ref{jichumoxing2tanxin2}的流程，假设到$agent_i$之前根据标的递减排序的参与者序列为$p_1p_2p_3...p_k=agent_i$，若增大标的$z$会将$agent_i$的位次提前。在$z=b$的情况下，假设新的参与者序列为$p_1p_2p_3...p_u=agent_i...p_{k-1}p_{k+1}$。当贪心算法考虑到$p_u$时，由于$u<k,\text{且}al(a)=1$，$agent_i$所属子任务$SubTask$一定未曾被访问过。算法\ref{jichumoxing2tanxin2}中的新解$S'$也一定是可行解。否则，$al(a) = 0$。(因为算法确定序列$p_{u+1}...p_{k-1}$中新的胜出者的过程只会使得DAG的总时长不减少)。故$agent_i$会继续成为其所属子任务的胜出者，$al(a)\leq al(b)=1$。
+记$al(z) = allocation_i(z,\mathbf{bid_{-i}})$，由前述场景可知，$al(z)\in\{0,1\}$。不妨假设$a<b,\text{且}al(a)=1$(对于$al(a)=0$的情况，$al(a)\leq al(b)$一定成立)。
+
+对于$agent_i$并非其竞争列表中$timefromagent$值最小的情况,考虑算法\ref{jichumoxing2tanxin2}的流程，假设到$agent_i$之前根据标的递减排序的参与者序列为$p_1p_2p_3...p_k=agent_i$，若增大标的$z$会将$agent_i$的位次提前。在$z=b$的情况下，假设新的参与者序列为$p_1p_2p_3...p_u=agent_i...p_{k-1}p_{k+1}$。当贪心算法考虑到$p_u$时，由于$u<k,\text{且}al(a)=1$，$agent_i$所属子任务$SubTask$一定未曾被访问过。算法\ref{jichumoxing2tanxin2}中的新解$S'$也一定是可行解。否则，$al(a) = 0$。(因为算法确定序列$p_{u+1}...p_{k-1}$中新的胜出者的过程只会使得DAG的总时长不减少)。故$agent_i$会继续成为其所属子任务的胜出者，$al(a)\leq al(b)=1$。
+
+若$agent_i$是其所属子任务的竞争列表中时长花费最小的参与者，增大$z$可能会使得部分后继参与者直接因绝对次优性被删除。而留下来的参与者的相对标的$bid_k - z$会减少，这导致相应的参与者位次后移。类似于前面的分析，这都不会改变$agent_i$的胜出者事实。故$al(a)\leq al(b)=1$始终成立。
 \end{proof}
  
-本场景下的分配向量$\mathbf{allocation}$被限制于0-1向量，故对于每个胜出者，只需找出其无法继续胜出的临界标的作为其支付的价格。
+本场景下的分配向量$\mathbf{allocation}$被限制于0-1向量，故对于每个胜出者，只需找出其无法继续胜出的临界标的作为其支付的价格。算法\ref{jichumoxing2tanxin2zhifu}的最坏时间复杂度约为$O(|E|*(|V|+|E|)*(n+max(|E|,|E|*C)))$，$C\leq n$为各个子任务对应参与者数量的最大值。即为$O(|E|^2*n*(|V|+|E|))$，$n$为总参与者数量。
 
-
-考虑在参与者对各子任务的估值及相差不多的情况下，此时DAG中长路相较于短路应当提供更多的价值贡献。因而可以优先确定长路上的规划问题的解，然后再考虑较短路上的规划问题。
-
-拟定二维状态$dp[i,w]$表示单链 的规划过程中，本链上节点$i$的前驱子任务在时间$w$内依次完成，所获得最大价值。则有状态转移方程\ref{dpfangchengdanlian}
-
-
-\begin{gather}
-\label{dpfangchengdanlian}
-dp[i,w] = \max_{agent_k \in list_{<j,i>}}{dp[j,w-timefromagent_k]+bid_k},j\text{是}i\text{在本链上的前驱节点}
-\\
-dp[\text{源}][0...timelimit] = 0 \notag
-\end{gather}
-
-
-\begin{algorithm}[H]
+\begin{algorithm}[p]
     \KwIn{前文形式化定义的所有相关量}
-    \KwOut{$\mathbf{allocation}$}
-    对于任意子任务竞争列表中的任意参与者$i,j$，若$val_i < val_j$，且$timefromagent_i > timefromagent_j$，置$allocation_i = 0$，并将参与者$i$从该竞争列表中删除。\;
+    \KwOut{$\mathbf{payment}$}
+    %\SetAlgoVlined
+    执行算法\ref{jichumoxing2tanxin2},得到$\mathbf{allocation}$\;
+    \For{每个$agent_i$}{
+        \eIf{$allocation_i = 0$}
+        {
+            $payment_i = 0$\;
+        }
+        {
+            
+            将单减的原始相对标的序列$\mathbf{b}=b_1b_2b_3...b_k$中与$agent_i$属于同一竞争列表的所有相对标的$b_a,b_b,b_c,...,b_{agent_i},b_{next}...$全部删除，得到新的原始标的序列$\mathbf{b'}$\;
+            使用$\mathbf{b'}$重新运行算法\ref{jichumoxing2tanxin2}，得到各个胜出者产生时对应的图序列$\mathbf{GS}=G_1,G_2,G_3...G_u$，每个$G_i$是算法\ref{jichumoxing2tanxin2}中的一个新的可行解$S'$对应的DAG\;
+            \eIf{$agent_i$的时长不是其竞争列表中最小的}
+            {
+                假设$agent_i$的相对标的$z$在图序列$\mathbf{GS}$中的位次是$G_1,G_2,...z,G_j,G_{j+1}....G_u$\;
+                \For{$v = j $ \KwTo $ u$}
+                {
+                    在$G_v$的基础上将$agent_i$置为所属子任务的胜出者，得到新解$S'$，以算法\ref{jichumoxing2tanxin2}中最长路的计算方法检查$S'$的合法性\;
+                    \If{$S'$不合法}
+                    {
+                        $payment_i = bid_i + max(G_v\text{所对应的相对标的},agent_i\text{后一位的相对标的}b_{next}) -$ $agent_i$的相对标的$z$\;
+                        break\;
+                    }
+                }
+            }{
 
-    对于
+                假设与$agent_i$所属同一子任务的其余相对标的在图序列$\mathbf{GS}$中的位次是$G_1,G_2,...,z_1,...,z_2,...,z_k,...G_u$。不断减少$bid_i$，直到$z_1,...z_k$中首次出现新的胜出者，减少量为$\Delta b$\;
+                \eIf{$\Delta b > bid_i$}
+                {
+                    $payment_i = 0$\;
+                }
+                {
+                    $payment_i = bid_i - \Delta b$\;
+                }
 
-    inital dp[|V|][timelimit]\;
-
-\caption{changluyouxian}
-\label{tree_zhifu}
+            }
+        }
+    }
+\caption{贪心近似求解计算依赖相关的问题2支付规则}
+\label{jichumoxing2tanxin2zhifu}
 \end{algorithm}
 
 
-不妨从另一个角度来考虑该问题。若有向边$<u,v>$上的权值发生改变，仅会影响节点$v$及其后继节点的完成同步等待时间，而对节点$u$及其前驱节点无影响。这呈现明显的最优子结构及无后效性：每条边上的胜出者选择可以看做是阶段性决策，该阶段的决策不受后继节点决策影响，仅依赖于前驱的决策状态。
 
-//
-拟定二维状态$dp[i,w],1 \leq i \leq |V|,0 \leq j \leq timelimit$，表示节点$i$的前驱边全部确定胜出者，且节点$i$完成同步等待的总时间不超过$j$时，所获得的最大价值。状态转移方程如\ref{dpfangcheng2}所示。
+%考虑在参与者对各子任务的估值及相差不多的情况下，此时DAG中长路相较于短路应当提供更多的价值贡献。因而可以优先确定长路上的规划问题的解%，然后再考虑较短路上的规划问题。
 
-\begin{gather}
-\label{dpfangcheng2}  
-dp[i,w] = \sum_{<j,i>\in \mathbf{E}}{\max_{agent_k \in list_{<j,i>}}{dp[j,w-timefromagent_k]+bid_k}}
-\\
-dp[\text{源}][0...timelimit] = 0 \notag
-\end{gather} 
-//
+%拟定二维状态$dp[i,w]$表示单链的规划过程中，本链上节点$i$的前驱子任务在时间$w$内依次完成，所获得最大价值。则有状态转移方程\ref{%dpfangchengdanlian}
+
+%
+%\begin{gather}
+%\label{dpfangchengdanlian}
+%dp[i,w] = \max_{agent_k \in list_{<j,i>}}{dp[j,w-timefromagent_k]+bid_k},j\text{是}i\text{在本链上的前驱节点}
+%\\
+%dp[\text{源}][0...timelimit] = 0 \notag
+%\end{gather}
+
+%
+%\begin{algorithm}[H]
+    %\KwIn{前文形式化定义的所有相关量}
+    %\KwOut{$\mathbf{allocation}$}
+%    对于任意子任务竞争列表中的任意参与者$i,j$，若$val_i < val_j$，且$timefromagent_i > timefromagent_j$，置$allocation_i = 0%$，并将参与者$i$从该竞争列表中删除。\;
+
+%    %
+
+    %inital dp[|V|][timelimit]\;
+
+%\caption{changluyouxian}
+%\label{tree_zhifu}
+%\end{algorithm}
+
+%
+%不妨从另一个角度来考虑该问题。若有向边$<u,v>$上的权值发生改变，仅会影响节点$v$及其后继节点的完成同步等待时间，而对节点$u$及其前驱节点无影响。这呈现明显的最优子结构及无后效性：每条边上的胜出者选择可以看做是阶段性决策，该阶段的决策不受后继节点决策影响，仅依赖于前%驱的决策状态。
+
+%//
+%拟定二维状态$dp[i,w],1 \leq i \leq |V|,0 \leq j \leq timelimit$，表示节点$i$的前驱边全部确定胜出者，且节点$i$%完成同步等待的总时间不超过$j$时，所获得的最大价值。状态转移方程如\ref{dpfangcheng2}所示。
+
+%\begin{gather}
+%\label{dpfangcheng2}  
+%dp[i,w] = \sum_{<j,i>\in \mathbf{E}}{\max_{agent_k \in list_{<j,i>}}{dp[j,w-timefromagent_k]+bid_k}}
+%\\
+%dp[\text{源}][0...timelimit] = 0 \notag
+%\end{gather} 
+%//
 
 
 
 \section{期望税收最大化机制}
+
+
+
 \section{本章小结}
 
 \chapter{面向数据价值共享的激励机制设计与实现}
