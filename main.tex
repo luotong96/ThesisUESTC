@@ -678,7 +678,7 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 
 
 
-\section{最优机制设计}
+\section{最优拍卖机制设计}
 
 在前文的机制设计中，平台方根据定义好的社会福利来确定分配规则及价格规则，对应于社会福利最大化问题。这样的分配规则可以使得系统整体收益最优，但此时平台方的收益无法确切保证。若平台方的预算是有限的，则需要设计新的分配规则及价格函数来保证平台方的利益。由\ref{jichumoxingdingyi}节可知，平台方的真实收益是$profit = \sum_{i}^{n}{payment_i}-m*INCENT$，其中$m$是原位计算任务$T$所需单位计算的数量。在简单可并行场景下，$m=datademand$；在计算依赖相关场景下，$m=ST$。$-m*INCENT$部分是固有值，不可更改。最大化$profit$等价于最大化$\sum_{i}^{n}{payment_i}$。本节采用期望税收最大化的机制设计来保证平台方在平均意义下的收益最优。
 
@@ -693,11 +693,43 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
     \mathbf{E}_{\mathbf{v}\sim\mathbf{F}}{\left[\sum_{i}^{n}{payment_i(\mathbf{v})}\right]}=\mathbf{E}_{\mathbf{v}\sim\mathbf{F}}{\left[\sum_{i}^{n}{\varphi _i(v_i)*allocation_i(\mathbf{v})}\right]}
 \end{equation}
 
-故期望税收最大化等价于期望虚拟社会福利最大化。考虑场景\ref{jichumoxing2}，虚拟社会福利最大化仍然是$NP-hard$问题，故仍采用算法\ref{jichumoxing2tanxin2}求解。而为了满足参与者真实投标的前提，需要讨论虚拟社会福利最大化对应分配函数$virtualal$的单调性。
+故期望税收最大化等价于期望虚拟社会福利最大化。考虑场景\ref{jichumoxing2}，虚拟社会福利最大化仍然是$NP-hard$问题，故仍采用算法\ref{jichumoxing2tanxin2}近似求解。而为了满足参与者真实投标的前提，需要讨论虚拟社会福利最大化对应分配函数$virtualal$的单调性。
+
+\begin{algorithm}[H] 
+    \KwIn{形式化定义的所有量}
+    \KwOut{$\mathbf{allocation}$}
+    将所有参与者的标的$bid_i$以其虚拟估值$\varphi _i(bid_i)$替代\;
+    其它信息不更改，运行算法\ref{jichumoxing2tanxin2}，得到$\mathbf{allocation}$\;
+\caption{最优拍卖机制分配规则}
+\label{optimalauction}
+\end{algorithm}
+
+
 
 \begin{theorem}
-若任意分布的失效率函数$\frac{f_i(v)}{1-F_i(v)}$关于$v$单调不减，则对于任意参与者$agent_i$以及任意$\mathbf{bid_{-i}}$，分配规则$virtualal_i(z,\mathbf{bid_{-i}})$是关于$agent_i$的标的$z$的单调不减函数。
+若任意分布的失效率函数$\frac{f_i(v)}{1-F_i(v)}$关于$v$单调不减，则对于任意参与者$agent_i$以及任意$\mathbf{bid_{-i}}$，算法\ref{optimalauction}所示分配规则$allocation_i(z,\mathbf{bid_{-i}})$是关于$agent_i$的标的$z$的单调不减函数。
 \end{theorem}
+
+\begin{proof}
+虚拟社会福利可能引入的负数标的不影响原问题求解。算法\ref{jichumoxing2tanxin2}所示分配规则单调不减，若分布的失效率函数单调不减，则虚拟估值$\varphi _i(v_i)$单调不减，则$allocation_i(z,\mathbf{bid_{-i}})$也单调不减。
+\end{proof}
+
+类似地，给出最优拍卖的支付规则。
+
+\begin{algorithm}[H] 
+    \KwIn{形式化定义的所有量}
+    \KwOut{$\mathbf{payment}$}
+    将所有参与者的标的$bid_i$以其虚拟估值$\varphi _i(bid_i)$替代\;
+    运行算法\ref{jichumoxing2tanxin2zhifu}，得到$\mathbf{payment}$\;
+    \For{$allocation_i=1$的参与者}
+    {
+        将$payment_i$替换为$\varphi _{i}^{-1}{payment_i}$
+    }
+\caption{最优拍卖机制支付规则}
+\label{optimalauctionzhifu}
+\end{algorithm}
+
+
 
 \section{本章小结}
 
