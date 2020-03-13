@@ -88,7 +88,7 @@ With the widespread engineering applications ranging from broadband signals and 
 本章分析了本文研究背景、意义。论述了算法机制设计的部分历史来源及其在频谱拍卖、众包、医疗卫生等领域的不同应用现状，并确定了全文的研究内容和目标。最后梳理了全文结构。
 
 
-\chapter{相关理论及技术}
+\chapter{相关理论基础}
 本章介绍后文涉及的相关理论及技术，主要是算法机制设计与拍卖理论。只有在这些理论基础上才能结合具体场景，设计性质良好的激励机制。
 
 \section{机制设计}
@@ -241,27 +241,142 @@ p_i(b_i,\mathbf{b_{-i}})=\sum_{j=1}^l{z_j\cdot[x_i(\cdot,\mathbf{b_{-i}})\text{�
 若考虑放松DSIC的特性，会损失掉机制的强激励属性。例如在参与者不具有占优策略的机制中，机制设计者需要设定更强的对参与者策略及行为的假设，然后以此判断机制的结果。例如，可以考虑在已知各个参与者私密估值的先验分布的情况下，分析具有贝叶斯纳什均衡的机制。在一些特殊场景需求下，非DSIC机制或许能够取得一些额外的性质。而在较一般的场景中，DSIC的激励特性是极有价值的。
 
 \section{税收最大化拍卖}
+在前面的机制设计中，社会福利最大化需要求解的目标函数，可以准确求解或者近似求解。卖方的收益在这样的机制中是没有着重考虑的。但是在实际应用中，卖方希望尽可能最大化自身收益是一个极为合理的场景需求。
+\subsection{贝叶斯分析}
+为了比较不同拍卖机制，我们需要一个模型来衡量这些机制在不同的真实估值向量下的税收和。经典的方法是采用贝叶斯分析。考虑这样一个模型：
+\begin{itemize}
+    \item 单变量环境，且对任意$i$及任意可行解$(x_1,x_2...,x_n)\in X$存在一个常数$M$,使得$x_i\leq M$。
+    \item 独立的分布$F_1...F_n$,以及对应的连续概率密度函数$f_1..f_n$。假设参与者$i$的私有估值$v_i$来自于分布$F_i$，且分布$F_i$存在有限一阶矩。
+\end{itemize}
+另外，机制设计值知道分布$F_1,F_2,F_3,...,F_n$，而参与者不知道。
+\begin{definition}[期望税收]
+对于一个DSIC机制$(x,p)$，其期望税收为
+   \begin{equation}
+    \mathbf{E}_{\mathbf{v}\sim\mathbf{F}}{\left[\sum_{i}^{n}{p_i(\mathbf{v})}\right]}
+    \end{equation}
+\end{definition}
+其中$F=F_1\times...\times F_n$。直观来看，直接最大化上式是相对困难的。因而给出虚拟估值的定义。
+\subsection{虚拟社会福利}
+\begin{definition}[虚拟估值]
+    对于参与者$i$，其估值及其对应分布分别是$v_i$,$F_i$，则其虚拟估值定义为：
+    \begin{equation}
+     \varphi_i(v_i) = v_i - \frac{1-F_i(v_i)}{f_i(v_i)}   
+    \end{equation}
+\end{definition}
+由上述定义可知，参与者的虚拟估值仅依赖于他的真实估值与其对应概率分布，而不依赖于其他参与者的信息。然后给出一个引理，该引理是最优拍卖理论的基石。
+\begin{lemma}
+\label{virtualval}
+    对于任意单变量环境、任意概率分布$F_1,F_2...,F_n$、任意DSIC机制$(\mathbf{x},\mathbf{p})$、任意参与者$i$、任意其他参与者的估值$\mathbf{v_{-i}}$,
+    \begin{equation}
+       \mathbf{E}_{v_i\sim F_i}[p_i(\mathbf{v})]= \mathbf{E}_{v_i\sim F_i}[\varphi_i(v)\cdot x_i(\mathbf{v})]
+    \end{equation}
+\end{lemma}
+上述引理的含义为：任意参与者支付$p_i$的期望等于该参与者所获得的虚拟价值$\varphi_i(v)\cdot x_i(\mathbf{v})$的期望。
 
+基于引理\ref{virtualval},可得如下重要定理。
+\begin{theorem}[期望税收等于期望虚拟社会福利]
+    对于任意单变量环境、任意估值的概率分布$F_1,...,F_n$，任意DSIC机制$(\mathbf{x},\mathbf{p})$，
+    \begin{equation}
+    \label{expvirtualwelfare}
+    \mathbf{E}_{\mathbf{v}\sim\mathbf{F}}{\left[\sum_{i}^{n}{p_i(\mathbf{v})}\right]}=\mathbf{E}_{\mathbf{v}\sim\mathbf{F}}{\left[\sum_{i}^{n}{\varphi _i(v_i)*x_i(\mathbf{v})}\right]}
+    \end{equation}
+\end{theorem}
 
+上述定理的重要意义在于，其在相同的分配规则可行集内，将难以直接最大化的期望税收转化依赖于分配函数的最大化期望虚拟社会福利。在式\ref{expvirtualwelfare}中，着重考虑等式右边的部分$\mathbf{E}_{\mathbf{v}\sim\mathbf{F}}{\left[\sum_{i}^{n}{\varphi _i(v_i)*x_i(\mathbf{v})}\right]}$。对于概率分布$\mathbf{F}$及虚拟估值$\varphi_i(v_i)$，机制设计者是无法控制或者改变的。只有分配规则$\mathbf{x(v)}$由机制设计者制定。为了最大化期望虚拟社会福利，可以对前式取关于$\mathbf{v}$的条件期望，得到
+\begin{equation}
+\mathbf{E}_{\mathbf{v}\sim\mathbf{F}}{\left[\mathbf{E}\left[\left.\sum_{i}^{n}{\varphi _i(v_i)*x_i(\mathbf{v})}\right|\mathbf{v}\right]\right]}
+\end{equation}
+原问题则转化为对相应条件期望的最大化，由上式可知，这等价于选择使虚拟社会福利$\sum_{i}^{n}{\varphi _i(v_i)*x_i(\mathbf{v})}$最大化对应的分配规则。
+
+值得注意的是，上述分配规则必须满足单调性，否则前述定理的前提条件$(\mathbf{x},\mathbf{p})$是DSIC机制无法被满足。为了说明虚拟社会福利对应分配规则的单调性，有如下定义。
+\begin{definition}[正规分布]
+若虚拟估值函数$v-\frac{1-F(v)}{f(v)}$是非单减的函数，则概率分布$F$称为正规分布。 
+\end{definition}
+进一步可知，若所有参与者的估值分布$F_1,F_2,...,F_n$均是正规分布，则虚拟社会福利最大化对应的分配规则一定是单调的。从而上述税收最大化的设计可以完成其闭环流程，如下所示：
+
+\begin{algorithm}[H]
+\caption{期望税收最大化}
+假设：每个参与者估值的分布$F_i$均为正规分布\;
+
+将每个参与者的真实估值$v_i$转化为虚拟估值$\varphi_i(v_i)$\;
+在可行集中选择可行解$\mathbf{x}$使得虚拟社会福利最大化$\sum_{i}^{n}{\varphi _i(v_i)*x_i(\mathbf{v})}$\;
+根据麦尔森引理计算支付向量$\mathbf{p}$\;
+\end{algorithm}
+
+上述流程为单变量环境下，期望税收最大化即最优拍卖的一般设计流程。
 \section{多变量环境}
+前面的理论以单变量环境为基础，参与者的隐藏信息为单个值。而更一般的是多变量环境，即参与者的隐藏信息为多个值。在一般的多变量机制中有：
 
+\begin{enumerate}
+    \item $n$个策略性的参与者
+    \item 有限的结果集合$\Omega$
+    \item 每个参与者$i$具有私密的非负估值函数$v_i(\omega),\omega \in \Omega$。
+\end{enumerate}
+
+此时的社会福利被定义为$\sum_{i=1}^{n}{v_i(\omega)}$。在多变量环境中有重要的结论：
+\begin{theorem}
+    任意多变量环境都存在一个社会福利最大化的DSIC机制。
+\end{theorem}
+该DSIC机制被称为VCG机制，其分配规则和支付规则分别为：
+\begin{equation}
+ \mathbf{x}(\mathbf{b})=argmax_{\omega \in \Omega}\sum_{i=1}^{n}{b_i(\omega)}
+\end{equation}
+\begin{equation}
+p_i(\mathbf{b})=\left(\max_{\omega\in\Omega}\sum_{j\neq i}{b_j(\omega)}\right)-\sum_{j\neq i}b_j(\omega^\star)    
+\end{equation}
+其中，$\omega^\star$是上述分配规则选出的结果。在多变量环境下，由于VCG机制的存在，似乎优秀激励性质的机制设计变得可行。然而事实并非如此。一方面，其最大化社会福利问题基本都是NP-hard问题，难以有效实现。每个参与者标的的长度随问题规模呈指数级增长，存储、传输这些多维的标的也将带来极大的时空花费。另一方面，VCG机制仅能保证社会福利最大，而在税收等其他方面并不具有更多的优秀性质。
 \section{动态规划}
+动态规划，是一种在数学、计算机科学、经济学等领域中使用的解决复杂问题的方法。它把原问题分解为相对简单的子问题来进行求解。动态规划常常适用于具有重叠子问题和最优子结构性质的问题，而其所需时间基本原少于朴素算法。
 
+动态规划适用的情况：
+
+\begin{itemize}
+    \item[最优子结构]若问题的最优解所包含的子问题的解也是最优的，那么该问题就具有最优子结构。
+    \item[无后效性]子问题的解一旦确定就不再改变。问题的求解呈现明显的阶段性，当前阶段的最优解不依赖与后续阶段决策。
+    \item[子问题重叠]原始问题划分的子问题中有相互重叠的部分，这些重叠的子问题只被计算一次，可以将指数时间级的枚举算法转化为伪多项式时间的求解，极大提升算法时间效率。
+\end{itemize}
 \subsection{背包问题}
+背包问题是一种组合优化的NP完全问题，问题可以描述为：给定一组物品，每种物品都有自己的重量和价格，在限定的总重量内，我们如何选择，才能使得物品的总价格最高。相似的问题常出现在组合数学，计算复杂性理论，密码学和应用数学等领域。
+\subsubsection{定义}
+问题中有n种物品，物品j的重量为$w_i$，价格为$p_i$。假定所有物品的重量和价格都是非负的，背包能承受的最大重量为$W$。
 
+若每种物品只能选择0个或者1个，则为0-1背包问题。
+\begin{align}
+    \max_{\vec{x}} \quad&\sum_{i=1}^{n}{p_ix_i}\\
+    s.t                     
+                            \quad& \sum_{i=1}^{n}{w_ix_i} \leq W,\quad x_i\in\{0,1\}\notag 
+\end{align}
+若每种物品都有个数限制，最多取$b_i$个，则为有界背包问题。
+\begin{align}
+    \max_{\vec{x}} \quad&\sum_{i=1}^{n}{p_ix_i}\\
+    s.t                     
+                            \quad& \sum_{i=1}^{n}{w_ix_i} \leq W,\quad x_i\in\{0,1,...,b_i\}\notag 
+\end{align}
+若每种物品数量不受任何限制，则为无界背包问题。
+\begin{align}
+    \max_{\vec{x}} \quad&\sum_{i=1}^{n}{p_ix_i}\\
+    s.t                     
+                            \quad& \sum_{i=1}^{n}{w_ix_i} \leq W,\quad 0\leq x_i\notag 
+\end{align}
+
+上述背包问题的精确求解都可以通过动态规划在伪多项式时间内解决。以此为基础还能构建FPTAS的近似算法。
+\subsubsection{泛化物品}
+考虑这样一种物品，它并没有固定的费用和价值，它的价值随着分配给它的费用变化而变化。更严格的定义是，在背包容量为$V$的背包问题中，泛化物品是一个定义域为$\{0,1,2,...,W\}$的函数$h$，当分配给它的费用为$v$时，能够得到的价值就是$h(v)$。
+
+若给定了两个泛化物品$h$和$l$，需要一定的费用从这两个泛化物品中得到最大的价值。可以通过枚举费用在两个泛化物品之间的分配即可。类似的，可以求得新的泛化物品对应的函数$f$。即
+\begin{equation}
+    f(w)=max\{h(k)+l(w-k)|0\leq k \leq w\}
+\end{equation}
+
+由上式可知，$f$是一个由$h$和$l$得出的新的泛化物品，该过程也可称为泛化物品$h$与泛化物品$l$的求和，每次求和的时间复杂度为$O(W^2)$。泛化物品的概念可以应用于背包问题的一系列拓展及变体中。
 
 \section{本章小结}
-
+本章首先介绍了机制设计、麦尔森引理、最优拍卖、背包拍卖等算法机制设计中的关键概念。然后简要说明了动态规划的思想及背包问题的中泛化物品的概念。为后文针对具体场景进行机制设计及分析做准备。
 
 \chapter{简单可并行计算下的机制}
 
-\section{引言}
-\subsection{原位计算}
+\section{多方数据价值共享计算}
 
-原位计算的介绍及总体基本场景描述待补
-
-\subsection{信誉系统}
-待补，之前看过的文章有。此部分也可能放在第四章
 
 \section{基本假设}
 在简单可并行计算下的机制建立之前，首先给出相关合理假设。
