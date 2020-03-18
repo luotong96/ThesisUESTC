@@ -170,27 +170,29 @@
                                             <tr>
                                                 <td>简单可并行</td>
                                                 <td>针对情感文本数据的分析</td>
-                                                <td>1000条</td>
+                                                <td>1000单位</td>
                                                 <td>2019/09/21 12:00:00</td>
                                                 <td>-</td>
                                                 <td>(30,10,0)</td>
                                                 <td>2019/09/21 11:30:00</td>
-                                                <td><a class="btn btn-outline-primary ml-4" href="#">详情</a></td>
+                                                <td><button type="button" class="btn btn-outline-primary ml-4" data-toggle="modal" data-target="#exampleModalCenter2" >详情
+                                                </button></td>
                                             </tr>
                                             <tr>
                                                 <td>简单可并行</td>
                                                 <td>minst手写体图像数据特征提取</td>
-                                                <td>30000条</td>
+                                                <td>30000单位</td>
                                                 <td>2019/09/22 17:00:00</td>
                                                 <td>-</td>
                                                 <td>-</td>
                                                 <td>2019/09/22 16:30:00</td>
-                                                <td><a class="btn btn-outline-primary ml-4" href="#">详情</a></td>
+                                                <td><button type="button" class="btn btn-outline-primary ml-4" data-toggle="modal" data-target="#exampleModalCenter3" >详情
+                                                </button></td>
                                             </tr>
                                             <tr>
                                                 <td>依赖相关</td>
                                                 <td>人群轨迹数据聚类</td>
-                                                <td>6000条</td>
+                                                <td>6000单位</td>
                                                 <td>2019/09/26 11:30:00</td>
                                                 <td>30min</td>
                                                 <td>-</td>
@@ -252,12 +254,33 @@
       </div>
       <div class="modal-body">
         <form>
-            asdasd
-            <hr style="border-top:1px dashed #987cb9;" width="100%" color="#987cb9" size=1>
+            <div class="form-row">
+                <div class="col-md-4">
+                    <div class="form-group"><label class="small mb-1" for="inputFirstName">任务类型</label><input class="form-control py-4" readonly="true" value="依赖相关" id="inputFirstName" type="text"  /></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group"><label class="small mb-1" for="inputLastName">任务名称</label><input class="form-control py-4" id="inputLastName" readonly="true" type="text" value="人群轨迹数据聚类"/></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group"><label class="small mb-1" for="inputLastNam">数据需求量</label><input class="form-control py-4" id="inputLastNam" readonly="true" type="text" value="6000单位"/></div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-4">
+                    <div class="form-group"><label class="small mb-1" for="inputFirstName2">多方计算开始时间</label><input class="form-control py-4" readonly="true" value="2019/09/26 11:30:00" id="inputFirstName2" type="text"  /></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group"><label class="small mb-1" for="inputLastName2">总任务时长限制</label><input class="form-control py-4" id="inputLastName2" readonly="true" type="text" value="30min"/></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group"><label class="small mb-1" for="inputLastNam2">标的截止时间</label><input class="form-control py-4" id="inputLastNam2" readonly="true" type="text" value="2019/09/26 11:00:00"/></div>
+                </div>
+            </div>
+            <hr style="border-top:1px dashed #000000;" width="100%" corlor="#000000" size=1>
           <div class="form-group row">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">你的标的</label>
+            <label for="inputEmail3" class="col-sm-2 col-form-label">标的值</label>
             <div class="col-sm-10">
-              <input type="number" min="1" max="100" class="form-control" id="inputEmail3">
+              <input type="number" min="1" max="100" placeholder="上限100" class="form-control" id="inputEmail3">
             </div>
           </div>
           <div class="form-group row">
@@ -270,10 +293,125 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary">提交标的</button>
       </div>
     </div>
   </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">任务详情</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+            <div class="form-row">
+                <div class="col-md-4">
+                    <div class="form-group"><label class="small mb-1" for="inputFirstName">任务类型</label><input class="form-control py-4" readonly="true" value="依赖相关" id="inputFirstName" type="text"  /></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group"><label class="small mb-1" for="inputLastName">任务名称</label><input class="form-control py-4" id="inputLastName" readonly="true" type="text" value="人群轨迹数据聚类"/></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group"><label class="small mb-1" for="inputLastNam">数据需求量</label><input class="form-control py-4" id="inputLastNam" readonly="true" type="text" value="6000单位"/></div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-4">
+                    <div class="form-group"><label class="small mb-1" for="inputFirstName2">多方计算开始时间</label><input class="form-control py-4" readonly="true" value="2019/09/26 11:30:00" id="inputFirstName2" type="text"  /></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group"><label class="small mb-1" for="inputLastName2">总任务时长限制</label><input class="form-control py-4" id="inputLastName2" readonly="true" type="text" value="30min"/></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group"><label class="small mb-1" for="inputLastNam2">标的截止时间</label><input class="form-control py-4" id="inputLastNam2" readonly="true" type="text" value="2019/09/26 11:00:00"/></div>
+                </div>
+            </div>
+            <hr style="border-top:1px dashed #000000;" width="100%" corlor="#000000" size=1>
+            <div class="d-flex align-items-center">
+              <strong>拍卖算法运行中,请稍候...</strong>
+              <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+            </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter3" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">任务详情</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+            <div class="form-row">
+                <div class="col-md-4">
+                    <div class="form-group"><label class="small mb-1" for="inputFirstName">任务类型</label><input class="form-control py-4" readonly="true" value="依赖相关" id="inputFirstName" type="text"  /></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group"><label class="small mb-1" for="inputLastName">任务名称</label><input class="form-control py-4" id="inputLastName" readonly="true" type="text" value="人群轨迹数据聚类"/></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group"><label class="small mb-1" for="inputLastNam">数据需求量</label><input class="form-control py-4" id="inputLastNam" readonly="true" type="text" value="6000单位"/></div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-4">
+                    <div class="form-group"><label class="small mb-1" for="inputFirstName2">多方计算开始时间</label><input class="form-control py-4" readonly="true" value="2019/09/26 11:30:00" id="inputFirstName2" type="text"  /></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group"><label class="small mb-1" for="inputLastName2">总任务时长限制</label><input class="form-control py-4" id="inputLastName2" readonly="true" type="text" value="30min"/></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group"><label class="small mb-1" for="inputLastNam2">标的截止时间</label><input class="form-control py-4" id="inputLastNam2" readonly="true" type="text" value="2019/09/26 11:00:00"/></div>
+                </div>
+            </div>
+            <hr style="border-top:1px dashed #000000;" width="100%" corlor="#000000" size=1>
+            <!--<div class="d-flex align-items-center">!-->
+             <div class="alert alert-success" role="alert">
+              恭喜你成功竞拍到参与该任务的机会！你需要支付63个代币。
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="inputLastName7">数据id</label>
+                <div class="col-sm-10">
+                    <input class="form-control" id="inputLastName7" readonly="true" type="text" value="222222"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">支付密码</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" id="inputPassword3">
+                </div>
+            </div>
+            <!--<div class="alert alert-danger" role="alert">
+              很遗憾，你没有在竞拍中胜出。
+            </div>!-->
+            <!--</div>!-->
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">确认支付</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </html>
