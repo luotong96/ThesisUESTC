@@ -1131,65 +1131,104 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 \end{figure}
 
 \section{界面展示}
-本节对数据价值共享激励拍卖系统进行部分功能界面展示。
+本节对数据价值共享激励拍卖系统部分功能进行界面展示。
 \begin{figure}[H]
     \includegraphics[width=400pt]{ui/register.png}
-    \caption{依赖相关计算拍卖流程}
+    \caption{用户注册}
+    \label{register}
 \end{figure}
 \begin{figure}[H]
     \includegraphics[width=400pt]{ui/login.png}
-    \caption{依赖相关计算拍卖流程}
+    \caption{用户登录}
+    \label{login}
 \end{figure}
+
+如图\ref{register}和图\ref{login}所示，用户可以在系统中进行实名注册，然后参与到拍卖系统流程中。
+
 \begin{figure}[H]
     \includegraphics[width=400pt]{ui/gerenxinxiguanli.png}
-    \caption{依赖相关计算拍卖流程}
+    \caption{个人信息管理}
+    \label{gerenxinxi}
 \end{figure}
+
+如图\ref{gerenxinxi}所示，用户可以在此对自己的基本信息进行修改、查看信誉评级。机构用户还能够设置自己的多重指标限制内容。
+
 \begin{figure}[H]
     \includegraphics[width=400pt]{ui/ziyuanshenbao.png}
-    \caption{依赖相关计算拍卖流程}
+    \caption{资源申报}
+    \label{ziyuanshenbao}
 \end{figure}
+
+如图\ref{ziyuanshenbao}所示，多方计算的参与者可以在此进行可计算的资源申报，此处的信息也是拍卖机制运行的基础。
+
 \begin{figure}[H]
     \includegraphics[width=400pt]{ui/yonghuguanli.png}
-    \caption{依赖相关计算拍卖流程}
+    \caption{用户权限及信息管理}
+    \label{yonghuguanli}
 \end{figure}
+
+对于管理员而言，可以在界面\ref{yonghuguanli}中对普通参与者的信息、权限进行修改、管理。
+
 \begin{figure}[H]
     \includegraphics[width=400pt]{ui/paimai.png}
-    \caption{依赖相关计算拍卖流程}
+    \caption{数据价值共享拍卖}
+    \label{paimai}
 \end{figure}
+
+然后是本系统的核心部分，数据价值共享拍卖，此处包含了简单可并行和依赖相关两种任务类型。在界面\ref{paimai}中，任务方可以发布多方计算任务。参与者可以完成浏览拍卖信息、投标、查看结果等一系列参与拍卖的重要流程。详情信息见界面\ref{paimaitoubiao}、\ref{paimaiyunxing}、\ref{paimaichenggong}、\ref{paimaishibai}。
 
 \begin{figure}[H]
     \includegraphics[width=400pt]{ui/paimaitoubiao.png}
-    \caption{依赖相关计算拍卖流程}
+    \caption{数据价值共享拍卖的投标}
+    \label{paimaitoubiao}
 \end{figure}
+
 \begin{figure}[H]
     \includegraphics[width=400pt]{ui/paimaiyunxing.png}
-    \caption{依赖相关计算拍卖流程}
+    \caption{数据价值共享拍卖的算法运行}
+    \label{paimaiyunxing}
 \end{figure}
+
 \begin{figure}[H]
     \includegraphics[width=400pt]{ui/paimaichenggong.png}
-    \caption{依赖相关计算拍卖流程}
+    \caption{参与者胜出}
+    \label{paimaichenggong}
 \end{figure}
+
 \begin{figure}[H]
     \includegraphics[width=400pt]{ui/paimaishibai.png}
-    \caption{依赖相关计算拍卖流程}
+    \caption{参与者失败}
+    \label{paimaishibai}
 \end{figure}
+
+同时，系统还有相应的消息反馈机制。包括推送新的拍卖信息、公布参与者的拍卖结果、向任务方反馈计算任务可行性。详见界面\ref{xinzengkecanyu}、\ref{xinzengshengchu}、\ref{xinzengshibai}、\ref{xinzengrenwushibai}。
+
 \begin{figure}[H]
     \includegraphics[width=400pt]{ui/xinzengkecanyu.png}
-    \caption{依赖相关计算拍卖流程}
+    \caption{新增可参与的拍卖消息}
+    \label{xinzengkecanyu}
 \end{figure}
+
 \begin{figure}[H]
     \includegraphics[width=400pt]{ui/xinzengshengchu.png}
-    \caption{依赖相关计算拍卖流程}
+    \caption{参与者的胜出消息}
+    \label{xinzengshengchu}
 \end{figure}
+
 \begin{figure}[H]
     \includegraphics[width=400pt]{ui/xinzengshibai.png}
-    \caption{依赖相关计算拍卖流程}
+    \caption{参与者的失败消息}
+    \label{xinzengshibai}
 \end{figure}
+
 \begin{figure}[H]
     \includegraphics[width=400pt]{ui/xinzengrenwushibai.png}
-    \caption{依赖相关计算拍卖流程}
+    \caption{向任务方反馈}
+    \label{xinzengrenwushibai}
 \end{figure}
+
 \section{本章小结}
+本章对数据价值共享激励拍卖系统进行了实现，将本文三四章的场景及算法应用到具体的系统环境中。首先概述了系统的硬件环境及技术方法，然后依次分析了系统的总体模块设计、子系统的详细模块设计，最后对部分功能界面进行展示分析。由系统的运行情况可知，主体功能运行良好，能够有效实现数据价值共享的主要竞拍流程。
 
 \chapter{全文总结与展望}
 
