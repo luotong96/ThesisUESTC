@@ -1068,7 +1068,7 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 \chapter{数据价值共享激励拍卖系统设计与实现}
 \section{实验概述}
 本文的第三四章分别设计了两种计算场景下的拍卖激励机制。本章根据这两种拍卖机制，为多方数据价值共享计算模式设计一个拍卖系统。该系统能够帮助平台方完成胜出者决策的流程，妥善处理多方计算中的参与者竞争现象。本系统的硬件环境是：Intel Core i5-7400 3.0GHZ，主存12GB。
-
+实现技术：bootstrap、php、codeigniter、apache2 httpd、mysql。
 \section{总体设计}
 该拍卖系统的总体结构如下图所示，主要包含用户管理子系统、简单可并行计算拍卖子系统、依赖相关计算拍卖子系统、前端展示系统。
 
@@ -1126,12 +1126,69 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 本子系统实现依赖相关计算的拍卖核心流程。首先，任务方在系统内发布依赖相关的多方计算任务，设置任务时间限制。任务分解算法根据现有的数据资源申报情况将其拆解为一系列子任务，形成AOE网结构。然后，系统依照AOE网将拍卖信息发送给各条有向弧上的参与者。参与者仍然需要在拍卖投标的截止时间内设置其标的，否则视为不参与该次多方计算拍卖。接下来，系统根据设置的拍卖偏好选择相应的算法机制。若偏向社会福利最大化，则选择依赖相关计算模型的贪心算法确定胜出者。否则，以历史数据拟合的分布或者预设概率分布作为最优拍卖模型的输入，确定相应的胜出者。若原任务无法完成，则对任务方进行反馈或者指导任务方重新设置时间限制条件。若任务能够完成，则发放凭证并支付报酬。最后实际执行多方计算，并根据结果对信誉系统进行更新。
 
 \begin{figure}[H]
-    \includegraphics[width=310pt]{pic/yilaixiangguan.pdf}
+    \includegraphics[width=350pt]{pic/yilaixiangguan.pdf}
     \caption{依赖相关计算拍卖流程}
 \end{figure}
 
 \section{界面展示}
+本节对数据价值共享激励拍卖系统进行部分功能界面展示。
+\begin{figure}[H]
+    \includegraphics[width=400pt]{ui/register.png}
+    \caption{依赖相关计算拍卖流程}
+\end{figure}
+\begin{figure}[H]
+    \includegraphics[width=400pt]{ui/login.png}
+    \caption{依赖相关计算拍卖流程}
+\end{figure}
+\begin{figure}[H]
+    \includegraphics[width=400pt]{ui/gerenxinxiguanli.png}
+    \caption{依赖相关计算拍卖流程}
+\end{figure}
+\begin{figure}[H]
+    \includegraphics[width=400pt]{ui/ziyuanshenbao.png}
+    \caption{依赖相关计算拍卖流程}
+\end{figure}
+\begin{figure}[H]
+    \includegraphics[width=400pt]{ui/yonghuguanli.png}
+    \caption{依赖相关计算拍卖流程}
+\end{figure}
+\begin{figure}[H]
+    \includegraphics[width=400pt]{ui/paimai.png}
+    \caption{依赖相关计算拍卖流程}
+\end{figure}
 
+\begin{figure}[H]
+    \includegraphics[width=400pt]{ui/paimaitoubiao.png}
+    \caption{依赖相关计算拍卖流程}
+\end{figure}
+\begin{figure}[H]
+    \includegraphics[width=400pt]{ui/paimaiyunxing.png}
+    \caption{依赖相关计算拍卖流程}
+\end{figure}
+\begin{figure}[H]
+    \includegraphics[width=400pt]{ui/paimaichenggong.png}
+    \caption{依赖相关计算拍卖流程}
+\end{figure}
+\begin{figure}[H]
+    \includegraphics[width=400pt]{ui/paimaishibai.png}
+    \caption{依赖相关计算拍卖流程}
+\end{figure}
+\begin{figure}[H]
+    \includegraphics[width=400pt]{ui/xinzengkecanyu.png}
+    \caption{依赖相关计算拍卖流程}
+\end{figure}
+\begin{figure}[H]
+    \includegraphics[width=400pt]{ui/xinzengshengchu.png}
+    \caption{依赖相关计算拍卖流程}
+\end{figure}
+\begin{figure}[H]
+    \includegraphics[width=400pt]{ui/xinzengshibai.png}
+    \caption{依赖相关计算拍卖流程}
+\end{figure}
+\begin{figure}[H]
+    \includegraphics[width=400pt]{ui/xinzengrenwushibai.png}
+    \caption{依赖相关计算拍卖流程}
+\end{figure}
 \section{本章小结}
 
 \chapter{全文总结与展望}

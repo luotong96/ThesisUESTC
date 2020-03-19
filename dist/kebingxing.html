@@ -40,56 +40,33 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            <div class="sb-sidenav-menu-heading">Core</div>
-                            <a class="nav-link" href="index.html"
+                            <div class="sb-sidenav-menu-heading">首页</div>
+                            <a class="nav-link" href="#"
                                 ><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Dashboard</a
-                            >
-                            <div class="sb-sidenav-menu-heading">Interface</div>
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                                Layouts
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
-                            ></a>
-                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="layout-static.html">Static Navigation</a><a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a></nav>
-                            </div>
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                Pages
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
-                            ></a>
-                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth"
-                                        >Authentication
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
-                                    ></a>
-                                    <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
-                                        <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="login.html">Login</a><a class="nav-link" href="register.html">Register</a><a class="nav-link" href="password.html">Forgot Password</a></nav>
-                                    </div>
-                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError"
-                                        >Error
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
-                                    ></a>
-                                    <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
-                                        <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="401.html">401 Page</a><a class="nav-link" href="404.html">404 Page</a><a class="nav-link" href="500.html">500 Page</a></nav>
-                                    </div>
-                                </nav>
-                            </div>
-                            <div class="sb-sidenav-menu-heading">Addons</div>
-                            <a class="nav-link" href="charts.html"
+                                仪表盘
+                            </a>
+                            <div class="sb-sidenav-menu-heading">多方参与者功能区</div>
+                            <a class="nav-link" href="xinxiguanli.html"
                                 ><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Charts</a
-                            ><a class="nav-link" href="tables.html"
+                                个人信息管理</a
+                            ><a class="nav-link" href="ziyuanshenbao.html"
                                 ><div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Tables</a
+                                数据资源申报
+                            </a>
+                            <a class="nav-link" href="kebingxing.html"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                数据价值共享拍卖
+                            </a>
+                            <div class="sb-sidenav-menu-heading">管理员功能区</div>
+                            <a class="nav-link" href="yonghuguanli.html"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                用户权限及信息管理</a
                             >
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Start Bootstrap
+                        <div class="small">登录方式：</div>
+                        多方计算参与者
                     </div>
                 </nav>
             </div>
@@ -103,7 +80,7 @@
                             </div>
                             <div class="col-md-offset-1">
                                <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="mytoast" data-autohide="false">
-                                  <div class="toast-header bg-warning">
+                                  <div class="toast-header text-light  bg-danger">
                                     <svg class="bi bi-alert-octagon" width="1em" height="1em" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                       <path fill-rule="evenodd" d="M6.54 2.146A.5.5 0 016.893 2h6.214a.5.5 0 01.353.146l4.394 4.394a.5.5 0 01.146.353v6.214a.5.5 0 01-.146.353l-4.394 4.394a.5.5 0 01-.353.146H6.893a.5.5 0 01-.353-.146L2.146 13.46A.5.5 0 012 13.107V6.893a.5.5 0 01.146-.353L6.54 2.146zM7.1 3L3 7.1v5.8L7.1 17h5.8l4.1-4.1V7.1L12.9 3H7.1z" clip-rule="evenodd"/>
                                       <rect width="2" height="2" x="9.002" y="12" rx="1"/>
@@ -116,7 +93,7 @@
                                     </button>
                                   </div>
                                   <div class="toast-body">
-                                   新增可参与的多方计算任务！
+                                   很遗憾，您的多方计算任务无法完成，请重新发布任务书。
                                   </div>
                                 </div>
                             </div>
@@ -212,7 +189,7 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2019</div>
+                            <div class="text-muted">Copyright &copy; 数据价值共享激励拍卖系统 2019</div>
                             <div>
                                 <a href="#">Privacy Policy</a>
                                 &middot;
@@ -384,8 +361,8 @@
             </div>
             <hr style="border-top:1px dashed #000000;" width="100%" corlor="#000000" size=1>
             <!--<div class="d-flex align-items-center">!-->
-             <div class="alert alert-success" role="alert">
-              恭喜你成功竞拍到参与该任务的机会！你需要支付63个代币。
+            <!-- <div class="alert alert-success" role="alert">
+              恭喜你成功竞拍到参与该任务的机会！任务完成后你会获得63个代币。
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label" for="inputLastName7">数据id</label>
@@ -394,21 +371,21 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="inputPassword3" class="col-sm-2 col-form-label">支付密码</label>
+                <label for="inputPassword3" class="col-sm-2 col-form-label">密码</label>
                 <div class="col-sm-10">
                     <input type="password" class="form-control" id="inputPassword3">
                 </div>
-            </div>
-            <!--<div class="alert alert-danger" role="alert">
-              很遗憾，你没有在竞拍中胜出。
             </div>!-->
+            <div class="alert alert-danger" role="alert">
+              很遗憾，你没有在竞拍中胜出。
+            </div>
             <!--</div>!-->
         </form>
       </div>
 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">确认支付</button>
+        <!--<button type="button" class="btn btn-primary" data-dismiss="modal">确认结果</button>!-->
       </div>
     </div>
   </div>
