@@ -14,17 +14,25 @@
 \makecover
 
 \begin{chineseabstract}
-为了适应日益增长的宽带信号和非线性系统的工程应用，用于分析瞬态电磁散射问题的时域积分方程方法研究日趋活跃。本文以时域积分方程时间步进算法及其快速算法为研究课题，重点研究了时间步进算法的数值实现技术、后时稳定性问题以及两层平面波算法加速计算等，主要研究内容分为四部分。
+    在科技不断发展的今天，人们的日常生活每天都会产生海量数据，而对这些数据资源的分析应用已经创造了大量的经济价值、社会价值。对于中心化的数据资源，可以使用现有的大数据分析技术对其进行价值挖掘。而地理上分布于不同组织及个人的海量数据却难以实现高效联合应用。因为受限于成本，隐私、规范等诸多社会因素，数据拥有者们可能并不愿意将数据直接共享。这造成了“数据孤岛”的现象。为此，本文描述了一种潜在的新数据价值共享计算模式，并针对两种不同的具体计算场景设计了性质良好的拍卖激励机制。本文的具体工作如下：
+    \begin{enumerate}
+        \item 描述了多方数据价值共享计算模式。针对简单可并行的计算任务，首先对问题进行形式化建模，然后分析了数据量约束、多重指标约束、机构约束三种具体应用实例，并设计了计算有效、真实、社会福利最大化的DSIC拍卖激励机制。模拟实验说明了机制的有效性及良好性能。
+        \item 针对依赖相关的计算任务，本文首先分析了以时间限制作为重要指标，以AOE网对任务流程进行建模。论证了相应社会福利最大化问题的NP困难性。然后对一类贪心思路进行证否，并给出了基于贪心思想的启发式算法来近似求解社会福利最大化问题。最后，给出了考虑任务方收益的最优拍卖机制。模拟实验说明了两种机制的有效性。
+        \item 本文最后设计并实现了数据价值共享拍卖系统，将上述计算场景进行具体的应用。对激励拍卖系统的重要流程进行界面展示。
+    \end{enumerate}
 
-……
-
-\chinesekeyword{时域电磁散射，时域积分方程，时间步进算法，后时不稳定性，时域平面波算法}
+\chinesekeyword{机制设计，数据价值，多方计算，背包拍卖}
 \end{chineseabstract}
 
 \begin{englishabstract}
-With the widespread engineering applications ranging from broadband signals and non-linear systems, time-domain integral equations (TDIE) methods for analyzing transient electromagnetic scattering problems are becoming widely used nowadays. TDIE-based marching-on-in-time (MOT) scheme and its fast algorithm are researched in this dissertation, including the numerical techniques of MOT scheme, late-time stability of MOT scheme, and two-level PWTD-enhanced MOT scheme. The contents are divided into four parts shown as follows.
+With the continuous development of science and technology, people's daily life produces massive data every day, and the analysis and application of these data resources have created a large number of economic and social values.  For centralized data resources, the existing big data analysis technology can be applied for value mining.  However, the massive data geographically distributed in different organizations and individuals are difficult to realize efficient joint application.  Due to many social factors such as cost, privacy, and regulation, data owners may not be willing to share data directly.  This resulted in the phenomenon of "data island".  Therefore, this thesis describes a potential new data value sharing scheme, and designs an ideal auction incentive mechanism for two different specific  scenarios.  The specific work of this thesis is as follows:
+\begin{enumerate}
+\item Firstly, it describes the multi-party data value sharing scheme.  For simple and parallelizable computation tasks, the formal modeling of the problem is carried out, then three specific application instances of data volume constraint, multiple indicators constraint and organization constraint are analyzed, and a DSIC  incentive auction mechanism with effective computation, truthfullness as well as maximum social welfare is designed.  Simulation experiments show the effectiveness and good performance of the mechanism.
+\item For dependency-related computing tasks, this paper first analyzes the modeling of task flow using AOE network with time constraints as an important indicator.  The NP difficulty of the corresponding social welfare maximization problem is demonstrated.  Then, we prove the ineffectiveness of some greedy thoughts and give another greedy heuristic algorithm which works well to approximately solve the social welfare maximization problem.  Finally, the optimal auction mechanism considering the revenue of the task initiator is given.  Simulation experiments show the effectiveness of the two mechanisms.
+\item At last, this paper designs and implements a data value sharing auction system, and applies the above scenarios to specific applications.  The crucial process of the auction is partially displayed .
+\end{enumerate}
 
-\englishkeyword{time-domain electromagnetic scattering, time-domain integral equation (TDIE), marching-on in-time (MOT) scheme, late-time instability, plane wave time-domain (PWTD) algorithm}
+\englishkeyword{mechanism design,data value,multiparty computation,knapsack auction}
 \end{englishabstract}
 
 \thesistableofcontents
@@ -1132,11 +1140,13 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 
 \section{界面展示}
 本节对数据价值共享激励拍卖系统部分功能进行界面展示。
+
 \begin{figure}[H]
     \includegraphics[width=400pt]{ui/register.png}
     \caption{用户注册}
     \label{register}
 \end{figure}
+
 \begin{figure}[H]
     \includegraphics[width=400pt]{ui/login.png}
     \caption{用户登录}
@@ -1250,8 +1260,21 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 \end{enumerate}
 
 \thesisacknowledgement
-在攻读硕士学位期间，首先衷心感谢我的导师XXX教授
+时间过得很快，三年的研究生生涯就要划上句号。在这三年中，一方面我进一步夯实了基础知识，见识到了更加广阔的学术领域和氛围，坚定了内心的想法与方向。另一方面也结实了更多良师益友，收获很多。
 
+首先感谢我的导师罗光春老师， 他扎实的专业知识及严谨的治学风范为我树立了良好的榜样。激励着我在科研学习及日常生活中踏实努力，不断追求新的高度。
+
+感谢陈爱国老师，陈老师在这三年中给予了我许多帮助，无论是在项目工程或是论文撰写，都尽心尽力，耐心地给予督导和指点。在我遇到陌生的研究领域及较大的科研困难时，还常常请求其他老师给予我针对性的帮助。陈老师认真负责的科研工作态度也激励着我进一步的努力学习，钻研探索。
+
+也要感谢田玲老师，尤其是三年前的秋天，我独自来到实验室面试，非常感谢田老师在短短一个小时的面谈中肯定我的学习能力及成绩，并给予在实验室继续攻读硕士学位的机会。
+
+然后感谢郑旭老师，在过去的两年时光中，郑老师经常参与我们的组会，为我们提供了许多科研项目的新思路和见解，使我们受益匪浅。在论文撰写的过程中，郑老师也给予我非常多的指导和帮助。郑老师的学术能力、处事方式都值得我学习。
+
+还要感谢赵老师，赵老师专业知识扎实，为人非常有亲和力，在日常学习生活中也给予我许多帮助，是值得学生敬重与爱戴的好老师。
+
+另外感谢各位同组同门：陈远帆、邵福骏、谢渊、骆佳程、李思宁，以及好朋友刘竹、胡小东。
+
+最后感谢我的父母，生活中给予我无微不至的照顾与关怀。
 
 \nocite{*}
 \thesisloadbibliography{reference}
