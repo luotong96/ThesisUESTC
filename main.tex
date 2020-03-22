@@ -903,7 +903,7 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
     \KwIn{前文形式化定义的所有相关量}
     \KwOut{$\mathbf{payment}$}
     %\SetAlgoVlined
-    执行算法\ref{jichumoxing2tanxin2},得到$\mathbf{allocation}$\;
+    运行算法\ref{jichumoxing2tanxin2},得到$\mathbf{allocation}$\;
     \For{每个$agent_i$}{
         \eIf{$allocation_i = 0$}
         {
@@ -912,7 +912,7 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
         {
             
             将单减的原始相对标的序列$\mathbf{b}=b_1b_2b_3...b_k$中与$agent_i$属于同一竞争列表的所有相对标的$b_a,b_b,b_c,...,b_{agent_i},b_{next}...$全部删除，得到新的原始标的序列$\mathbf{b'}$\;
-            使用$\mathbf{b'}$重新运行算法\ref{jichumoxing2tanxin2}，得到各个胜出者产生时对应的图序列$\mathbf{GS}=G_1,G_2,G_3...G_u$，每个$G_i$是算法\ref{jichumoxing2tanxin2}中的一个新的可行解$S'$对应的DAG\;
+            使用$\mathbf{b'}$重新运行算法\ref{jichumoxing2tanxin2}，得到各个胜出者产生时对应的图序列\footnotemark$\mathbf{GS}=G_1,G_2,G_3...G_u$，每个$G_i$是算法\ref{jichumoxing2tanxin2}中的一个新的可行解$S'$对应的DAG\;
             \eIf{$agent_i$的时长不是其竞争列表中最小的}
             {
                 假设$agent_i$的相对标的$z$在图序列$\mathbf{GS}$中的位次是$G_1,G_2,...z,G_j,G_{j+1}....G_u$\;
@@ -943,7 +943,7 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 \label{jichumoxing2tanxin2zhifu}
 \end{algorithm}
 
-
+\footnotetext{此处并非图论中的图序列概念}
 
 %考虑在参与者对各子任务的估值及相差不多的情况下，此时DAG中长路相较于短路应当提供更多的价值贡献。因而可以优先确定长路上的规划问题的解%，然后再考虑较短路上的规划问题。
 
@@ -1001,7 +1001,7 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
     \mathbf{E}_{\mathbf{v}\sim\mathbf{F}}{\left[\sum_{i}^{n}{payment_i(\mathbf{v})}\right]}=\mathbf{E}_{\mathbf{v}\sim\mathbf{F}}{\left[\sum_{i}^{n}{\varphi _i(v_i)*allocation_i(\mathbf{v})}\right]}
 \end{equation}
 
-故期望税收最大化等价于期望虚拟社会福利最大化。考虑场景\ref{jichumoxing2}，虚拟社会福利最大化仍然是$NP-hard$问题，故仍采用算法\ref{jichumoxing2tanxin2}近似求解。而为了满足参与者真实投标的前提，需要讨论虚拟社会福利最大化对应分配函数$virtualal$的单调性。
+故期望税收最大化等价于期望虚拟社会福利最大化。本文以考虑场景\ref{jichumoxing2}，虚拟社会福利最大化仍然是$NP-hard$问题，故仍采用算法\ref{jichumoxing2tanxin2}近似求解。而为了满足参与者真实投标的前提，需要讨论虚拟社会福利最大化对应分配函数$virtualal$的单调性。
 
 \begin{algorithm}[H] 
     \KwIn{形式化定义的所有量}
@@ -1063,12 +1063,11 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 为了验证贪心算法\ref{jichumoxing2tanxin2}的计算有效性。本文在不同阶数的AOE网中利用该算法进行求解。
 
 \begin{figure}[h]
-    \includegraphics{exp/exetime.pdf}
+    \includegraphics[with=400pt]{exp/exetime.pdf}
     \caption{贪心算法关于AOE网阶数的执行效率}
     \label{exetime}
 \end{figure}
 由图\ref{exetime}可知，贪心算法\ref{jichumoxing2tanxin2}是计算有效的多项式算法，实验结果与时间复杂度分析吻合。
-
 \section{本章小结}
 针对多方计算任务中子计算任务存在依赖关系的问题，本文以AOE网进行建模。将参与者完成子任务的时长作为最关键性能指标，并映射至AOE网中。详细分析了总任务在限制时间内完成的条件下的社会福利最优化分配问题。然后证明了其NP困难性，并给出一种基于贪心思想的近似求解方案，该方案可以在多项式时间内求解，时间复杂度是$O(|E|^2*n*(|V|+|E|))$。另外，分析了基于参与者私密值$Val_i$的概率分布的期望税收最大化机制。然后通过模拟实验证明了两种机制的性能和有效性。
 
