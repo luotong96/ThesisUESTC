@@ -1,7 +1,7 @@
 
 \documentclass[promaster]{thesis-uestc}
 
-\title{面向数据价值共享的激励机制设计与实现}{An Incentive Mechanism for Data Sharing}
+\title{面向数据价值共享的激励技术研究与实现}{The study and implementation of incentive techniques for value-based data sharing}
 
 \author{罗通}{Luo Tong}
 \advisor{罗光春\chinesespace 教授}{Dr. Guangchun Luo}
@@ -14,23 +14,25 @@
 \makecover
 
 \begin{chineseabstract}
-    在科技不断发展的今天，人们的日常生活每天都会产生海量数据，而对这些数据资源的分析应用已经创造了大量的经济价值、社会价值。对于中心化的数据资源，可以使用现有的大数据分析技术对其进行价值挖掘。而地理上分布于不同组织及个人的海量数据却难以实现高效联合应用。因为受限于成本，隐私、规范等诸多社会因素，数据拥有者们可能并不愿意将数据直接共享。这造成了“数据孤岛”的现象。为此，本文描述了一种潜在的新数据价值共享计算模式，并针对两种不同的具体计算场景设计了性质良好的拍卖激励机制。本文的具体工作如下：
-    \begin{enumerate}
-        \item 描述了多方数据价值共享计算模式。针对简单可并行的计算任务，首先对问题进行形式化建模，然后分析了数据量约束、多重指标约束、机构约束三种具体应用实例，并设计了计算有效、真实、社会福利最大化的DSIC拍卖激励机制。模拟实验说明了机制的有效性及良好性能。
-        \item 针对依赖相关的计算任务，本文首先分析了以时间限制作为重要指标，以AOE网对任务流程进行建模。论证了相应社会福利最大化问题的NP困难性。然后对一类贪心思路进行证否，并给出了基于贪心思想的启发式算法来近似求解社会福利最大化问题。最后，给出了考虑任务方收益的最优拍卖机制。模拟实验说明了两种机制的有效性。
-        \item 本文最后设计并实现了数据价值共享拍卖系统，将上述计算场景进行具体的应用。对激励拍卖系统的重要流程进行界面展示。
-    \end{enumerate}
+在科技不断发展的今天，人们的日常生活每天都会产生海量数据，而对这些数据资源的分析应用已经创造了大量的经济价值、社会价值。对于中心化的数据资源，可以使用现有的大数据分析技术对其进行价值挖掘。而地理上分布于不同组织及个人的海量数据却难以实现高效联合应用。因为受限于成本，隐私、规范等诸多社会因素，数据拥有者们可能并不愿意将数据直接共享。这造成了“数据孤岛”的现象。为此，本文描述了一种潜在的理想数据价值共享计算模式，该计算模式能够在传递数据价值的同时，避免原始数据直接共享，最大程度的降低数据使用风险。然后本文针对该数据价值共享模式的两种不同具体计算场景设计了性质良好的拍卖激励机制。本文的具体工作如下：
+
+1、描述了多方数据价值共享计算模式。针对简单可并行的计算任务，首先对问题进行形式化建模，然后分析了数据量约束、多重指标约束、机构约束三种具体应用实例，并设计了计算有效、真实、社会福利最大化的DSIC拍卖激励机制。模拟实验说明了机制的有效性及良好性能。
+
+2、针对依赖相关的计算任务，本文首先分析了以时间限制作为重要指标，以AOE网对任务流程进行建模。论证了相应社会福利最大化问题的NP困难性。然后对一类贪心思路进行证否，并提出另一种基于贪心思想的启发式算法来近似求解社会福利最大化问题。最后，设计了考虑任务方收益的最优拍卖机制。模拟实验说明了该计算场景下两种机制的有效性。
+
+3、本文最后设计并实现了数据价值共享拍卖系统，将上述机制部署至具体应用，并对激励拍卖系统的重要流程进行界面展示。
 
 \chinesekeyword{机制设计，数据价值，多方计算，背包拍卖}
 \end{chineseabstract}
 
 \begin{englishabstract}
-With the continuous development of science and technology, people's daily life produces massive data every day, and the analysis and application of these data resources have created a large number of economic and social values.  For centralized data resources, the existing big data analysis technology can be applied for value mining.  However, the massive data geographically distributed in different organizations and individuals are difficult to realize efficient joint application.  Due to many social factors such as cost, privacy, and regulation, data owners may not be willing to share data directly.  This resulted in the phenomenon of "data island".  Therefore, this thesis describes a potential new data value sharing scheme, and designs an ideal auction incentive mechanism for two different specific  scenarios.  The specific work of this thesis is as follows:
-\begin{enumerate}
-\item Firstly, it describes the multi-party data value sharing scheme.  For simple and parallelizable computation tasks, the formal modeling of the problem is carried out, then three specific application instances of data volume constraint, multiple indicators constraint and organization constraint are analyzed, and a DSIC  incentive auction mechanism with effective computation, truthfullness as well as maximum social welfare is designed.  Simulation experiments show the effectiveness and good performance of the mechanism.
-\item For dependency-related computing tasks, this paper first analyzes the modeling of task flow using AOE network with time constraints as an important indicator.  The NP difficulty of the corresponding social welfare maximization problem is demonstrated.  Then, we prove the ineffectiveness of some greedy thoughts and give another greedy heuristic algorithm which works well to approximately solve the social welfare maximization problem.  Finally, the optimal auction mechanism considering the revenue of the task initiator is given.  Simulation experiments show the effectiveness of the two mechanisms.
-\item At last, this paper designs and implements a data value sharing auction system, and applies the above scenarios to specific applications.  The crucial process of the auction is partially displayed .
-\end{enumerate}
+With the continuous development of science and technology, people's daily life produces massive data, and the analysis and application of these data resources have created a large number of economic and social values. For centralized data resources, the existing big data analysis technology can be applied for value mining easily. However, the massive data geographically distributed in different organizations and individuals are difficult to realize efficient joint application.  Due to many social factors such as cost, privacy, and regulation, data owners may not be willing to share data directly.  This resulted in the phenomenon of "data island".  Therefore, this thesis describes a potential ideal value-based data sharing scheme, which avoids sharing original data directly while transferring data values .Then it designs ideal auction incentive mechanisms for two specific scenarios. The work of this thesis is as follows:
+
+Firstly, it describes the multi-party value-base data sharing scheme.  For simple and parallelizable computation tasks, the formal modeling of the problem is carried out, then three specific application instances of data volume constraint, multiple indicators constraint and organization constraint are analyzed, and a DSIC incentive auction mechanism with effective computation, truthfullness as well as maximum social welfare is designed.  Simulation experiments show the effectiveness and good performance of the mechanism.
+
+Secondly, for dependency-related computing tasks, this thesis first analyzes the modeling of task flow using AOE network with time constraints as an important indicator.  The NP hardness of the corresponding social welfare maximization problem is demonstrated.  Then, we prove the ineffectiveness of some greedy thoughts and give another greedy heuristic algorithm which works well to approximately solve the social welfare maximization problem.  Finally, the optimal auction mechanism considering the revenue of the task initiator is given.  Simulation experiments show the effectiveness of the two mechanisms.
+
+Eventually, this thesis designs and implements a value-based data sharing auction system, and applies the above mechanisms to specific computing system.The crucial process of the auction is partially displayed .
 
 \englishkeyword{mechanism design,data value,multiparty computation,knapsack auction}
 \end{englishabstract}
@@ -88,7 +90,7 @@ With the continuous development of science and technology, people's daily life p
 
 第四章，研究计算依赖相关的机制设计问题。考虑时效性限制在该场景下的重要影响，对问题进行详尽的论述分析。然后设计该场景下的最优机制。最后，进行模拟实验，并论述算法的有效性和准确性。
 
-第五章，实现数据价值共享系统，将上述算法部署至应用环境。给出总体设计、模块设计、及测试分析。最后对应用系统的功能界面进行展示。
+第五章，实现数据价值共享系统，将上述算法部署至应用环境。给出总体设计、模块设计。最后对应用系统的功能界面进行展示。
 
 第六章，对全文进行总结陈述，分析本文的工作可取之处与不足，并展望后续工作的可能研究方向。
 
@@ -399,10 +401,10 @@ p_i(\mathbf{b})=\left(\max_{\omega\in\Omega}\sum_{j\neq i}{b_j(\omega)}\right)-\
 \end{figure}
 如图\ref{yuanweijili}所示，数据中心B和数据中心C都可以在依赖于本地数据的情况下提供对子任务2的计算，此时两者产生竞争，如何确定最终执行子任务2的数据中心是一个较为重要的问题。而本章的后续内容及第四章的内容主要是针对该计算模式，在不同场景下进行相应的机制设计。
 
-\section{简单可并行计算基础拍卖模型}
+\section{简单可并行基础拍卖模型}
 
 \subsection{问题描述}
-在简单可并行计算的场景中，上述多方计算任务T可以被控制节点根据现有的数据分布情况划分为一定数量的子计算任务。这些依赖于本地数据的子计算任务可以在各个数据中心完全并行的完成，然后由控制节点对计算结果进行一次整合得到原任务的解。而这些子计算任务大多是同构的(例如，对图片数据进行特征提取)。每个子计算任务称为一个单位(unit)的多方计算。
+在简单可并行计算的场景中，上述多方计算任务T可以被控制节点根据现有的数据分布情况划分为一定数量的子计算任务。这些依赖于本地数据的子计算任务可以在各个数据中心完全并行的完成，然后由控制节点对计算结果进行一次整合得到原任务的解。而这些子计算任务大多是同构的(例如，对图片数据进行特征提取)。每个子计算任务称为一个单位(unit)的多方计算。最基本的
 
 \subsection{形式化定义}
 \label{jichumoxingdingyi}
@@ -625,7 +627,7 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
 
 \setcounter{footnote}{0}
 
-\begin{algorithm}[H]
+\begin{algorithm}[h]
 \KwIn{$\mathbf{datacount,timeperunit,level,bid},datademand$,及\ref{dpdingyi}节中定义的限制指标}
     \KwOut{$\mathbf{payment}$}
     运行算法\ref{jiyihua},得到分配$allocation_i$\;
@@ -650,7 +652,7 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
         \end{cases}$
 }
 
-\section{机构场景扩展及额外偏好设置}
+\section{机构限制}
 \subsection{问题描述}
 在本章场景中，多方计算任务$T$竞拍流程中的参与者的真实角色是拥有计算资源及相应数据访问权限的计算节点。这些计算节点隶属于不同的部门机构。就相对严格而紧密的组织而言，其部门机构可能存在较为显著的上下级关系。这种关系最典型的案例是树形关系。如\ref{jigoushu}所示。在这种树形关系中，各机构可能会出于成本管理、机构职能、安全性保障等多方面因素对其自身及下属机构参与多方计算任务提出新的要求及限制。例如，\ref{zhibiao}所示的各种限制性指标。这些要求及限制形成每个机构的偏好信息。如图\ref{jigoushu}，每个机构都拥有一个偏好信息描述。（图中并未完全画出所有偏好信息）
 
@@ -691,13 +693,12 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 
 另一方面，各个机构的偏好$prefer_i$也可以在树上最优化的过程中解决。树上最优化流程进行到机构i时，他可以直接将状态$dp[i,limit_i+1...datademand,,,,]$全部置为非法状态。然后沿着树形结构继续最优化过程。本场景中的问题求解思想与\ref{dptou}节中的思想是一致的。故此处直接给出分配规则。
 
-\begin{algorithm}[H]
+\begin{algorithm}[h]
 \KwIn{$\mathbf{datacount,timeperunit,level,bid},datademand$,\ref{dpdingyi}节中定义的限制指标,本节新定义的量}
     \KwOut{$\mathbf{allocation}$}
     $generalizeditem(\text{虚根},datademand,parti_1,parti_2,parti_3,TIME)$\;
     以最优路径对$\mathbf{allocation}$进行赋值。\;
-\;
-\;
+    \;
     $generalizeditem(i,j,a,b,c,t)$定义为:\;
     
     \eIf{i具有计算单元，即$agentpinorg_i \neq \emptyset$}
@@ -750,14 +751,38 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 \end{algorithm}
 
 \section{实验及分析}
+本章设计的机制均为DSIC机制，即所有参与者的占优策略是真实地投标，这由单变量环境下的麦尔森引理保证。本节实验主要对三种机制在相似的参数设定下做性能比较。参数设定如下：参与者的数量为$10-1000$，$v$的设定为$100$，$\mathbf{level}=(10,10,10)$，$m=10$，$TIME=10$,以上数值仅意味着尺度范围。在实际应用中可以进行尺度变换。例如，$v=100$，实际数据需求量单位可能为百万，即数据量上限是$10^6$。参与者的估值$v_i$服从正态分布N(50,1)。使用的相关技术工具有：python、pandas、numpy、scipy、matplotlib。
+
+\begin{figure}[h]
+\subfloat[不同限制条件下的运行效率]{
+    \label{times}
+    \includegraphics[width=200pt]{exp/threetimes.pdf}
+}
+\subfloat[贪心算法的运行效率细节]{
+    \label{greedytimes}
+    \includegraphics[width=200pt]{exp/greedytimes.pdf}
+}
+\caption{性能比较}
+\end{figure}
+
+如图\ref{times}所示，仅有数据量限制条件下，算法的运行速度是较快的，基本能够在秒级完成。然而，引入多重指标限制和机构限制后，由于算法的伪多项式性质，其时间花费大大增加。因此，在这两种情形下，相关环境参数的设置是较为敏感的。若需要求解的问题有较大的数据范围，可能会引入较大的时间花费。幸运的是，伪多项式算法毕竟是这些参数的多项式形式，其性能仍然完全优于指数级算法。由于相对尺度的原因，图\ref{times}中的时间花费并非完全线性。以算法\ref{tanxin_zhifu}为例，其运行效率的细节如图\ref{greedytimes}。
+
+另一方面，对于每个参与者来说，其效用总是随着人数的增加而不断减少。因为参与者之间的竞争随着人数的增加而愈发激烈。这个结论可以由图\ref{utility}所示实验结果得出。在该实验中，以一名参与者$agent_k$作为观察的目标，增加参与者的数量，重新运行机制，计算该参与者的效用。为保证实验效率，只以数据量作为限制条件，即使用算法\ref{tanxin_zhifu}。
+
+\begin{figure}[h]
+\includegraphics[width=350pt]{exp/utility.pdf}
+\caption{观察参与者的效用变化}
+\label{utility}
+\end{figure}
 
 \section{本章小结}
 在简单可并行计算场景下，本文中的竞争拍卖机制设计部分依次讨论了基础模型、多重指标限制、场景扩展及额外偏好等议题。基础模型是拍卖机制的基础部分。在有限理性人、准线性效用等假设下，分配规则为满足任务方数据量需求和参与者数据限制条件下的社会福利最大化。多重指标限制引入了任务方对待分配的多方计算任务的进一步细节要求。例如：时效性，参与者数量，信誉评级等。而场景扩展及额外偏好更进一步考虑了参与者的上下级关系带来的新的偏好限制，以及数据同质参与者之间的互斥性。以上三种机制均满足社会福利最大化、DSIC。基础模型可以在多项式时间内求解，而多重指标限制和场景扩展及额外偏好需要在伪多项式时间内求解。
 
 \chapter{计算依赖相关的机制设计}
+\section{引言}
+多方计算环境中，由于任务$T$对数据依赖的内在复杂性，数据分布的差异性等因素，更一般的情形是计算不可分布式并行完成。此时，原计算任务$T$被分割算法根据所需数据划分为若干个更小的计算子任务。每个子任务满足多方计算的限制，即其计算仅依赖于本地数据。然后合并算法将这些子任务的计算结果重新合并成原始计算问题$T$的解。而合并的结果的方式并不单一，可能包含了若干次迭代操作。这些反复的结果传输带来的时延会造成总计算时间增加。这是分布式计算环境不可避免的问题。而另一方面，参与多方计算的各个节点的计算能力可能有较大差异。若是将子任务分配给了效率极低的计算节点，多方计算的时效性将会进一步降低。这对于响应时间敏感的计算任务而言是难以接受的。因此，本章主要以计算时间作为依赖相关计算场景下的主要限制指标。
 \section{依赖相关计算的拍卖模型}
 \subsection{问题描述}
-多方计算环境中，由于任务$T$对数据依赖的内在复杂性，数据分布的差异性等因素，更一般的情形是计算不可分布式并行完成。此时，原计算任务$T$被分割算法根据所需数据划分为若干个更小的计算子任务。每个子任务满足多方计算的限制，即其计算仅依赖于本地数据。然后合并算法将这些子任务的计算结果重新合并成原始计算问题$T$的解。而合并的结果的方式并不单一，可能包含了若干次迭代操作。这些反复的结果传输带来的时延会造成总计算时间增加。这是分布式计算环境不可避免的问题。而另一方面，参与多方计算的各个节点的计算能力可能有较大差异。若是将子任务分配给了效率极低的计算节点，多方计算的时效性将会进一步降低。这对于响应时间敏感的计算任务而言是难以接受的。因此，本章主要以时间限制来分析计算依赖相关的机制设计问题。
 
 \subsection{形式化定义}
 对于计算任务$T$，分割算法将其划分为子任务集合$\mathbf{SubTask},|\mathbf{SubTask}| = ST$。这些子任务之间的同步存在拓扑序关系。为了描述这种关系，我们借用AOE网的思想。构建有向无环图$D=(\mathbf{V},\mathbf{E})$，集合$\mathbf{V}$是所有同步节点的集合。有向边$<u,v> \in \mathbf{E}$表示子任务的进行。另有关于有向边的函数$t(e)$，其值是子任务$e$由该任务的胜出者进行计算所需时长。每个子任务$SubTask_i$拥有竞争该任务的参与者列表$list_i$，每个参与者$agent_{ij} \in list_i$有关于任务$SubTask_i$的私密估值$val_i$以及其完成该计算任务所需时间$timefromagent_i$。每个列表中只能产生也必须产生一名胜出者，来完成该子任务的计算。此处假定所有参与者仅参与一项子任务的竞争。最重要的限制条件是：所有子任务的胜出
@@ -796,11 +821,11 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
     原问题$ins$的最优化等价于现问题$ins'$的求解。故任意0-1背包问题实例都可以在多项式时间内归约至问题\ref{jichumoxing2}的一个实例。故$S\in NP-hard$。
 \end{proof}
 
-由于问题\ref{jichumoxing2}是难以在多项式时间内精确求解的。本文研究一种贪心算法对其在伪多项式时间内进行近似求解。
+由于问题\ref{jichumoxing2}是难以在多项式时间内精确求解的。本文首先尝试以贪心算法对其在伪多项式时间内进行近似求解。
 
-贪心的思想是从初始可行解$S$开始，每次寻找一个满足时间限制条件的更优解$S'$取代原可行解，直到时间限制无法满足为止。
+贪心的初步思想是从初始可行解$S$开始，每次寻找一个满足时间限制条件的更优解$S'$取代原可行解，直到时间限制无法满足为止，如算法\ref{jichumoxing2tanxin}所示。
 
-\begin{algorithm}[H]
+\begin{algorithm}[p]
     \KwIn{前文形式化定义的所有相关量}
     \KwOut{$\mathbf{allocation}$}
     对于任意子任务竞争列表中的任意参与者$i,j$，若$val_i < val_j$，且$timefromagent_i > timefromagent_j$，置$allocation_i = 0$，并将参与者$i$从该竞争列表中删除。然后将各个竞争者列表$list_i$中的参与者各自按照$timefromagent$关键字递增排序。\;
@@ -1058,16 +1083,28 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 \end{tabular}
 \end{table}
 
-由表\ref{jinsizhibiao}可知，在阶数较小的简单图范围内，贪心算法\ref{jichumoxing2tanxin2}的具有较好的性能。
+由表\ref{jinsizhibiao}可知，在阶数较小的简单图范围内，贪心算法\ref{jichumoxing2tanxin2}的具有较好的近似性能。
 
 为了验证贪心算法\ref{jichumoxing2tanxin2}的计算有效性。本文在不同阶数的AOE网中利用该算法进行求解。
-
 \begin{figure}[h]
-    \includegraphics[with=400pt]{exp/exetime.pdf}
+    \includegraphics[width=400pt]{exp/exetime.pdf}
     \caption{贪心算法关于AOE网阶数的执行效率}
     \label{exetime}
 \end{figure}
-由图\ref{exetime}可知，贪心算法\ref{jichumoxing2tanxin2}是计算有效的多项式算法，实验结果与时间复杂度分析吻合。
+
+上述实验对10至1000阶有向图进行模拟求解。由图\ref{exetime}可知，贪心算法\ref{jichumoxing2tanxin2}是计算有效的多项式算法，实验结果与时间复杂度分析吻合。
+
+
+为了验证最优拍卖机制的有效性，将其与社会福利最大化对应机制在200阶有向图范围内进行对比试验，以任务方的税收作为参考指标。其中各个参与者的先验概率分布均为正态分布，具有相同方差，不同的均值。具体的是，所有参与者的均值服从均值为50的正态分布。其余环境设定与前文类似。结果如图\ref{picc}所示，可知最优拍卖的税收性能是高于社会福利最大化的。
+
+\begin{figure}[h]
+    \includegraphics[width=400pt]{exp/SWandoptimal.pdf}
+    \caption{最优拍卖的有效性实验}
+    \label{picc}
+\end{figure}
+
+
+
 \section{本章小结}
 针对多方计算任务中子计算任务存在依赖关系的问题，本文以AOE网进行建模。将参与者完成子任务的时长作为最关键性能指标，并映射至AOE网中。详细分析了总任务在限制时间内完成的条件下的社会福利最优化分配问题。然后证明了其NP困难性，并给出一种基于贪心思想的近似求解方案，该方案可以在多项式时间内求解，时间复杂度是$O(|E|^2*n*(|V|+|E|))$。另外，分析了基于参与者私密值$Val_i$的概率分布的期望税收最大化机制。然后通过模拟实验证明了两种机制的性能和有效性。
 
