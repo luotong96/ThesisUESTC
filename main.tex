@@ -8,6 +8,8 @@
 \school{计算机科学与工程学院\chineseleftparenthesis网络空间安全学院\chineserightparenthesis}{School of Computer Science and Engineering}
 \major{计算机技术}{Computer Technology}
 \studentnumber{201722060929}
+\usepackage{placeins}
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}} %放在导言区
 
 \begin{document}
 
@@ -94,8 +96,8 @@ Eventually, this thesis designs and implements a value-based data sharing auctio
 
 第六章，对全文进行总结陈述，分析本文的工作可取之处与不足，并展望后续工作的可能研究方向。
 
-\section{本章小结}
-本章分析了本文研究背景、意义。论述了算法机制设计的部分历史来源及其在频谱拍卖、众包、医疗卫生等领域的不同应用现状，并确定了全文的研究内容和目标。最后梳理了全文结构。
+%\section{本章小结}
+%本章分析了本文研究背景、意义。论述了算法机制设计的部分历史来源及其在频谱拍卖、众包、医疗卫生等领域的不同应用现状，并确定了全文的研究内容和目标。最后梳理了全文结构。
 
 
 \chapter{相关理论基础}
@@ -333,7 +335,8 @@ p_i(b_i,\mathbf{b_{-i}})=\sum_{j=1}^l{z_j\cdot[x_i(\cdot,\mathbf{b_{-i}})\text{�
 p_i(\mathbf{b})=\left(\max_{\omega\in\Omega}\sum_{j\neq i}{b_j(\omega)}\right)-\sum_{j\neq i}b_j(\omega^\star)    
 \end{equation}
 其中，$\omega^\star$是上述分配规则选出的结果。在多变量环境下，由于VCG机制的存在，似乎优秀激励性质的机制设计变得可行。然而事实并非如此。一方面，其最大化社会福利问题基本都是NP-hard问题，难以有效实现。每个参与者标的的长度随问题规模呈指数级增长，存储、传输这些多维的标的也将带来极大的时空花费。另一方面，VCG机制仅能保证社会福利最大，而在税收等其他方面并不具有更多的优秀性质。
-\section{动态规划}
+
+\section{泛化物品}
 动态规划，是一种在数学、计算机科学、经济学等领域中使用的解决复杂问题的方法。它把原问题分解为相对简单的子问题来进行求解。动态规划常常适用于具有重叠子问题和最优子结构性质的问题，而其所需时间基本原少于朴素算法。
 
 动态规划适用的情况：
@@ -344,9 +347,8 @@ p_i(\mathbf{b})=\left(\max_{\omega\in\Omega}\sum_{j\neq i}{b_j(\omega)}\right)-\
     \item[子问题重叠]原始问题划分的子问题中有相互重叠的部分，这些重叠的子问题只被计算一次，可以将指数时间级的枚举算法转化为伪多项式时间的求解，极大提升算法时间效率。
 \end{description}
 
-\subsection{背包问题}
 背包问题是一种组合优化的NP完全问题，问题可以描述为：给定一组物品，每种物品都有自己的重量和价格，在限定的总重量内，我们如何选择，才能使得物品的总价格最高。相似的问题常出现在组合数学，计算复杂性理论，密码学和应用数学等领域。
-\subsubsection{定义}
+
 问题中有n种物品，物品j的重量为$w_i$，价格为$p_i$。假定所有物品的重量和价格都是非负的，背包能承受的最大重量为$W$。
 
 若每种物品只能选择0个或者1个，则为0-1背包问题。
@@ -369,7 +371,7 @@ p_i(\mathbf{b})=\left(\max_{\omega\in\Omega}\sum_{j\neq i}{b_j(\omega)}\right)-\
 \end{align}
 
 上述背包问题的精确求解都可以通过动态规划在伪多项式时间内解决。以此为基础还能构建FPTAS的近似算法。
-\subsubsection{泛化物品}
+
 考虑这样一种物品，它并没有固定的费用和价值，它的价值随着分配给它的费用变化而变化。更严格的定义是，在背包容量为$V$的背包问题中，泛化物品是一个定义域为$\{0,1,2,...,W\}$的函数$h$，当分配给它的费用为$v$时，能够得到的价值就是$h(v)$。
 
 若给定了两个泛化物品$h$和$l$，需要一定的费用从这两个泛化物品中得到最大的价值。可以通过枚举费用在两个泛化物品之间的分配即可。类似的，可以求得新的泛化物品对应的函数$f$。即
@@ -384,7 +386,7 @@ p_i(\mathbf{b})=\left(\max_{\omega\in\Omega}\sum_{j\neq i}{b_j(\omega)}\right)-\
 
 \chapter{简单可并行计算下的机制}
 \section{多方数据价值共享计算模式}
-现有的大数据的应用模式与数据隐私安全问题存在不可调和的矛盾。一方面，大数据创造的价值依赖于数据整合并较好地应用相关数据挖掘算法。而整合意味着开放，开放必然引入安全隐患。因而，此节简要介绍一种多方数据价值共享计算\footnote{在后文的分析中可能简称为多方计算}的模式。该模式并不直接整合数据，而是对计算任务进行分解拆分，使之能够在各数据中心\footnote{本文以数据中心作为数据拥有者的代表}本地完成相应的分布式计算，并将计算结果传输给控制节点。这些计算结果不会引入原始数据的隐私安全风险。然后由控制节点实现结果的整合。对于复杂的计算问题，该过程可能包含若干次迭代操作。
+现有的大数据的应用模式与数据隐私安全问题存在不可调和的矛盾。一方面，大数据创造的价值依赖于数据整合并较好地应用相关数据挖掘算法。而整合意味着开放，开放必然引入隐私安全隐患。因而，此节简要介绍一种理想的多方数据价值共享计算\footnote{在后文的分析中可能简称为多方计算}的模式。该模式并不直接整合数据，而是对计算任务进行分解拆分，使之能够在各数据中心\footnote{本文以数据中心作为数据拥有者的代表}本地完成相应的分布式计算，并将计算结果传输给控制节点。这些计算结果不会引入原始数据的隐私安全风险。然后由控制节点实现结果的整合。对于复杂的计算问题，该过程可能包含若干次迭代操作。
 \begin{figure}[h]
 \includegraphics[width=350pt]{pic/yuanweishiyi.pdf}
 \caption{多方数据价值共享计算示意}
@@ -393,34 +395,81 @@ p_i(\mathbf{b})=\left(\max_{\omega\in\Omega}\sum_{j\neq i}{b_j(\omega)}\right)-\
 
 值得注意的是，该计算模式中，各个数据中心的计算任务仅依赖于本地数据，即数据本身分布于各地且在整个计算过程中不通过网络传输或者转移。这可以有力保证数据的隐私安全性。如何将计算任务T根据现有数据分布进行子任务切分是控制节点的问题，本文并不对此进行说明，只是假设控制节点可以有效地完成此任务。
 
-对于各个数据拥有者(例如图\ref{yuanweishiyi}中的数据中心)来说，参与到多方价值计算模式必然给自身带来损失。系统的设计者需要给予经济奖励，来激励更多的数据价值共享。而随着参与者的增多，提供相同计算内容的参与者之间的竞争增加，如何选择胜出者是一个重要问题，因而需要设计合理的价格体系来保证系统的有效运行。
+对于各个数据拥有者(例如图\ref{yuanweishiyi}中的数据中心)来说，参与到多方价值计算模式必然给自身带来损失。系统的设计者需要给予经济奖励，来激励更多的数据价值共享。而随着参与者的增多，提供相同计算内容的参与者之间的竞争增加，如何选择胜出者并确定价格体系是一个重要问题。胜出者选择混乱或者价格体系不当会破坏理性参与者的积极性，降低系统的价值共享性能。因而需要设计公平合理的机制来保证系统的有效运行。
+
 \begin{figure}[h]
 \includegraphics[width=350pt]{pic/yuanweijili.pdf}
 \caption{多方数据价值共享中的竞争}
 \label{yuanweijili}
 \end{figure}
-如图\ref{yuanweijili}所示，数据中心B和数据中心C都可以在依赖于本地数据的情况下提供对子任务2的计算，此时两者产生竞争，如何确定最终执行子任务2的数据中心是一个较为重要的问题。而本章的后续内容及第四章的内容主要是针对该计算模式，在不同场景下进行相应的机制设计。
 
-\section{简单可并行基础拍卖模型}
+如图\ref{yuanweijili}所示，数据中心B和数据中心C都可以在依赖于本地数据的情况下提供对子任务2的计算，此时两者产生竞争，如何确定最终执行子任务2的数据中心并确定支付给该数据中心的报酬是一个核心问题。而本章的后续内容及第四章的内容主要是针对该数据价值共享模式，在不同计算场景下进行相应的机制设计。
+
+\section{简单可并行计算拍卖模型}
 
 \subsection{问题描述}
-在简单可并行计算的场景中，上述多方计算任务T可以被控制节点根据现有的数据分布情况划分为一定数量的子计算任务。这些依赖于本地数据的子计算任务可以在各个数据中心完全并行的完成，然后由控制节点对计算结果进行一次整合得到原任务的解。而这些子计算任务大多是同构的(例如，对图片数据进行特征提取)。每个子计算任务称为一个单位(unit)的多方计算。最基本的
+在简单可并行的计算场景中，上述多方计算任务T可以被控制节点根据现有的数据分布情况划分为一定数量的子计算任务。这些依赖于本地数据的子计算任务可以在各个数据中心完全并行的完成，然后由控制节点对计算结果进行一次整合得到原任务的解。可知，这些子计算任务大多是同构的(例如，对图片数据进行特征提取)。每个子计算任务称为一个单位(unit)的多方计算。根据场景的复杂性，拍卖模型中需要引入多种限制条件来满足各方实际需求。其最基本的是数据量限制，即任务方表达其对多方计算任务的具体数量需求。
+
+数据量限制是本场景下基础而重要的指标，但不一定能够满足所应用需求。作为数据价值共享的需求者，任务方可能会对胜出者提出一些额外的限制约束条件。例如：任务方认为越多的胜出者承担一项多方计算任务，可能带来越大的数据隐私安全风险，并降低数据结果的可靠性。于是，其出于计算来源多样性的需求要求竞拍胜出者的数量不能超过某给定阈值；或者要求多方计算任务的总体响应时间不能大于给定目标值。在本场景中，参与者会被赋予不同的信誉等级及可靠性评估。而任务方也可以根据自己对计算任务难易程度的估计，制定不同的限制条件。假设限制指标集$Limit$是有限集。本文中使用表\ref{zhibiao}所示指标作为分析。
+
+\begin{table}[h]
+\caption{限制指标集}
+\label{zhibiao}
+\begin{tabular}{cp{10em}cc}
+    \toprule
+    指标名称& 描述&符号&产生方式\\
+    \midrule
+    一级参与者的数量阈值&来自信誉系统\footnote{本文并不给出信誉系统的计算方式，这可以由系统设计者自定义}&$Parti_1$&由平台方或任务方确定\\
+    二级参与者的数量阈值& 同上&$Parti_2$&由平台方或任务方确定\\
+    三级参与者的数量阈值& 同上&$Parti_3$&由平台方或任务方确定\\
+    总体响应时间和&各个胜出者完成来自任务$T$所指派计算花费的时间总和&TIME&由平台方或任务方确定\\
+    计算需求量&&datademand&任务$T$固有属性\\
+    \bottomrule
+\end{tabular}
+\end{table}
+
+上述指标集中，前三项来自于对参与者的信誉等级及可靠性评估。前三项指标是同类指标，以第一项为例，它意味着平台方要求任务的竞拍胜出者中一级参与者刚好有$Parti_1$个。第四项指标衡量了多方计算任务的总体完成效率。$TIME$值越小，意味平台方对于任务的响应要求越高，对于拍卖环节的限制也就更强。第五项$datademand$是来自于多方计算任务本身的需求，机制需要尽可能使$datademand$被满足，这里也将其视为平台方对多方计算任务分配的限制指标之一。
+
+在真实应用场景中，多方计算任务拍卖的限制条件变得更为复杂。
+
+一方面，多方计算任务竞拍流程中的参与者的真实角色是拥有计算资源及相应数据访问权限的计算节点。这些计算节点隶属于不同的部门机构。就相对严格而紧密的组织而言，其部门机构可能存在较为显著的上下级关系。这种关系最典型的案例是树形关系。如\ref{jigoushu}所示。在这种树形关系中，各机构可能会出于成本管理、机构职能、安全性保障等多方面因素对其自身及下属机构参与多方计算任务提出新的要求及限制。例如，\ref{zhibiao}所示的各种限制性指标。这些要求及限制形成每个机构的偏好信息。如图\ref{jigoushu}，每个机构都拥有一个偏好信息描述。（图中并未完全画出所有机构的偏好信息）
+
+\begin{figure}[h]
+\center
+    \includegraphics[width=350pt]{jigou_tree.pdf}
+    \caption{机构部门间的树形关系}
+    \label{jigoushu}
+\end{figure}
+
+另一方面，同一机构内部可能具有多个可提供计算能力的单位，他们具有相同的多方计算数据访问权，但他们的计算能力、质量又是参差不齐的。当同一机构内部的不同计算单位作为参与者进入到多方计算任务$T$的竞争环节中时，多个参与者可能提供的是数据相同而计算方式或者服务质量具有差异的多方计算。相同的计算内容对于同一多方计算任务$T$来说是冗余的。因此在前述场景中，这些数据同质的参与者之间实质存在互斥关系。即在这些数据同质的参与者中，分配规则最多只能选择1个胜出者。同一机构可能拥有多个不同的数据源，因此在一家机构内部也可能存在多组这样的互斥关系。目前我们只考虑在来自一家机构的参与者中存在数据同质的现象。
+\begin{figure}[H]
+    \includegraphics[width=350pt]{huchi_tree.pdf}
+    \caption{机构内部参与者的互斥关系示例}
+    \label{huchishu}
+\end{figure}
+
+在图\ref{huchishu}的示例中，机构2的计算单元$A,B,C$拥有数据源$1$的访问权，计算单元$D,E$拥有数据源$2$的访问权。当这些计算单元参与至多方计算任务竞争环节时，计算单元$A,B,C$及$D,E$中各自最多只能有一个胜出者。
+
+而本章的目标是在上述三种具体限制条件下制定DSIC拍卖机制的分配函数和价格函数。
+
+\FloatBarrier
 
 \subsection{形式化定义}
-\label{jichumoxingdingyi}
+\label{xingshihua}
+
 首先给出相关合理假设：
+
 \begin{itemize}
     \item 假设1：参与者是有限理性的个体，总是执行理性条件下最大化各自效用函数的策略，且不存在共谋。
     \item 假设2：除参与者对多方计算任务代价的内心估值为私密知识以外，其余均为公共知识，为平台方和其它参与者所知。
 \end{itemize}
 
 机制中以虚拟代币作为货币。机制中有$n$个参与者$\mathbf{agent}$可以进入多方计算任务$T$的竞拍环节。多方计算任务$T$共需要$datademand$单位的计算。对于$1\leq i\leq n$,参与者$agent_i$可以针对任务书$T$提供$datacount_i$单位的多方计算任务。
-而参与者$agent_i$拥有私密值$0 \leq val_i = INCENT-cost_i$,$INCENT$是平台方给予胜出者的每单位计算任务的固定奖赏，由平台方或者多方计算任务发起者确定\footnote{本文中不特意区分平台方与计算任务发起者，因为他们可能是同一角色}。$0 \leq cost_i \leq INCENT$，否则，参与者$agent_i$应当退出此次竞拍来避免自己受损。 于是，$val_i$表示$agent_i$对购买每单位多方计算任务带来的真实价值。其$val_i$只对参与者$agent_i$可见，平台方及其余参与者不可见。在机制中，每个参与者会提交自己的标的$b_i$,形成标的向量$\mathbf{bid}$。分配函数$\mathbf{allocation}(\mathbf{bid})$也是一个向量，表示了机制对参与者分配的多方计算任务数量。$agent_i$的效用函数定义为准线性函数$utility_i = val_i*allocation_i-payment_i$。总社会福利$\mathbf{SW}$定义为$\sum_{i=1}^n{val_i*allocation_i}$,其是所有参与者的效用函数与平台方收益的总和。即：$\mathbf{SW} = \sum_{i=1}^n{utility_i}+\sum_{i=1}^{n}{payment_i}$
+而参与者$agent_i$拥有私密值$0 \leq val_i = INCENT-cost_i$,$INCENT$是平台方给予胜出者的每单位计算任务的固定奖赏，由平台方或者多方计算任务发起者确定\footnote{本文中不特意区分平台方与计算任务发起者，因为他们大多是同一角色}。$0 \leq cost_i \leq INCENT$，否则，参与者$agent_i$应当退出此次竞拍来避免自己受损。 于是，$val_i$表示$agent_i$对购买每单位多方计算任务带来的真实价值。其$val_i$只对参与者$agent_i$可见，平台方及其余参与者不可见。在机制中，每个参与者会提交自己的标的$b_i$,形成标的向量$\mathbf{bid}$。分配函数$\mathbf{allocation}(\mathbf{bid})$也是一个向量，表示了机制对参与者分配的多方计算任务数量。$agent_i$的效用函数定义为准线性函数$utility_i = val_i*allocation_i-payment_i$。总社会福利$\mathbf{SW}$定义为$\sum_{i=1}^n{val_i*allocation_i}$,其是所有参与者的效用函数与平台方收益的总和。即：$\mathbf{SW} = \sum_{i=1}^n{utility_i}+\sum_{i=1}^{n}{payment_i}$
 
-\subsection{分析及求解}
-本文的目标是设计一种参与者具有占优策略的拍卖机制。由显示定理可知，对于任意一个参与者总是具有占优策略的机制$M$，总是存在一个等价的直接显示(direct-revelation)占优策略激励相容(DSIC)机制$M'$。因此，本文在DSIC机制的范围中寻找合适的解。而在前述基础拍卖模型定义中，参与者的私密值仅为其对购买多方计算任务的收益真实估值$val_i$，且效用函数为准线性函数。这属于单变量环境，需要麦尔森引理来主导机制设计的流程。
+本文的目标是设计参与者具有占优策略的拍卖机制。由显示定理可知，对于任意一个参与者具有占优策略的机制$M$，总是存在一个等价的直接显示(direct-revelation)占优策略激励相容(DSIC)机制$M'$。因此，本文在DSIC机制的范围中寻找合适的解。而在前述定义中，参与者的私密值仅为其对购买多方计算任务的收益真实估值$val_i$，且效用函数为准线性函数。这属于单变量环境，需要麦尔森引理来主导机制设计的流程。
 
-假设所有参与者已经真实地表达多方计算任务的估值，并给出标的，即$\mathbf{bid} = \mathbf{val}$。 此时对于平台方来说，社会福利最大化等价于最优化问题\ref{jichumoxing}。
+对于数据量限制，假设所有参与者已经真实地表达多方计算任务的估值，并给出标的，即$\mathbf{bid} = \mathbf{val}$。 此时，社会福利最大化问题等价于最优化问题\ref{jichumoxing}。
 
 \begin{align}
     \label{jichumoxing}\max_{\vec{allocation}} \quad&\sum_{i=1}^{n}{bid_i*allocation_i}\\
@@ -428,10 +477,51 @@ p_i(\mathbf{b})=\left(\max_{\omega\in\Omega}\sum_{j\neq i}{b_j(\omega)}\right)-\
                             \quad& \sum_{i=1}^{n}{allocation_i} = datademand\notag 
 \end{align}
 
-给出贪心算法：\footnote{本文中数组下标均从1开始计数}
-\footnote{可以通过first和second来分别指代二元组的第一、二关键字}时间复杂度$O(n)$
+%\label{dpdingyi}
 
-\begin{algorithm}[H] 
+然后，在前文基础上引入上述指标集限制条件。$level_i\in {1,2,3}$为$agent_i$的信誉及可靠性评估。对于$1\leq j \leq 3$,胜出者集合中第$j$级参与者数量$=parti_j$。$timeperunit_i$是$agent_i$关于$任务T$完成每单位
+计算任务所花费的时间。$transmitcost_i$是$agent_i$向平台方提交结果数据所花费的平均时间，主要由网络时延、吞吐量等因素决定。分配规则需要满足时效性要求指标：$\sum_{i=1}^{n}{timeperunit_i*allocation_i+\mathbf{I}(allocation_i > 0)*transmitcost_i} < TIME$
+\footnote{$\mathbf{I}(\text{表达式}) = \begin{cases}{}
+        0&,\text{表达式为假}\\
+        1&,\text{表达式为真}
+        \end{cases}$
+}%，$timeperunit_i$和$transmitcost_i$的定义见\ref{dpdingyi}节。}
+社会福利$SW$的定义仍然不变。
+
+对于指标集限制，假设所有参与者已经真实地表达多方计算任务的估值，并给出标的，即$\mathbf{bid} = \mathbf{val}$，此时对于平台方来说，社会福利最大化等价于最优化问题\ref{dpmoxing}
+
+\begin{align}
+    \label{dpmoxing}\max_{\vec{allocation}} \quad&\sum_{i=1}^{n}{bid_i*allocation_i}\\
+    s.t\quad& 0\leq allocation_i\leq datacount_i,\quad allocation_i = {0,1,2...}\notag\\
+        \quad& \sum_{i=1}^{n}{allocation_i} = datademand\notag\\
+        \quad& \left(\sum_{i=1}^{n}{timeperunit_i*allocation_i+\mathbf{I}(allocation_i > 0)*transmitcost_i}\right) < TIME\notag\\
+        \quad& \left(\sum_{i=1}^{n}{\mathbf{I}(allocation_i > 0,level_i = j)}\right)=parti_j, j = {1,2,3}\notag
+\end{align}
+
+更进一步，在前面的定义中增加机构的概念。机制中共有$m$个机构，所有参与者$agent_i,1 \leq i \leq n$隶属于这些机构。每个机构具有参与者偏好$prefer_i$,描述了其对自身管辖的部门参与多方计算的限制条件。现仅考虑如下限制：该机构及其管辖部门的参与者所提供的总多方计算任务不能超过$limit_i$单位。此限制下相应的分析及结论可以被推广至所有限制指标$\leq$某一阈值的更一般情况。机构之间形成森林结构，即对于$org_i$，其最多仅有一个父亲节点。
+
+$agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参与者集合。该集合可以根据参与者对数据源的依赖关系被划分为$datasourcenum$个子集，每个子集最多产生一名胜出者。
+
+对于机构限制，假设所有参与者已经真实地表达多方计算任务的估值，并给出标的，即$\mathbf{bid} = \mathbf{val}$。 此时，社会福利最大化问题等价于最优化问题\ref{shuxingmoxing}。
+\begin{align}
+    \label{shuxingmoxing}\max_{\vec{allocation}} \quad&\sum_{i=1}^{n}{bid_i*allocation_i}\\
+    s.t\quad& 0\leq allocation_i\leq datacount_i,\quad allocation_i = {0,1,2...}\notag\\
+        \quad& \sum_{i=1}^{n}{allocation_i} = datademand\notag\\
+        \quad& \left(\sum_{i=1}^{n}{timeperunit_i*allocation_i+\mathbf{I}(allocation_i > 0)*transmitcost_i}\right) < TIME\notag\\
+        \quad& \left(\sum_{i=1}^{n}{\mathbf{I}(allocation_i > 0,level_i = j)}\right)=parti_j, j = {1,2,3}\notag\\
+        \quad& \text{satisfy}\quad perfer_i \quad \text{and mutual exclusion in}\quad agentpinorg_i, 1\leq i\leq m \notag
+\end{align}
+
+\FloatBarrier
+
+\subsection{分析及求解}
+
+\subsubsection{数据量限制}
+
+对于数据量限制下社会福利最大化问题\ref{jichumoxing}，给出贪心算法\ref{tanxin}，其时间复杂度$O(n)$\footnote{本文中数组下标均从1开始计数}
+\footnote{可以通过first和second来分别指代二元组的第一、二关键字}
+
+\begin{algorithm}[h] 
     \KwIn{$\mathbf{datacount},\mathbf{bid},datademand$}
     \KwOut{$\mathbf{allocation}$}
     $i \leftarrow 1$\;
@@ -459,7 +549,7 @@ p_i(\mathbf{b})=\left(\max_{\omega\in\Omega}\sum_{j\neq i}{b_j(\omega)}\right)-\
     算法\ref{tanxin}的思想是在供应$datademand$有限的情况下，优先满足代价估值$bid_i$更大的参与者的需求。假设存在一个更优解$S^1(SW^1 > SW)$与该思想相悖。即存在$1 \leq i \neq j \leq n,bid_i > bid_j$, 使得$allocation_i < datacount_i \text{, } allocation_j > 0$。不妨将分配给参与者$agent_j$的$temp = min(datacount_i - allocation_i,allocation_j)$单位计算任务重新分配给参与者$agent_i$,得到解$S^2$,此时新的社会福利$SW^2= SW^1- temp*bid_j + temp*bid_i=SW^1+temp*(bid_i-bid_j)$，由前述条件可知,$temp > 0$且$bid_i - bid_j > 0$。易得,$SW^1<SW^2 $。继续对$S^2$执行以上流程，直到前提条件不满足。此时，解$S^n$优先满足代价估值更大的参与者的需求。由贪心算法可知$SW^n = SW$，则$SW^1<SW^2...<SW^n=SW$,这与假设不符。故不存在上述更优解。
 \end{proof}
 
-分配函数已经确定，为了应用麦尔森引理确定价格函数，需要首先分析分配函数关于标的$bid_i$的单调性。
+分配规则已经确定，为了应用麦尔森引理确定价格规则，需要首先分析分配规则关于标的$bid_i$的单调性。
 
 \begin{theorem}
     对于任意参与者$agent_i$以及任意$\mathbf{bid_{-i}}$\footnote{表示除$bid_i$分量以外的总标的向量}，算法\ref{tanxin}所示分配规则$allocation_i(z,\mathbf{bid_{-i}})$是关于$agent_i$的标的$z$的单调不减函数。
@@ -469,18 +559,18 @@ p_i(\mathbf{b})=\left(\max_{\omega\in\Omega}\sum_{j\neq i}{b_j(\omega)}\right)-\
    在保持其余标的不变的情况条件下，若$agent_i$的标的$z$变大，则其在算法\ref{tanxin}中list序列中的排位只会更加靠前，从而获得更高优先级的分配权力。而算法的不确定性已经由第二关键字排序消除。
 \end{proof}
 
+然后分析该分配规则的特性，并制定相应价格规则。
 
-
-\begin{figure}[h]
-    \includegraphics[width=350pt]{pic/tanxin_allocation.pdf}
+\begin{figure}[H]
+    \includegraphics[width=300pt]{pic/tanxin_allocation.pdf}
     \caption{贪心算法分配函数示例}
     \label{tanxin_allocation}
 \end{figure}
 
 不失一般性，$allocation_i(z,\mathbf{bid_{-i}})$函数图像如图\ref{tanxin_allocation}所示。
-根据麦尔森引理，阴影部分面积即为$agent_i$向平台方支付的报酬。由图像可知，需要求解出这些阶跃变化值。根据贪心算法的流程，假设已知根据$\mathbf{bid}$降序排列的$\mathbf{datacount}$前缀和数组$\mathbf{prefix}$,则可以迭代求出这些阶跃值，从而求得阴影部分总面积。其余$agent$的代价计算亦然。总体$\mathbf{payment}$计算具体细节如算法\ref{tanxin_zhifu}所示，算法时间复杂度$O(n^2)$。
+根据麦尔森引理，阴影部分面积即为$agent_i$向平台方支付的报酬。由图像可知，需要求解出这些阶跃变化值。根据贪心算法的流程，假设已知根据$\mathbf{bid}$降序排列的$\mathbf{datacount}$前缀和数组$\mathbf{prefix}$,则可以迭代求出这些阶跃值，从而求得阴影部分总面积。其余$agent$的代价计算亦然。总体$\mathbf{payment}$计算的具体细节如算法\ref{tanxin_zhifu}所示，时间复杂度$O(n^2)$。
 
-\begin{algorithm}[H]
+\begin{algorithm}[h]
     \KwIn{$\mathbf{datacount},\mathbf{bid},datademand$}
     \KwOut{$\mathbf{payment}$}
     运行算法\ref{tanxin},获得list\;
@@ -518,51 +608,12 @@ p_i(\mathbf{b})=\left(\max_{\omega\in\Omega}\sum_{j\neq i}{b_j(\omega)}\right)-\
 \label{tanxin_zhifu}
 \end{algorithm}
 
-\section{多重指标限制}
+\FloatBarrier
+
+\subsubsection{指标集限制}
 \label{dptou}
-\subsection{问题描述}
-    多方计算任务竞拍场景中，平台方或者任务提交方对于任务购买方存在总体偏好设置或者限制条件。例如：平台方可以出于总体计算结果来源异构性等需求要求竞拍胜出者的数量不能超过某给定阈值；或者要求多方计算任务$T$的总体响应时间不能大于给定目标值。在本场景中，参与者会被赋予不同的信誉等级及可靠性评估。而平台方也可以根据自己对任务难易程度的估量，制定不同的限制条件。假设限制指标集$Limit$是有限集。本文中使用表\ref{zhibiao}所示指标作为分析。
 
-\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}} %放在导言区
-
-\begin{table}[h]
-\caption{限制指标集}
-\label{zhibiao}
-\begin{tabular}{cp{10em}cc}
-    \toprule
-    指标名称& 描述&符号&产生方式\\
-    \midrule
-    一级参与者的数量阈值&来自信誉系统\footnote{本文并不给出信誉系统的计算方式，这可以由系统设计者自定义}&$Parti_1$&由平台方或任务方确定\\
-    二级参与者的数量阈值& 同上&$Parti_2$&由平台方或任务方确定\\
-    三级参与者的数量阈值& 同上&$Parti_3$&由平台方或任务方确定\\
-    总体响应时间和&各个胜出者完成来自任务$T$所指派计算花费的时间总和&TIME&由平台方或任务方确定\\
-    计算需求量&&datademand&任务$T$固有属性\\
-    \bottomrule
-\end{tabular}
-\end{table}
-
-上述指标集中，前三项来自于对参与者的信誉等级及可靠性评估。前三项指标是同类指标，以第一项为例，它意味着平台方要求任务$T$的胜出者中一级参与者刚好有$Parti_1$个。第四项指标衡量了多方计算任务$T$的总体完成效率。$TIME$值越小，意味平台方对于任务的响应要求越高，对于拍卖环节的限制也就更强。第五项$datademand$是来自于多方计算任务本身的需求，机制需要尽可能使$datademand$被满足，这里也将其视为平台方对多方计算任务分配的限制指标之一。
-\subsection{形式化定义}
-\label{dpdingyi}
-在\ref{jichumoxingdingyi}节所示基础上引入上述指标集限制条件。$level_i\in {1,2,3}$为$agent_i$的信誉及可靠性评估。对于$1\leq j \leq 3$,胜出者集合中第$j$级参与者数量$=parti_j$。$timeperunit_i$是$agent_i$关于$任务T$完成每单位
-计算任务所花费的时间。$transmitcost_i$是$agent_i$向平台方提交结果数据所花费的平均时间，主要由网络时延、吞吐量等因素决定。分配规则需要满足时效性要求指标：$\sum_{i=1}^{n}{timeperunit_i*allocation_i+\mathbf{I}(allocation_i > 0)*transmitcost_i} < TIME$
-\footnote{$\mathbf{I}(\text{表达式}) = \begin{cases}{}
-        0&,\text{表达式为假}\\
-        1&,\text{表达式为真}
-        \end{cases}$
-}%，$timeperunit_i$和$transmitcost_i$的定义见\ref{dpdingyi}节。}
-社会福利$SW$的定义仍然不变。
-假设所有参与者已经真实地表达多方计算任务的估值，并给出标的，即$\mathbf{bid} = \mathbf{val}$，此时对于平台方来说，社会福利最大化等价于最优化问题\ref{dpmoxing}
-\begin{align}
-    \label{dpmoxing}\max_{\vec{allocation}} \quad&\sum_{i=1}^{n}{bid_i*allocation_i}\\
-    s.t\quad& 0\leq allocation_i\leq datacount_i,\quad allocation_i = {0,1,2...}\notag\\
-        \quad& \sum_{i=1}^{n}{allocation_i} = datademand\notag\\
-        \quad& \left(\sum_{i=1}^{n}{timeperunit_i*allocation_i+\mathbf{I}(allocation_i > 0)*transmitcost_i}\right) < TIME\notag\\
-        \quad& \left(\sum_{i=1}^{n}{\mathbf{I}(allocation_i > 0,level_i = j)}\right)=parti_j, j = {1,2,3}\notag
-\end{align}
-
-\subsection{分析及求解}
-最优化问题\ref{dpmoxing}是一个NP-hard问题，此处尝试以动态规划的方式进行求解。拟定6维状态$dp[i,j,a,b,c,t]$，表示考虑前$i$个参与者，刚好分配$j$单位多方计算任务，其中一级参与者$a$个，二级参与者$b$个，三级参与者$c$个，最多花费$t$单位总时间，所能够获得的最大收益。通过枚举分配给$agent_i$的计算任务数量，可以得到状态转移方程\ref{dpfangcheng}。
+考虑指标集限制下的社会福利最大化问题\ref{dpmoxing}，其是一个NP-hard的组合优化问题，此处借用背包问题的思想，并尝试以动态规划的方式进行求解。拟定6维状态$dp[i,j,a,b,c,t]$，表示考虑前$i$个参与者，刚好分配$j$单位多方计算任务，其中一级参与者$a$个，二级参与者$b$个，三级参与者$c$个，最多花费$t$单位总时间，所能够获得的最大收益。通过枚举分配给$agent_i$的计算任务数量，可以得到状态转移方程\ref{dpfangcheng}。
 
 \begin{gather}
 \label{dpfangcheng}  
@@ -581,10 +632,12 @@ dp[i-1,j,a,b,c,t]
 dp[0,0...datademand,0...parti_1,0...parti_2,0...parti_3,0...TIME] =-\infty \notag\\
 dp[0,0,0,0,0,0...TIME] = 0 \notag
 \end{gather}
+
 上述转移方程中，值得一提的是状态的初始化方法。考虑最优化问题\ref{dpmoxing}的限制条件可知，只有总体响应时间和是不等式限制，其余四项限制指标均等式。这可以通过设置初始状态的合法性来解决。如\ref{dpfangcheng}所示，在限制指标张成的五维空间中，仅有关于运行时间的一维子空间\footnote{此处并非完整定义的子空间}被赋予合法性。其余非法状态置$-\infty$。当限制指标集扩展时，针对不同类型的限制属性也可以按此思路进行初始状态设定。
 为了减少状态存储，转移方程\ref{dpfangcheng}可以记忆化搜索的方式进行。
+
 \begin{algorithm}[H]
-    \KwIn{$\mathbf{datacount,timeperunit,level,bid},datademand$,及\ref{dpdingyi}节中定义的限制指标}
+    \KwIn{$\mathbf{datacount,timeperunit,level,bid},datademand$,及\ref{xingshihua}节中定义的限制指标集}
     \KwOut{$\mathbf{allocation}$}
     对参与者按照默认优先级进行排序，优先级较高的排位靠前。
     $Search(n,datademand,parti_1,parti_2,parti_3,TIME)$\;
@@ -604,14 +657,18 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
 \begin{theorem}
 对于任意参与者$agent_i$以及任意$\mathbf{bid_{-i}}$，算法\ref{jiyihua}所示分配规则$allocation_i(z,\mathbf{bid_{-i}})$是关于$agent_i$的标的$z$的单调不减函数。
 \end{theorem}
+
 \begin{proof}
+
 \label{dpdandiao}
-将$agent_i$移至所有参与者的最后一位。由算法\ref{jiyihua}及转移方程\ref{dpfangcheng}可知，参与者$agent_i$的分配$allocation_i$依赖于子空间$dp[n-1,,,,,]$中$datacount_i+1$个状态(分别对应于分配0、1、2...$datacount_i$件计算任务),以及$bid_i$的值。$dp[i-1,,,,,]$中的状态由参与者的许多信息(包括$\mathbf{bid_{-i}}$)及所有环境参量(如\ref{dpdingyi}节中定义的限制指标)决定。因此其不受$bid_i$影响。当$bid_i$变化时，这些状态可以看做固定值。
+
+将$agent_i$移至所有参与者的最后一位。由算法\ref{jiyihua}及转移方程\ref{dpfangcheng}可知，参与者$agent_i$的分配$allocation_i$依赖于子空间$dp[n-1,,,,,]$中$datacount_i+1$个状态(分别对应于分配0、1、2...$datacount_i$件计算任务),以及$bid_i$的值。$dp[i-1,,,,,]$中的状态由参与者的许多信息(包括$\mathbf{bid_{-i}}$)及所有环境参量(如\ref{xingshihua}节中定义的限制指标集)决定。因此其不受$bid_i$影响。当$bid_i$变化时，这些状态可以看做固定值。
 
 记$allocation_i(z,\mathbf{bid_{-i}})$为$al_i(z)$，$dp[i-1,,,,,]$中对应的$datacount_i+1$个状态分别为$ndp[0],ndp[1],...ndp[datacount_i]$。不妨假设$a < b$, 且当$bid_i = a$时，$al_i(z) = j$。这意味着$ndp[j]+j*a$是$\{ndp[k] + k*a|0 \leq k \leq j\}$中的极大值。此时再考虑$bid_i=b$时的情景。对于$ 0\leq k\leq j$，对应的状态分别为$ndp[k]+k*b=ndp[k]+k*a+k*(b-a)$,由于$ndp[k]+k*a\leq ndp[j]+j*a$(来自于$bid_i=a$的假设)，且$k*(b-a)\leq j*(b-a)$，所以$ndp[k]+k*b \leq ndp[j]+j*b$。那么$al_i(a)\leq al_i(b)$
 \end{proof}
 
-为了确定多重指标限制问题下的价格函数，针对每一个$agent_i$，需要确定证明\ref{dpdandiao}中$dp[n-1,,,,,]$子空间中的$datacount_i+1$个状态的值。然后根据这些值找出分配函数$al_i(z)$中的那些阶跃点。由于本场景中，对于每个阶跃点，其$y$轴的阶跃值仅为1。那么可以根据麦尔森引理,求得$agent_i$所需支付的价格。
+为了确定多重指标限制问题下的价格函数，针对每一个$agent_i$，需要确定证明\ref{dpdandiao}中$dp[n-1,,,,,]$子空间中的$datacount_i+1$个状态的值。然后根据这些值确定分配函数$al_i(z)$中的那些阶跃点。由于本场景中，对于每个阶跃点，其$y$轴的阶跃差仅为1。那么可以根据麦尔森引理,求得$agent_i$所需支付的价格。
+
 \begin{equation}
 \label{jieyuedian}
  \begin{aligned}
@@ -628,7 +685,7 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
 \setcounter{footnote}{0}
 
 \begin{algorithm}[h]
-\KwIn{$\mathbf{datacount,timeperunit,level,bid},datademand$,及\ref{dpdingyi}节中定义的限制指标}
+\KwIn{$\mathbf{datacount,timeperunit,level,bid},datademand$,及\ref{xingshihua}节中定义的限制指标集}
     \KwOut{$\mathbf{payment}$}
     运行算法\ref{jiyihua},得到分配$allocation_i$\;
     \For{每个参与者$agent_i$}
@@ -646,39 +703,17 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
 \caption{多重指标限制问题价格规则}
 \label{dp_zhifu}
 \end{algorithm}
+
 \footnotetext{$\mathbf{I}(\text{表达式}) = \begin{cases}{}
         0&,\text{表达式为假}\\
         1&,\text{表达式为真}
         \end{cases}$
 }
 
-\section{机构限制}
-\subsection{问题描述}
-在本章场景中，多方计算任务$T$竞拍流程中的参与者的真实角色是拥有计算资源及相应数据访问权限的计算节点。这些计算节点隶属于不同的部门机构。就相对严格而紧密的组织而言，其部门机构可能存在较为显著的上下级关系。这种关系最典型的案例是树形关系。如\ref{jigoushu}所示。在这种树形关系中，各机构可能会出于成本管理、机构职能、安全性保障等多方面因素对其自身及下属机构参与多方计算任务提出新的要求及限制。例如，\ref{zhibiao}所示的各种限制性指标。这些要求及限制形成每个机构的偏好信息。如图\ref{jigoushu}，每个机构都拥有一个偏好信息描述。（图中并未完全画出所有偏好信息）
+\FloatBarrier
 
-\begin{figure}[h]
-\center
-    \includegraphics[width=350pt]{jigou_tree.pdf}
-    \caption{机构部门间的树形关系}
-    \label{jigoushu}
-\end{figure}
-
-另一方面，同一机构内部可能具有多个可提供计算能力的单位，他们具有相同的多方计算数据访问权，但他们的计算能力、质量又是参差不齐的。当同一机构内部的不同计算单位作为参与者进入到多方计算任务$T$的竞争环节中时，多个参与者可能提供的是数据相同而计算方式或者服务质量具有差异的多方计算。相同的计算内容对于同一多方计算任务$T$来说是冗余的。因此在前述场景中，这些数据同质的参与者之间实质存在互斥关系。即在这些数据同质的参与者中，分配规则最多只能选择1个胜出者。同一机构可能拥有多个不同的数据源，因此在一家机构内部也可能存在多组这样的互斥关系。目前我们只考虑在来自一家机构的参与者中存在数据同质的现象。
-\begin{figure}[h]
-    \includegraphics[width=350pt]{huchi_tree.pdf}
-    \caption{机构内部参与者的互斥关系示例}
-    \label{huchishu}
-\end{figure}
-
-在图\ref{huchishu}的示例中，机构2的计算单元$A,B,C$拥有数据源$1$的访问权，计算单元$D,E$拥有数据源$2$的访问权。当这些计算单元参与至多方计算任务竞争环节时，计算单元$A,B,C$及$D,E$中各自最多只能有一个胜出者。
-\subsection{形式化定义}
-
-在前文的形式化定义中增加机构的概念。机制中共有$m$个机构，所有参与者$agent_i,1 \leq i \leq n$隶属于这些机构。每个机构具有参与者偏好$prefer_i$,描述了其对自身管辖的部门参与多方计算的限制条件。现仅考虑如下限制：该机构及其管辖部门的参与者所提供的总多方计算任务不能超过$limit_i$单位。此节的分析及结论可以被推广至所有限制指标$\leq$某一阈值的更一般情况。机构之间形成森林结构，即对于$org_i$，其最多仅有一个父亲节点。
-
-$agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参与者集合。该集合可以根据参与者对数据源的依赖关系被划分为$datasourcenum$个子集，每个子集最多产生一名胜出者。
-
-\subsection{分析及求解}
-为森林状的机构添加虚根，使其转为树形结构。然后将上述场景抽象成图\ref{chouxiangtree}。其中圆形代表机构，三角形代表机构中的计算单元，即机制的参与者。颜色的不同体现了其数据来源的差异性，从而将他们划分为不同的互斥组。此时的社会福利最大化问题解决思路与前两节相似，不同点在于动态规划需要在整个树形结构上进行。
+\subsubsection{机构限制}
+对于机构限制下的社会福利最大化问题\ref{shuxingmoxing}，为森林状的机构添加虚根，使其转为树形结构。然后将上述场景抽象成图\ref{chouxiangtree}。其中圆形代表机构，三角形代表机构中的计算单元，即机制的参与者。颜色的不同体现了其数据来源的差异性，从而将他们划分为不同的互斥组。此时的社会福利最大化问题解决思路与前两节相似，不同点在于动态规划需要在整个树形结构上进行。
 
 \begin{figure}[h]
     \includegraphics[width=350pt]{chouxiangtree.pdf}
@@ -691,10 +726,10 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 
 由泛化物品的概念可知，每一个状态可以理解为一个泛化物品。那么原状态转移则是这些泛化物品在树上自底向上不断求和的过程。值得注意的是，图\ref{chouxiangtree}中每个机构所属的三角形(计算单元)首先要根据其互斥关系，以动态规划的方式合成一个泛化物品，然后再参与到树上的泛化物品合并流程。在此过程中同时记录最优路径。
 
-另一方面，各个机构的偏好$prefer_i$也可以在树上最优化的过程中解决。树上最优化流程进行到机构i时，他可以直接将状态$dp[i,limit_i+1...datademand,,,,]$全部置为非法状态。然后沿着树形结构继续最优化过程。本场景中的问题求解思想与\ref{dptou}节中的思想是一致的。故此处直接给出分配规则。
+另一方面，各个机构的偏好$prefer_i$也可以在树上最优化的过程中解决。对于本文考虑的数据量限制$limit_i$，树上最优化流程进行到机构i时，他可以直接将状态$dp[i,limit_i+1...datademand,,,,]$全部置为非法状态。然后沿着树形结构继续最优化过程。本场景中的问题求解思想与\ref{dptou}节中的思想是一致的。故此处直接给出分配规则\ref{tree_allocation}。
 
 \begin{algorithm}[h]
-\KwIn{$\mathbf{datacount,timeperunit,level,bid},datademand$,\ref{dpdingyi}节中定义的限制指标,本节新定义的量}
+\KwIn{$\mathbf{datacount,timeperunit,level,bid},datademand$,\ref{xingshihua}节中定义的限制指标集,本节新定义的量}
     \KwOut{$\mathbf{allocation}$}
     $generalizeditem(\text{虚根},datademand,parti_1,parti_2,parti_3,TIME)$\;
     以最优路径对$\mathbf{allocation}$进行赋值。\;
@@ -728,13 +763,13 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 \end{theorem}
 
 \begin{proof}
-证明思想与\ref{dpdandiao} 完全一致
+证明思想与证明\ref{dpdandiao} 完全一致
 \end{proof}
 
-由于互斥组的存在，动态规划的无后效性被破坏，难以像前文一样直接将$agent_i$移至末位，然后算出各个阶跃值。当然，若为每个互斥组增加一维二值状态，仍然可解，但此时的状态空间大小似乎难以接受。接下来直接以二分查找的方式来寻找这些阶跃值，时间复杂度为$O(allocation_i*log(INCENT))$。若$bid_i$的范围较小，也可以直接枚举求解。应根据具体数据量做相应调整。
+由于互斥组的存在，动态规划的无后效性被破坏，难以像前文一样直接将$agent_i$移至末位，然后算出各个阶跃值。当然，若为每个互斥组增加一维二值状态，仍然可解，但此时的状态空间大小似乎难以接受。接下来直接以二分查找的方式来寻找这些阶跃值，时间复杂度为$O(allocation_i*log(INCENT)m*S^2)$。若$bid_i$的范围较小，也可以直接枚举求解。应根据具体数据量做相应调整。支付规则的细节如算法\ref{tree_zhifu}所示。
 
-\begin{algorithm}[H]
-\KwIn{$\mathbf{datacount,timeperunit,level,bid},datademand$,\ref{dpdingyi}节中定义的限制指标,本节新定义的量}
+\begin{algorithm}[h]
+\KwIn{$\mathbf{datacount,timeperunit,level,bid},datademand$,\ref{xingshihua}节中定义的限制指标集,本节新定义的量}
     \KwOut{$\mathbf{payment}$}
     运行算法\ref{tree_allocation}，得到$\mathbf{allocation}$\;
     \For{每个$agent_i$}
@@ -750,62 +785,99 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 \label{tree_zhifu}
 \end{algorithm}
 
-\section{实验及分析}
-本章设计的机制均为DSIC机制，即所有参与者的占优策略是真实地投标，这由单变量环境下的麦尔森引理保证。本节实验主要对三种机制在相似的参数设定下做性能比较。参数设定如下：参与者的数量为$10-1000$，$v$的设定为$100$，$\mathbf{level}=(10,10,10)$，$m=10$，$TIME=10$,以上数值仅意味着尺度范围。在实际应用中可以进行尺度变换。例如，$v=100$，实际数据需求量单位可能为百万，即数据量上限是$10^6$。参与者的估值$v_i$服从正态分布N(50,1)。使用的相关技术工具有：python、pandas、numpy、scipy、matplotlib。
+\FloatBarrier
 
-\begin{figure}[h]
-\subfloat[不同限制条件下的运行效率]{
+\section{实验及分析}
+本章设计的机制均为DSIC机制，即所有参与者的占优策略是真实地投标，这由单变量环境下的麦尔森引理保证。本节实验主要对三种机制在相似的参数设定下做性能比较。参数设定如下：参与者的数量为$10-1000$，$v$的设定为$100$，$\mathbf{level}=(10,10,10)$，$m=10$，$TIME=10$,互斥关系每个机构一组，每个机构的偏好$perfer_i$也相应设置，以上数值仅意味着尺度范围。在实际应用中可以进行尺度变换。例如，$v=100$，实际数据需求量单位可能为百万，即数据量上限是$10^6$。参与者的估值$v_i$服从正态分布N(50,1)。使用的相关技术工具有：python、pandas、numpy、scipy、matplotlib。
+
+运行本章的三种限制条件下的算法机制，观察其性能。结果如图\ref{times}所示，仅有数据量限制条件下，算法的运行速度是较快的，基本能够在秒级完成。然而，引入多重指标限制和机构限制后，由于算法的伪多项式性质，其时间花费大大增加。因此，在这两种情形下，相关环境参数的设置是较为敏感的。若需要求解的问题有较大的数据范围，可能会引入较大的时间花费。幸运的是，伪多项式算法毕竟是这些参数的多项式形式，其性能仍然完全优于指数级算法。由于相对尺度的原因，图\ref{times}中的时间花费并非完全线性。以算法\ref{tanxin_zhifu}为例，其运行效率的细节如图\ref{greedytimes}。
+
+\begin{figure}[H]
+    \includegraphics[width=300pt]{exp/threetimes.pdf}
+    \caption{不同限制条件下的运行效率}
     \label{times}
-    \includegraphics[width=200pt]{exp/threetimes.pdf}
-}
-\subfloat[贪心算法的运行效率细节]{
-    \label{greedytimes}
-    \includegraphics[width=200pt]{exp/greedytimes.pdf}
-}
-\caption{性能比较}
 \end{figure}
 
-如图\ref{times}所示，仅有数据量限制条件下，算法的运行速度是较快的，基本能够在秒级完成。然而，引入多重指标限制和机构限制后，由于算法的伪多项式性质，其时间花费大大增加。因此，在这两种情形下，相关环境参数的设置是较为敏感的。若需要求解的问题有较大的数据范围，可能会引入较大的时间花费。幸运的是，伪多项式算法毕竟是这些参数的多项式形式，其性能仍然完全优于指数级算法。由于相对尺度的原因，图\ref{times}中的时间花费并非完全线性。以算法\ref{tanxin_zhifu}为例，其运行效率的细节如图\ref{greedytimes}。
+\begin{figure}[H]
+    \includegraphics[width=300pt]{exp/greedytimes.pdf}
+    \caption{贪心算法的运行效率细节}
+    \label{greedytimes}
+\end{figure}
 
 另一方面，对于每个参与者来说，其效用总是随着人数的增加而不断减少。因为参与者之间的竞争随着人数的增加而愈发激烈。这个结论可以由图\ref{utility}所示实验结果得出。在该实验中，以一名参与者$agent_k$作为观察的目标，增加参与者的数量，重新运行机制，计算该参与者的效用。为保证实验效率，只以数据量作为限制条件，即使用算法\ref{tanxin_zhifu}。
 
-\begin{figure}[h]
+\begin{figure}[H]
 \includegraphics[width=350pt]{exp/utility.pdf}
-\caption{观察参与者的效用变化}
+\caption{参与者的效用变化}
 \label{utility}
 \end{figure}
+
+\FloatBarrier
 
 \section{本章小结}
 在简单可并行计算场景下，本文中的竞争拍卖机制设计部分依次讨论了基础模型、多重指标限制、场景扩展及额外偏好等议题。基础模型是拍卖机制的基础部分。在有限理性人、准线性效用等假设下，分配规则为满足任务方数据量需求和参与者数据限制条件下的社会福利最大化。多重指标限制引入了任务方对待分配的多方计算任务的进一步细节要求。例如：时效性，参与者数量，信誉评级等。而场景扩展及额外偏好更进一步考虑了参与者的上下级关系带来的新的偏好限制，以及数据同质参与者之间的互斥性。以上三种机制均满足社会福利最大化、DSIC。基础模型可以在多项式时间内求解，而多重指标限制和场景扩展及额外偏好需要在伪多项式时间内求解。
 
-\chapter{计算依赖相关的机制设计}
+\chapter{依赖相关计算的机制设计}
 \section{引言}
 多方计算环境中，由于任务$T$对数据依赖的内在复杂性，数据分布的差异性等因素，更一般的情形是计算不可分布式并行完成。此时，原计算任务$T$被分割算法根据所需数据划分为若干个更小的计算子任务。每个子任务满足多方计算的限制，即其计算仅依赖于本地数据。然后合并算法将这些子任务的计算结果重新合并成原始计算问题$T$的解。而合并的结果的方式并不单一，可能包含了若干次迭代操作。这些反复的结果传输带来的时延会造成总计算时间增加。这是分布式计算环境不可避免的问题。而另一方面，参与多方计算的各个节点的计算能力可能有较大差异。若是将子任务分配给了效率极低的计算节点，多方计算的时效性将会进一步降低。这对于响应时间敏感的计算任务而言是难以接受的。因此，本章主要以计算时间作为依赖相关计算场景下的主要限制指标。
+
 \section{依赖相关计算的拍卖模型}
 \subsection{问题描述}
+在依赖相关的计算中，子任务之间存在复杂的同步等待关系，可以形成有向无环图。任务方的主要限制条件可以描述为：每个子计算任务确定其胜出者者后，完成总任务的计算时间需要在给定允许范围内。
 
-\subsection{形式化定义}
-对于计算任务$T$，分割算法将其划分为子任务集合$\mathbf{SubTask},|\mathbf{SubTask}| = ST$。这些子任务之间的同步存在拓扑序关系。为了描述这种关系，我们借用AOE网的思想。构建有向无环图$D=(\mathbf{V},\mathbf{E})$，集合$\mathbf{V}$是所有同步节点的集合。有向边$<u,v> \in \mathbf{E}$表示子任务的进行。另有关于有向边的函数$t(e)$，其值是子任务$e$由该任务的胜出者进行计算所需时长。每个子任务$SubTask_i$拥有竞争该任务的参与者列表$list_i$，每个参与者$agent_{ij} \in list_i$有关于任务$SubTask_i$的私密估值$val_i$以及其完成该计算任务所需时间$timefromagent_i$。每个列表中只能产生也必须产生一名胜出者，来完成该子任务的计算。此处假定所有参与者仅参与一项子任务的竞争。最重要的限制条件是：所有子任务的胜出
-者确定后，总任务的完成时间$finishedtime \leq $某一阈值$timelimit$。包括效用函数、社会福利等其余定义与假设均与第三章类似，此处不做赘述。
-
-\subsection{分析及求解}
 \begin{figure}[h]
 \includegraphics[width=350pt]{zirennwu_aoe.pdf}
 \caption{子任务的AOE网示例}
 \label{zirennwu_aoe}
 \end{figure}
 
-如图\ref{zirennwu_aoe}所示，每个顶点意味着子任务的同步等待。只有当指向该节点的所有边上所示子任务均完成时，同步等待方结束，继续进行后续子任务计算。给定$AOE$网，可以利用关键路径算法求出该网络的最少花费时长。对于图\ref{zirennwu_aoe}中的顶点$i$,同步等待结束当且仅当其所有前驱顶点等待结束且对应边上的子任务完成。而顶点$i$结束等待所需花费的时长是其所有前驱花费时长与对应子任务时长之和的最大值。此时产生明显的最优子结构，而在DAG中，这些子结构是会被重复求解的。
-拟定状态$dp[i],1 \leq i\leq |V|$，表示同步节点$i$完成等待所需的时间。则有转移方程$dp[i] = max(dp[k]+t(<k,i>)|<k,i> \in \mathbf{E}),dp[\text{源}] = 0$。总任务所需时间$finishedtime$即为$dp[\text{汇}]$。
+如图\ref{zirennwu_aoe}所示，每个顶点意味着子任务的同步等待。只有当指向该节点的所有边上所示子任务均完成时，同步等待方结束，继续进行后续子任务计算。
+
+另一方面，在前文的机制设计中，平台方根据定义好的社会福利来确定分配规则及价格规则，对应于社会福利最大化问题。这样的分配规则可以使得系统整体收益最优，但此时任务方的收益无法确切保证。若任务方的预算是有限的，则需要设计新的分配规则及价格函数来保证其收益。即，在完成任务方的计算依赖相关任务的条件下，尽可能减少任务方的成本。
+
+\FloatBarrier
+
+\subsection{形式化定义}
+
+对于计算任务$T$，任务分解算法将其划分为子任务集合$\mathbf{SubTask},|\mathbf{SubTask}| = ST$。这些子任务之间的同步等待问题存在拓扑序关系。为了描述这种关系，我们借用AOE网的思想。构建有向无环图$D=(\mathbf{V},\mathbf{E})$，集合$\mathbf{V}$是所有同步节点的集合。有向边$<u,v> \in \mathbf{E}$表示子任务的进行。另有关于有向边的函数$t(e)$，其值是子任务$e$由该任务的胜出者进行计算所需时长。每个子任务$SubTask_i$拥有竞争该任务的参与者列表$list_i$，每个参与者$agent_{ij} \in list_i$有关于任务$SubTask_i$的私密估值$val_i$以及其完成该计算任务所需时间$timefromagent_i$。每个列表中只能产生也必须产生一名胜出者，来完成该子任务的计算。此处假定所有参与者仅参与一项子任务的竞争。最重要的限制条件是：所有子任务的胜出
+者确定后，总任务的完成时间$finishedtime \leq $某一阈值$timelimit$。包括效用函数、社会福利等其余定义与假设均与第三章类似，此处不做赘述。
 
 假设所有参与者已经真实地表达对各自计算子任务的估值，并给出标的，即$\mathbf{bid}=\mathbf{val}$。此时社会福利最大化可以形式化问题\ref{jichumoxing2}。
+
 \begin{align}
-    \label{jichumoxing2}\max_{\vec{allocation}} \quad&\sum_{i=1}^{n}{bid_i*allocation_i}\\
+    \label{jichumoxing2}
+    \max_{\vec{allocation}} \quad&\sum_{i=1}^{n}{bid_i*allocation_i}\\
     s.t                     \quad&allocation_i = \{0,1\}\notag\\
     \quad&\left(\sum_{i=1}^{n}{I(agent_i \in list_j)*allocation_i}\right) = 1,\text{for every }1 \leq j \leq ST\notag\\
     \quad&finishedtime(\mathbf{allocation}) \leq timelimit
     \notag
 \end{align}
+
+
+考虑任务方的税收，由\ref{xingshihua}节可知，平台方的真实收益是$profit = \sum_{i}^{n}{payment_i}-m*INCENT$，其中$m$是多方计算任务$T$所需单位计算的数量。在简单可并行场景下，$m=datademand$；在依赖相关计算场景中，$m=ST$。$-m*INCENT$部分是固有值，不可更改。最大化$profit$等价于最大化$\sum_{i}^{n}{payment_i}$。面对不同的参与者估值，同一机制的税收可能也是不同的。故本节采用期望税收最大化的机制设计来保证平台方在平均意义下的收益最优。
+
+现有独立的概率分布$F_1,F_2,F_3,...F_n$及对应的连续概率密度函数$f_1,f_2,f_3...f_n$，且这些分布均存在有限期望。参与者$agent_i$的私密值$val_i$的概率分布是$F_i$。
+
+假设所有参与者已经真实地表达对各自计算子任务的估值，并给出标的，即$\mathbf{bid}=\mathbf{val}$。由于期望税收等于期望虚拟社会福利，此时期望税收最大化可以形式化为问题\ref{jichumoxing2shuishou}，其中$\varphi _i(bid_i)$为参与者$i$的虚拟估值。
+
+\begin{align}
+    \label{jichumoxing2shuishou} 
+    max\quad&\mathbf{E}_{\mathbf{bid}\sim\mathbf{F}}{\left[\sum_{i}^{n}{\varphi _i(bid_i)*allocation_i(\mathbf{bid})}\right]}\\
+    s.t                     \quad&allocation_i = \{0,1\}\notag\\
+    \quad&\left(\sum_{i=1}^{n}{I(agent_i \in list_j)*allocation_i}\right) = 1,\text{for every }1 \leq j \leq ST\notag\\
+    \quad&finishedtime(\mathbf{allocation}) \leq timelimit
+    \notag
+\end{align}
+
+\FloatBarrier
+
+\subsection{分析及求解}
+
+\subsubsection{社会福利最大化}
+
+给定$AOE$网，可以利用关键路径算法求出该网络的最少花费时长。对于图\ref{zirennwu_aoe}中的顶点$i$,同步等待结束当且仅当其所有前驱顶点等待结束且对应边上的子任务完成。而顶点$i$结束等待所需花费的时长是其所有前驱花费时长与对应子任务时长之和的最大值。此时产生明显的最优子结构，而在DAG中，这些子结构是会被重复求解的。
+拟定状态$dp[i],1 \leq i\leq |V|$，表示同步节点$i$完成等待所需的时间。则有转移方程$dp[i] = max(dp[k]+t(<k,i>)|<k,i> \in \mathbf{E}),dp[\text{源}] = 0$。总任务所需时间$finishedtime$即为$dp[\text{汇}]$。
+
 
 考虑$SubTask_i$的胜出者选择过程，对于参与者$i,j$，若$val_i < val_j$，且$timefromagent_i > timefromagent_j$，则$agent_i$完全劣于$agent_j$，故可以将$allocation_i$直接置为0。此时可以认为，$timefromagent$随着$val$单调递增。这意味着选取更大估值的参与者会带来更长的计算时长，在$AOE$网中，若该子任务对应的边在关键路径上。那么会引起总的时长增加，可能违反限制条件。总体来看，假设每条边共有$a$种选择(对应于该子任务的$a$个竞争者)，那么$b$条边，总可行集大小就有$a^b$种，似乎难以接受。
 
@@ -825,7 +897,7 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 
 贪心的初步思想是从初始可行解$S$开始，每次寻找一个满足时间限制条件的更优解$S'$取代原可行解，直到时间限制无法满足为止，如算法\ref{jichumoxing2tanxin}所示。
 
-\begin{algorithm}[p]
+\begin{algorithm}[h]
     \KwIn{前文形式化定义的所有相关量}
     \KwOut{$\mathbf{allocation}$}
     对于任意子任务竞争列表中的任意参与者$i,j$，若$val_i < val_j$，且$timefromagent_i > timefromagent_j$，置$allocation_i = 0$，并将参与者$i$从该竞争列表中删除。然后将各个竞争者列表$list_i$中的参与者各自按照$timefromagent$关键字递增排序。\;
@@ -868,6 +940,7 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 更一般的可知，这种从初始状态开始，每一步选取选择下一个参与者的收益增量最大的子任务进行阶段性迭代更新的贪心策略对应的分配函数均不满足单增的性质。因为总是存在前述证明中的参与者$agent_z$的情况。由麦尔森引理及DSIC机制的必要条件可知此类贪心策略无法实施。
 
 接下来考虑每次直接选择标的最大的参与者作为胜出者的贪心策略。
+
 \begin{algorithm}[p]
     \KwIn{前文形式化定义的所有相关量}
     \KwOut{$\mathbf{allocation}$}
@@ -908,7 +981,8 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 \caption{贪心近似求解计算依赖相关的问题2}
 \label{jichumoxing2tanxin2}
 \end{algorithm}
-类似的，最坏时间复杂度为$O(n*|V|)$，n为参与者数量。接下来说明分配规则的单调性。
+
+类似的，最坏时间复杂度为$O(n*|V|)$，n为参与者数量。接下来说明该分配规则的单调性。
 
 \begin{theorem}
 对于任意参与者$agent_i$以及任意$\mathbf{bid_{-i}}$，算法\ref{jichumoxing2tanxin2}所示分配规则$allocation_i(z,\mathbf{bid_{-i}})$是关于$agent_i$的标的$z$的单调不减函数。
@@ -970,6 +1044,54 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 
 \footnotetext{此处并非图论中的图序列概念}
 
+\FloatBarrier
+
+\subsubsection{期望税收最大化}
+
+虚拟估值定义为$\varphi _i(v_i)=v_i-\frac{1-F_i(v_i)}{f_i(v_i)}$。在参与者真实地给出标的的情况下，期望税收等于期望虚拟社会福利。即 
+
+\begin{equation}
+    \mathbf{E}_{\mathbf{v}\sim\mathbf{F}}{\left[\sum_{i}^{n}{payment_i(\mathbf{v})}\right]}=\mathbf{E}_{\mathbf{v}\sim\mathbf{F}}{\left[\sum_{i}^{n}{\varphi _i(v_i)*allocation_i(\mathbf{v})}\right]}
+\end{equation}
+
+故期望税收最大化等价于期望虚拟社会福利最大化。
+
+模型\ref{jichumoxing2shuishou}的求解思路是在$\mathbf{bid}$的条件下在与\ref{jichumoxing2}相同的可行集上最大化虚拟估值$\sum_{i}^{n}{\varphi _i(bid_i)*allocation_i(\mathbf{bid})}$，可知其仍然是$NP-hard$问题，故仍采用算法\ref{jichumoxing2tanxin2}近似求解。而为了满足参与者真实投标的前提，需要讨论虚拟社会福利最大化对应分配规则$virtualal$的单调性。
+
+\begin{algorithm}[H] 
+    \KwIn{形式化定义的所有量}
+    \KwOut{$\mathbf{allocation}$}
+    将所有参与者的标的$bid_i$以其虚拟估值$\varphi _i(bid_i)$替代\;
+    其它信息不更改，运行算法\ref{jichumoxing2tanxin2}，得到$\mathbf{allocation}$\;
+\caption{最优拍卖机制分配规则}
+\label{optimalauction}
+\end{algorithm}
+
+\begin{theorem}
+若任意分布的失效率函数$\frac{f_i(v)}{1-F_i(v)}$关于$v$单调不减，则对于任意参与者$agent_i$以及任意$\mathbf{bid_{-i}}$，算法\ref{optimalauction}所示分配规则$allocation_i(z,\mathbf{bid_{-i}})$是关于$agent_i$的标的$z$的单调不减函数。
+\end{theorem}
+
+\begin{proof}
+虚拟社会福利可能引入的负数标的不影响原问题求解。算法\ref{jichumoxing2tanxin2}所示分配规则单调不减，若分布的失效率函数单调不减，则虚拟估值$\varphi _i(v_i)$单调不减，则$allocation_i(z,\mathbf{bid_{-i}})$也单调不减。
+\end{proof}
+
+类似地，给出最优拍卖的支付规则。
+
+\begin{algorithm}[H] 
+    \KwIn{形式化定义的所有量}
+    \KwOut{$\mathbf{payment}$}
+    将所有参与者的标的$bid_i$以其虚拟估值$\varphi _i(bid_i)$替代\;
+    运行算法\ref{jichumoxing2tanxin2zhifu}，得到$\mathbf{payment}$\;
+    \For{$allocation_i=1$的参与者}
+    {
+        将$payment_i$替换为$\varphi _{i}^{-1}{payment_i}$
+    }
+\caption{最优拍卖机制支付规则}
+\label{optimalauctionzhifu}
+\end{algorithm}
+
+\FloatBarrier
+
 %考虑在参与者对各子任务的估值及相差不多的情况下，此时DAG中长路相较于短路应当提供更多的价值贡献。因而可以优先确定长路上的规划问题的解%，然后再考虑较短路上的规划问题。
 
 %拟定二维状态$dp[i,w]$表示单链的规划过程中，本链上节点$i$的前驱子任务在时间$w$内依次完成，所获得最大价值。则有状态转移方程\ref{%dpfangchengdanlian}
@@ -1012,57 +1134,16 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 
 
 
-\section{最优拍卖机制}
+%\section{最优拍卖机制}
 
-\subsection{问题描述及形式化定义}
-在前文的机制设计中，平台方根据定义好的社会福利来确定分配规则及价格规则，对应于社会福利最大化问题。这样的分配规则可以使得系统整体收益最优，但此时平台方的收益无法确切保证。若平台方的预算是有限的，则需要设计新的分配规则及价格函数来保证平台方的利益。由\ref{jichumoxingdingyi}节可知，平台方的真实收益是$profit = \sum_{i}^{n}{payment_i}-m*INCENT$，其中$m$是多方计算任务$T$所需单位计算的数量。在简单可并行场景下，$m=datademand$；在计算依赖相关场景下，$m=ST$。$-m*INCENT$部分是固有值，不可更改。最大化$profit$等价于最大化$\sum_{i}^{n}{payment_i}$。本节采用期望税收最大化的机制设计来保证平台方在平均意义下的收益最优。
-
-现有独立的概率分布$F_1,F_2,F_3,...F_n$及对应的连续概率密度函数$f_1,f_2,f_3...f_n$，且这些分布均存在有限期望。参与者$agent_i$的私密值$val_i$的概率分布是$F_i$。
-
-\subsection{分析及求解}
-虚拟估值定义为$\varphi _i(v_i)=v_i-\frac{1-F_i(v_i)}{f_i(v_i)}$。在参与者真实得给出标的的情况下，期望税收等于期望虚拟社会福利。即 
-
-\begin{equation}
-    \mathbf{E}_{\mathbf{v}\sim\mathbf{F}}{\left[\sum_{i}^{n}{payment_i(\mathbf{v})}\right]}=\mathbf{E}_{\mathbf{v}\sim\mathbf{F}}{\left[\sum_{i}^{n}{\varphi _i(v_i)*allocation_i(\mathbf{v})}\right]}
-\end{equation}
-
-故期望税收最大化等价于期望虚拟社会福利最大化。本文以考虑场景\ref{jichumoxing2}，虚拟社会福利最大化仍然是$NP-hard$问题，故仍采用算法\ref{jichumoxing2tanxin2}近似求解。而为了满足参与者真实投标的前提，需要讨论虚拟社会福利最大化对应分配函数$virtualal$的单调性。
-
-\begin{algorithm}[H] 
-    \KwIn{形式化定义的所有量}
-    \KwOut{$\mathbf{allocation}$}
-    将所有参与者的标的$bid_i$以其虚拟估值$\varphi _i(bid_i)$替代\;
-    其它信息不更改，运行算法\ref{jichumoxing2tanxin2}，得到$\mathbf{allocation}$\;
-\caption{最优拍卖机制分配规则}
-\label{optimalauction}
-\end{algorithm}
+%\subsection{问题描述及形式化定义}
 
 
+%\subsection{分析及求解}
 
-\begin{theorem}
-若任意分布的失效率函数$\frac{f_i(v)}{1-F_i(v)}$关于$v$单调不减，则对于任意参与者$agent_i$以及任意$\mathbf{bid_{-i}}$，算法\ref{optimalauction}所示分配规则$allocation_i(z,\mathbf{bid_{-i}})$是关于$agent_i$的标的$z$的单调不减函数。
-\end{theorem}
-
-\begin{proof}
-虚拟社会福利可能引入的负数标的不影响原问题求解。算法\ref{jichumoxing2tanxin2}所示分配规则单调不减，若分布的失效率函数单调不减，则虚拟估值$\varphi _i(v_i)$单调不减，则$allocation_i(z,\mathbf{bid_{-i}})$也单调不减。
-\end{proof}
-
-类似地，给出最优拍卖的支付规则。
-
-\begin{algorithm}[H] 
-    \KwIn{形式化定义的所有量}
-    \KwOut{$\mathbf{payment}$}
-    将所有参与者的标的$bid_i$以其虚拟估值$\varphi _i(bid_i)$替代\;
-    运行算法\ref{jichumoxing2tanxin2zhifu}，得到$\mathbf{payment}$\;
-    \For{$allocation_i=1$的参与者}
-    {
-        将$payment_i$替换为$\varphi _{i}^{-1}{payment_i}$
-    }
-\caption{最优拍卖机制支付规则}
-\label{optimalauctionzhifu}
-\end{algorithm}
 
 \section{实验及分析}
+
 本节针对贪心求解计算依赖相关问题的算法\ref{jichumoxing2tanxin2}进行模拟实验分析。实验环境及工具为python、numpy、networkx。为了衡量贪心算法的性能，需要知道问题实例的精确解。由于问题\ref{jichumoxing2}是NP-hard问题。随着数据范围增大，精确计算该问题的时间花费呈指数级增长，所以本文只在小数据范围内验证该贪心算法的有效性。
 
 如前文形式化所定义，原始计算问题的aoe网、参与者的标的信息、参与者的时长信息等可由随机模拟产生，记为随机变量$\mathbf{instance}$。由算法\ref{jichumoxing2tanxin2}得到的近似社会福利$\mathbf{aSF}$和真实确切的最大化社会福利$SF$均是$\mathbf{instance}$的函数。本节将$\mathbf{ratio} = \frac{\mathbf{aSF}}{\mathbf{SF}}$作为评估性能的指标。$0<\mathbf{ratio} \leq 1$，且$\mathbf{ratio}$越接近$1$意味着近似性能越好。
@@ -1086,31 +1167,76 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 由表\ref{jinsizhibiao}可知，在阶数较小的简单图范围内，贪心算法\ref{jichumoxing2tanxin2}的具有较好的近似性能。
 
 为了验证贪心算法\ref{jichumoxing2tanxin2}的计算有效性。本文在不同阶数的AOE网中利用该算法进行求解。
-\begin{figure}[h]
-    \includegraphics[width=400pt]{exp/exetime.pdf}
+
+\begin{figure}[H]
+    \includegraphics[width=300pt]{exp/exetime.pdf}
     \caption{贪心算法关于AOE网阶数的执行效率}
     \label{exetime}
 \end{figure}
 
 上述实验对10至1000阶有向图进行模拟求解。由图\ref{exetime}可知，贪心算法\ref{jichumoxing2tanxin2}是计算有效的多项式算法，实验结果与时间复杂度分析吻合。
 
+在本实验环境设定中，相关变量主要有：aoe网络的阶数、aoe网络的结构、参与者数量、参与者标的分布。接下来以一系列实验分析这些因素对于税收的影响，此处以社会福利最大化为例。
 
-为了验证最优拍卖机制的有效性，将其与社会福利最大化对应机制在200阶有向图范围内进行对比试验，以任务方的税收作为参考指标。其中各个参与者的先验概率分布均为正态分布，具有相同方差，不同的均值。具体的是，所有参与者的均值服从均值为50的正态分布。其余环境设定与前文类似。结果如图\ref{picc}所示，可知最优拍卖的税收性能是高于社会福利最大化的。
+由于本文用于实验的计算资源有限，设定aoe网络的生成核为线性函数$kernel(x)=x$\footnote{核函数的幂指数越高意味着网络结构并行化程度越高}，每个子任务的参与者数量上界为$100$，参与者标的服从正态分布$N(50,1)$。观察aoe网络的阶数对任务方税收的影响，结果如图\ref{revenuevsv}。可知税收近似是网络阶数的线性函数，这于直觉相符合。因为每个子任务必须有一个胜出者，其税收最多为其标的，总税收近似等于$\text{平均标的} \quad *|E$。而本实验中aoe网的边数$|E$是阶数|V|的同阶线性函数，故总税收应近似为aoe网络阶数的线性函数。
 
-\begin{figure}[h]
-    \includegraphics[width=400pt]{exp/SWandoptimal.pdf}
+\begin{figure}[H]
+    \includegraphics[width=300pt]{exp/revenuevsv.pdf}
+    \caption{税收关于aoe网阶数的变化}
+    \label{revenuevsv}
+\end{figure}
+
+然后设定aoe网络的阶数为$200$，网络生成核为线性函数$kernel(x)=x$，参与者标的服从正态分布$N(50,1)$，观察每个子任务的竞争参与者数量上界$C$对总体税收的影响。结果如图\ref{revenuevsc}，可知当$C \in [2,20]$时，此时参与者数量较少，竞争强度较低，为保证可以完成拍卖任务，大部分子任务的税收都是0。所以总体税收较低，但是从实验数据可以发现，税收随着$C$的增长快速增加。当$C > 20$以后，参与者的竞争已经达到饱和，总税收不再明显上升。此时限制总税收增加的其实是参与者的估值的分布，也就是子任务的带给参与者的实际价值。
+
+\begin{figure}[H]
+    \includegraphics[width=300pt]{exp/revenuevsc.pdf}
+    \caption{税收关于每个子任务参与者数量上界的变化}
+    \label{revenuevsc}
+\end{figure}
+
+接下来设定aoe网络的阶数为$200$，每个子任务的参与者数量上界为$100$，参与者标的服从正态分布$N(50,1)$，观察aoe网络的生成核函数的幂指数$power$对总体税收的影响。结果如图\ref{revenuevspower},可知当核函数为线性函数时，税收不高。此时是因为网络结构复杂，并行化程度较低，时间限制极容易被破坏，前文设计的机制会选择计算时间耗费更小的参与者，而这意味着总体税收会降低。另外当$power>5$左右时，税收快速上升并逐渐稳定，这也一定程度上说明了核函数的有效使用范围。
+
+\begin{figure}[H]
+    \includegraphics[width=300pt]{exp/revenuevspower.pdf}
+    \caption{税收关于网络生成核函数幂指数的变化}
+    \label{revenuevspower}
+\end{figure}
+
+接下来设定aoe网络的阶数为$200$，每个子任务的参与者数量上界为$100$，网络生成核为线性函数$kernel(x)=x$，观察参与者标的分布的方差对总体税收的影响。如图\ref{revenuevsvar}所示，当方差增大时，总体税收的方差也增大，而税收期望的缓慢增加。这可能是由于标的的方差在本机制中具有不同的影响。一方面，由于本章的社会福利求解使用了贪心启发式算法，该算法优先考虑标的较高的参与者，这意味着越大的标的方差会使贪心启发式算法的近似程度增加，使得其税收靠近精确社会福利最大化的税收。另一方面，方差的增加也会增大总体税收的方差。因而得到了图\ref{revenuevsvar}所示总体税收方差和期望同时增加的情形。
+
+\begin{figure}[H]
+    \includegraphics[width=300pt]{exp/revenuevsvar.pdf}
+    \caption{税收关于参与者标的方差的变化}
+    \label{revenuevsvar}
+\end{figure}
+
+为了验证最优拍卖机制的有效性，将其与社会福利最大化对应机制在200阶有向图范围内进行对比试验，以任务方的税收作为参考指标。其中各个参与者估值的先验概率分布均为正态分布，具有相同方差，不同的均值。具体的是，所有参与者的均值服从均值为50的正态分布。其余环境设定与前文实验类似。结果如图\ref{picc}所示，相比于社会福利最大化的机制，在多数情况下，最优拍卖机制能够有效提升任务方的税收性能。
+
+\begin{figure}[H]
+    \includegraphics[width=300pt]{exp/SWandoptimal.pdf}
     \caption{最优拍卖的有效性实验}
     \label{picc}
 \end{figure}
 
+在上述实验的基础上，在参与者标的向量$\mathbf{v}$的维度上做样本均值。由于计算资源有限，只对部分阶数的aoe网络做实验验证。相关实验结果如图\ref{picc2}所示，可知最优拍卖的确能够在期望意义下提升拍卖机制的税收性能。
 
+\begin{figure}[H]
+    \includegraphics[width=300pt]{exp/expswandoptimal.pdf}
+    \caption{期望税收的比较}
+    \label{picc2}
+\end{figure}
+
+\FloatBarrier
 
 \section{本章小结}
+
 针对多方计算任务中子计算任务存在依赖关系的问题，本文以AOE网进行建模。将参与者完成子任务的时长作为最关键性能指标，并映射至AOE网中。详细分析了总任务在限制时间内完成的条件下的社会福利最优化分配问题。然后证明了其NP困难性，并给出一种基于贪心思想的近似求解方案，该方案可以在多项式时间内求解，时间复杂度是$O(|E|^2*n*(|V|+|E|))$。另外，分析了基于参与者私密值$Val_i$的概率分布的期望税收最大化机制。然后通过模拟实验证明了两种机制的性能和有效性。
 
 
 \chapter{数据价值共享激励拍卖系统设计与实现}
+
 \section{实验概述}
+
 本文的第三四章分别设计了两种计算场景下的拍卖激励机制。本章根据这两种拍卖机制，为多方数据价值共享计算模式设计一个拍卖系统。该系统能够帮助平台方完成胜出者决策的流程，妥善处理多方计算中的参与者竞争现象。本系统的硬件环境是：Intel Core i5-7400 3.0GHZ，主存12GB。
 实现技术：bootstrap、php、codeigniter、apache2 httpd、mysql。
 \section{总体设计}
@@ -1128,7 +1254,9 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 简单可并行计算拍卖子系统和依赖相关计算拍卖子系统分别对应于第三章和第四章具体场景及对应算法的实现。主要包含任务发布模块、拍卖流程模块、凭证及资源交换模块。
 
 \section{模块设计}
+
 \subsection{用户及资源管理子系统}
+
 在用户管理子系统中，主要有注册及登录模块、信息管理模块、数据资源申报模块。
 注册及登录模块实现用户分类、权限设置、管理员增删查改等功能。在本系统中，用户共有三类：机构，如第三章所定义，是拥有数据资源的组织。多方计算参与者是隶属于机构的计算单元(unit)，他们是多方计算的真正执行者。任务发布者即多方计算任务的需求方，通过该系统获得相应的数据价值。
 
@@ -1159,23 +1287,32 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 \end{figure}
 
 \subsection{简单可并行计算拍卖子系统}
-本子系统实现简单可并行场景下的拍卖核心流程。首先，任务发布者在本系统中发布简单可并行计算任务，设置任务开始时间、需求数据类型、标的截止时间、多重指标限制等一系列任务细节信息。然后，系统以参与者的信息为基础，根据任务需求，筛选符合要求的参与者子集，并将拍卖信息推送给参与者。参与者接受到信息后，根据自身意愿选择是否在截止时间前进行投标，即参与到该任务的竞拍环节。拍卖截止时间到达后，系统综合所有参与者的信息，选择决定胜出者所需的具体算法。对于任务方不存在多重指标限制的场景，仅有数量的需求，系统以第三章的简单可并行基础拍卖模型求解，主要是以贪心算法进行快速求解。若任务方存在多重指标限制，但参与者的关系是对等的，不存在森林状机构限制，则以多重指标限制模型求解。否则，以机构场景扩展模型进行求解。确定了胜出者后，以相应的分配结果向参与者发放多方计算凭证(也可以签订电子合约)，并以对应价格向参与者支付费用$allocation_i*INCENT-payment_i$。然后进行多方计算的实际执行，完成后，由平台方或者任务方对信誉系统更新。
+本子系统实现简单可并行场景下的拍卖核心流程。首先，任务发布者在本系统中发布简单可并行计算任务，设置任务开始时间、需求数据类型、标的截止时间、多重指标限制等一系列任务细节信息。然后，系统以参与者的信息为基础，根据任务需求，筛选符合要求的参与者子集，并将拍卖信息推送给参与者。参与者接受到信息后，根据自身意愿选择是否在截止时间前进行投标，即参与到该任务的竞拍环节。拍卖截止时间到达后，系统综合所有参与者的信息，选择决定胜出者所需的具体算法。对于任务方不存在多重指标限制的场景，仅有数量的需求，系统以第三章的简单可并行基础拍卖模型求解，主要是以贪心算法进行快速求解。若任务方存在多重指标限制，但参与者的关系是对等的，不存在森林状机构限制，则以多重指标限制模型求解。
+否则，以机构场景扩展模型进行求解。确定了胜出者后，以相应的分配结果向参与者发放多方计算凭证(也可以签订电子合约)，并以对应价格向参与者支付费用$allocation_i*INCENT-payment_i$。然后进行多方计算的实际执行，完成后，由平台方或者任务方对信誉系统更新。详细流程信息见图\ref{jiandanliucheng}。
 
-\begin{figure}[H]
+\begin{figure}[p]
     \includegraphics[width=350pt]{pic/kebingxing.pdf}
     \caption{简单可并行计算拍卖流程}
+    \label{jiandanliucheng}
 \end{figure}
 
 \subsection{依赖相关计算拍卖子系统}
-本子系统实现依赖相关计算的拍卖核心流程。首先，任务方在系统内发布依赖相关的多方计算任务，设置任务时间限制。任务分解算法根据现有的数据资源申报情况将其拆解为一系列子任务，形成AOE网结构。然后，系统依照AOE网将拍卖信息发送给各条有向弧上的参与者。参与者仍然需要在拍卖投标的截止时间内设置其标的，否则视为不参与该次多方计算拍卖。接下来，系统根据设置的拍卖偏好选择相应的算法机制。若偏向社会福利最大化，则选择依赖相关计算模型的贪心算法确定胜出者。否则，以历史数据拟合的分布或者预设概率分布作为最优拍卖模型的输入，确定相应的胜出者。若原任务无法完成，则对任务方进行反馈或者指导任务方重新设置时间限制条件。若任务能够完成，则发放凭证并支付报酬。最后实际执行多方计算，并根据结果对信誉系统进行更新。
 
-\begin{figure}[H]
-    \includegraphics[width=350pt]{pic/yilaixiangguan.pdf}
+本子系统实现依赖相关计算的拍卖核心流程。
+首先，任务方在系统内发布依赖相关的多方计算任务，设置任务时间限制。任务分解算法根据现有的数据资源申报情况将其拆解为一系列子任务，形成AOE网结构。然后，系统依照AOE网将拍卖信息发送给各条有向弧上的参与者。参与者仍然需要在拍卖投标的截止时间内设置其标的，否则视为不参与该次多方计算拍卖。接下来，系统根据设置的拍卖偏好选择相应的算法机制。若偏向社会福利最大化，则选择依赖相关计算模型的贪心算法确定胜出者。
+否则，以历史数据拟合的分布或者预设概率分布作为最优拍卖模型的输入，确定相应的胜出者。若原任务无法完成，则对任务方进行反馈或者指导任务方重新设置时间限制条件。若任务能够完成，则发放凭证并支付报酬。最后实际执行多方计算，并根据结果对信誉系统进行更新。详细流程信息如图\ref{yilailiucheng}。
+
+\begin{figure}[h]
+    \includegraphics[width=300pt]{pic/yilaixiangguan.pdf}
     \caption{依赖相关计算拍卖流程}
+    \label{yilailiucheng}
 \end{figure}
 
+\FloatBarrier
+
 \section{界面展示}
-本节对数据价值共享激励拍卖系统部分功能进行界面展示。
+
+在前端展示子系统中，人机接口是最重要的模块。这是用户参与数据价值共享的窗口，友好的界面可以增加用户的使用体验，有利于促进数据价值共享。本节对数据价值共享激励拍卖系统部分核心功能进行界面展示。
 
 \begin{figure}[H]
     \includegraphics[width=400pt]{ui/register.png}
@@ -1215,13 +1352,19 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 
 对于管理员而言，可以在界面\ref{yonghuguanli}中对普通参与者的信息、权限进行修改、管理。
 
+然后是本系统的核心部分，数据价值共享拍卖，此处包含了简单可并行和依赖相关两种任务类型。在界面\ref{paimai}中，任务方可以发布多方计算任务。参与者可以完成浏览拍卖信息、投标、查看结果等一系列参与拍卖的重要流程。详情信息见界面\ref{paimaitoubiao}、\ref{paimaiyunxing}、\ref{paimaichenggong}、\ref{paimaishibai}。
+
 \begin{figure}[H]
     \includegraphics[width=400pt]{ui/paimai.png}
     \caption{数据价值共享拍卖}
     \label{paimai}
 \end{figure}
 
-然后是本系统的核心部分，数据价值共享拍卖，此处包含了简单可并行和依赖相关两种任务类型。在界面\ref{paimai}中，任务方可以发布多方计算任务。参与者可以完成浏览拍卖信息、投标、查看结果等一系列参与拍卖的重要流程。详情信息见界面\ref{paimaitoubiao}、\ref{paimaiyunxing}、\ref{paimaichenggong}、\ref{paimaishibai}。
+如图\ref{paimai}，参与者可以在实时拍卖列表中选择感兴趣的多方计算任务。该列表仅展示当前用户能够参与的拍卖，即当前用户能够利用其本地数据提供计算，分享数据价值给任务方。
+
+实时拍卖列表会详细展示任务类型、任务名称、数据量需求、计算任务开始时间、总时长限制、指标集限制、投标截止时间等一系列多方计算任务的细节信息。
+
+用户可以点击任务详情进入投标界面，如图\ref{paimaitoubiao}，此处会展示用户标的上限$INCENT$，该上限由任务方设置。为了确保安全性，用户需要以密码对标的进行确认。
 
 \begin{figure}[H]
     \includegraphics[width=400pt]{ui/paimaitoubiao.png}
@@ -1229,11 +1372,15 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
     \label{paimaitoubiao}
 \end{figure}
 
+当标的截止时间到达后，该多方任务出于不可投标状态。系统综合所有信息开始运行拍卖算法，如图\ref{paimaiyunxing}。
+
 \begin{figure}[H]
     \includegraphics[width=400pt]{ui/paimaiyunxing.png}
     \caption{数据价值共享拍卖的算法运行}
     \label{paimaiyunxing}
 \end{figure}
+
+一段时间后，拍卖算法运行完毕。对于参与者来说有两种结果，胜出或者失败。若用户胜出，则系统向其公布报酬。参与者需要再次以密码确认竞拍结果。然后交换数据凭证，并为实际的多方计算任务做准备，如图\ref{paimaichenggong}所示。
 
 \begin{figure}[H]
     \includegraphics[width=400pt]{ui/paimaichenggong.png}
@@ -1241,13 +1388,15 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
     \label{paimaichenggong}
 \end{figure}
 
+若参与者失败，则用户的状态并不发生改变。用户可以继续在实时拍卖列表中选择新的多方计算任务,如图\ref{paimaishibai}。
+
 \begin{figure}[H]
     \includegraphics[width=400pt]{ui/paimaishibai.png}
     \caption{参与者失败}
     \label{paimaishibai}
 \end{figure}
 
-同时，系统还有相应的消息反馈机制。包括推送新的拍卖信息、公布参与者的拍卖结果、向任务方反馈计算任务可行性。详见界面\ref{xinzengkecanyu}、\ref{xinzengshengchu}、\ref{xinzengshibai}、\ref{xinzengrenwushibai}。
+同时，为了及时将拍卖信息传递给不同的用户，系统设计了相应的消息反馈机制。包括推送新的拍卖信息、公布参与者的拍卖结果、向任务方反馈计算任务可行性。详见界面\ref{xinzengkecanyu}、\ref{xinzengshengchu}、\ref{xinzengshibai}、\ref{xinzengrenwushibai}。
 
 \begin{figure}[H]
     \includegraphics[width=400pt]{ui/xinzengkecanyu.png}
@@ -1261,6 +1410,10 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
     \label{xinzengshengchu}
 \end{figure}
 
+当用户浏览其他界面时，实时的拍卖信息会传递到用户的前端界面,图\ref{xinzengkecanyu}、图\ref{xinzengshengchu}、图\ref{xinzengshibai}分别是新的可参与拍卖、参与者胜出、参与者失败的事件消息。
+
+由于现有数据的缺乏、数据分布的复杂性、任务方限制指标过多、多方计算参与者不愿参与等多种不可控因素，任务发布者提交的多方计算任务可能无法成功完成。此时，平台方需要向任务方反馈，引导其调整任务信息，并重新发布。促进系统资源最大化利用，如图\ref{xinzengrenwushibai}。
+
 \begin{figure}[H]
     \includegraphics[width=400pt]{ui/xinzengshibai.png}
     \caption{参与者的失败消息}
@@ -1272,6 +1425,8 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
     \caption{向任务方反馈}
     \label{xinzengrenwushibai}
 \end{figure}
+
+\FloatBarrier
 
 \section{本章小结}
 本章对数据价值共享激励拍卖系统进行了实现，将本文三四章的场景及算法应用到具体的系统环境中。首先概述了系统的硬件环境及技术方法，然后依次分析了系统的总体模块设计、子系统的详细模块设计，最后对部分功能界面进行展示分析。由系统的运行情况可知，主体功能运行良好，能够有效实现数据价值共享的主要竞拍流程。
