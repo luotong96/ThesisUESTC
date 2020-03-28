@@ -55,7 +55,20 @@ xelatex main.tex
 
 论文封面和扉页由`\makecover`命令添加，可以显示论文题目，作者，指导老师等。正式提交论文时文印中心会统一提供封面和扉页，无论自己排版的封面是否符合格式要求。已经包含的封面也不会影响任何前期的审核。独创性声明可以由`\originalitydeclaration`命令生成。
 
+封面显示的信息可以使用一系列命令进行设置，包括标题、作者、学院等：
+
+| 命令名称 | 参数#1 | 参数#2 |
+|---|---|---|
+|\title{#1}{#2}| 中文标题 | 英语标题 |
+|\author{#1}{#2}| 作者中文名 | 作者英文名 |
+|\advisor{#1}{#2}| 导师中文名 | 导师英文名 |
+|\school{#1}{#2}| 学院中文名 | 学院英文名|
+|\major{#1}{#2}| 专业中文名| 专业英文名 |
+|\studentnumber{#1}| 学号 | 无 |
+
 如果想使用自己定义的封面，可以用`\bindpdfcover`命令添加已经做好的PDF格式的封面，如`\bindpdfcover{cover.pdf}`。
+
+
 
 ### 中英文摘要
 
@@ -83,7 +96,7 @@ xelatex main.tex
 
 ### 参考文献
 
-使用BibTeX录入参考文献由`\thesisloadbibliography`命令导入`*.bib`文件数据库，参考文献风格自动设置为`thesis-uestc`。当参考文献数目超过100时，可以使用`large`选项调整编号的宽度，如`\thesisloadbibliography[large]{reference}`。
+使用BibTeX录入参考文献由`\thesisbibliography`命令导入`*.bib`文件数据库，参考文献风格自动设置为`thesis-uestc`。当参考文献数目超过100时，可以使用`large`选项调整编号的宽度，如`\thesisbibliography[large]{reference}`。
 
 在这个命令之前使用`\nocite{*}`命令会在文档中列出数据库中的所有条目，无论是否引用，其他情况下只列出引用过的条目。有些编辑器会识别`\bibliography`命令导入的数据库文件，并提供更好的编辑支持，所以模板也支持原生的`\bibliography`命令导入文献列表，只需要导入之前指定参考文献风格（`\bibliographystyle{thesis-uestc}`）即可。
 
@@ -91,7 +104,7 @@ xelatex main.tex
 
 当引用中文文献，而文献作者超过三位时，后面的作者想使用“等”字省略，可以在文章条目添加语言选项`language = {zh}`。模版会自动按照中文的习惯处理作者信息。
 
-手动录入参考文献使用`thesisbibliography`环境，在环境中使用`\bibitem`命令添加文献条目。
+手动录入参考文献使用`thesisthebibliography`环境，在环境中使用`\bibitem`命令添加文献条目。
 
 ### 附录
 
@@ -99,7 +112,7 @@ xelatex main.tex
 
 ### 攻读学位期间取得的成果
 
-使用BibTeX录入研究成果由`\thesisloadaccomplish`命令导入`*.bib`文献列表，方法与参考文献相同。文献列表风格自动设置为`thesis-uestc`。此命令没有可选参数，自动在文档中列出数据库中的所有条目。手动添加使用`\bibitem`命令将文章条目列在`thesisaccomplish`环境下，方法与参考文献相同。
+使用BibTeX录入研究成果由`\thesisaccomplish`命令导入`*.bib`文献列表，方法与参考文献相同。文献列表风格自动设置为`thesis-uestc`。此命令没有可选参数，自动在文档中列出数据库中的所有条目。手动添加使用`\bibitem`命令将文章条目列在`thesistheaccomplish`环境下，方法与参考文献相同。
 
 ### 外文资料原文及译文
 
