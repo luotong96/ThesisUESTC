@@ -29,7 +29,7 @@
 
 在科技不断发展的今天，人们的日常生活每天都会产生海量数据，而对这些数据资源的分析应用已经创造了大量的经济价值、社会价值。对于中心化的数据资源，可以使用现有的大数据分析技术对其进行价值挖掘。而地理上分布于不同组织及个人的海量数据却难以实现高效联合应用。因为受限于成本，隐私、社会规范等诸多因素，数据拥有者们可能并不愿意将数据直接共享。这造成了“数据孤岛”的现象。而数据价值共享的目标是：尽可能利用这些地理上分散的多方数据来创建计算应用，同时阻止原始数据直接传递，最大限度保证数据隐私安全。即共享数据价值，而非共享数据本身。
 
-为此，本文描述了一种理想的多方数据价值共享计算模式，该计算模式能够在传递数据价值的同时，避免原始数据直接共享。在该计算模式下，提供相同或相似内容的数据拥有者之间会产生竞争。为了妥善处理这些竞争，选出参与数据价值共享的胜出者，同时激励理性的参与者尽可能真实地参与数据价值共享，保证该计算模式的有效性，并最大化系统整体收益，本文针对该数据价值共享模式的两种不同具体计算场景设计了性质良好的激励机制。本文的具体工作如下：
+为此，本文提出了一种多方数据价值共享计算模式，该计算模式能够在传递数据价值的同时，避免原始数据直接共享。在该计算模式下，提供相同或相似内容的数据拥有者之间会产生竞争。为了妥善处理这些竞争，选出参与数据价值共享的胜出者，同时激励理性的参与者尽可能真实地参与数据价值共享，保证该计算模式的有效性，并最大化系统整体收益，本文针对该数据价值共享模式的两种不同具体计算场景设计了性质良好的激励机制。本文的具体工作如下：
 
 1、描述了多方数据价值共享计算模式。针对简单可并行的计算任务提出了多约束价值共享激励模型。本文首先对问题进行建模，分析了数据量约束、指标集约束、机构约束三种具体应用实例，并设计了计算有效、真实、社会福利最大化的DSIC激励拍卖机制。模拟实验说明了机制的有效性及良好性能。
 
@@ -44,7 +44,7 @@
 \begin{englishabstract}
 With the continuous development of science and technology, people's daily life produces massive data, and the analysis and application of these data resources have created a large number of economic and social values. For centralized data resources, the existing big data analysis technology can be applied for value mining easily. However, the massive data geographically distributed in different organizations and individuals are difficult to realize efficient joint application.  Due to many factors such as cost, privacy, and social regulation, data owners may not be willing to share data directly.  This resulted in the phenomenon of "data island". And the goal of value-based data sharing is to use these geographically distributed multi-party data as much as possible to create computing applications while preventing the direct transmission of original data which ensures data privacy security to the greatest extent. That is, to share the value of data, not the data itself.
 
-Therefore, this thesis describes an ideal value-based data sharing scheme, which avoids sharing original data directly while transferring data values.In the scheme, there will be competitions between data owners who provide the same or similar content. In order to properly handle these competitions, select the winners who participate in the data value sharing, encourage rational participants to participate in the data value sharing as truthfully as possible, ensure the effectiveness of the value-based data sharing scheme and maximize the overall welfare of the system, it designs ideal incentive mechanisms for two specific computing scenarios. The work of this thesis is as follows:
+Therefore, this thesis proposes a value-based data sharing scheme, which avoids sharing original data directly while transferring data values.In the scheme, there will be competitions between data owners who provide the same or similar content. In order to properly handle these competitions, select the winners who participate in the data value sharing, encourage rational participants to participate in the data value sharing as truthfully as possible, ensure the effectiveness of the value-based data sharing scheme and maximize the overall welfare of the system, it designs ideal incentive mechanisms for two specific computing scenarios. The work of this thesis is as follows:
 
 Firstly, it describes the multi-party value-base data sharing scheme.  For simple and parallelizable computation tasks it propose an multi-constraint value-based data sharing incentive model. Then the formal modeling of the problem is carried out, then three specific application instances of data volume constraint, indicator set constraint and organization constraint are analyzed, and a DSIC incentive auction mechanism with effective computation, truthfullness as well as maximum social welfare is designed.  Simulation experiments show the effectiveness and good performance of the mechanism.
 
@@ -61,9 +61,9 @@ Eventually, this thesis designs and implements a value-based data sharing auctio
 
 \section{研究工作的背景与意义}
 
-在科学技术不断发展的今天，人类的一切活动及其产生的影响都可以被信息化。衣食住行、自然观测、历史记载等领域都不例外。随之产生的海量数据中存在巨大的潜在价值，现在已经有精彩纷呈的数据挖掘及分析技术(机器学习、深度学习等)应用于这些数据上，训练网络、学习知识，从而获取巨大的社会及经济价值。《2019中国大数据产业发展白皮书》\citing{2019baipishu}指出，2015年以来，随着国家和地方政府的大力推动，大数据产业加速发展。2018年整体规模达到4384.5亿元，预计到2021年将达到8070.6亿元，持续促进传统产业转型升级，激发经济增长活力，主力新型智慧城市和数字化建设。海量数据早已成为一种重要的资源。然而在数据的使用方法不断革新，前途一片光明的同时，数据使用的合法性、安全性也成为亟待解决的难题。各个数据拥有者，可能出于隐私防护、利益诉求、知识产权、保密责任等各种原因，不愿将数据直接共享，以创造更大的价值。于是，各个“数据孤岛”产生了。而在网络安全事件，隐私泄露事件频发的今天，面对复杂的低信任度网络环境，如何打破这些孤岛之间的共享障碍，促进数据更好得使用，同时限制数据暴露的程度来降低数据安全风险是现有研究努力的方向。
+在科学技术不断发展的今天，人类的一切活动及其产生的影响都可以被信息化。衣食住行、自然观测、历史记载等领域都不例外。随之产生的海量数据中存在巨大的潜在价值，现在已经有精彩纷呈的数据挖掘及分析技术(机器学习、深度学习等)应用于这些数据上，训练网络、学习知识，从而获取巨大的社会及经济价值。《2019中国大数据产业发展白皮书》\citing{2019baipishu}指出，2015年以来，随着国家和地方政府的大力推动，大数据产业加速发展。2018年整体规模达到4384.5亿元，预计到2021年将达到8070.6亿元，持续促进传统产业转型升级，激发经济增长活力，主力新型智慧城市和数字化建设。海量数据早已成为一种重要的资源。然而在数据的使用方法不断革新，前途一片光明的同时，数据使用的合法性、安全性也成为亟待解决的难题。各个数据拥有者，可能出于隐私防护、利益诉求、知识产权、保密责任等各种原因，不愿将数据直接共享，以创造更大的价值。于是，各个“数据孤岛”产生了。而在网络安全事件，隐私泄露事件频发的今天，面对复杂的低信任度网络环境，如何打破这些孤岛之间的共享障碍，促进数据更好地使用，同时限制数据暴露的程度来降低数据安全风险是现有研究努力的方向。
 
-一种思想是将计算模型根据现有的数据分布进行重组拆分，拆分后的子计算任务在相应数据拥有方进行本地计算。这些本地计算仅依赖于本地的隐私敏感数据。最后各个子计算任务的结果由中心节点进行整合。从而实现数据不直接共享，仅共享数据价值的计算模式。其充分利用分布式的多方数据创造更多价值的同时，可以有力保证数据拥有者的数据隐私安全。
+而解决以上“数据孤岛”难题的一种思想是将计算模型根据现有的数据分布进行重组拆分，拆分后的子计算任务在相应数据拥有方进行本地计算。这些本地计算仅依赖于本地的隐私敏感数据。最后各个子计算任务的结果由中心节点进行整合。从而实现数据不直接共享，仅共享数据价值的计算模式。其充分利用分布式的多方数据创造更多价值的同时，可以有力保证数据拥有者的数据隐私安全。
 
 %“大数据”指的数据规模太大或者复杂以至于无法以传统方式进行处理。具有三个方面的特征：
 %1、规模：各个机构组织从不同来源进行数据收集：包括商业交易，智能设备(IOT)，工业设施，电子音像、社会媒体等等。在过去，存储这些数据也是极大的难题。
@@ -131,7 +131,7 @@ Eventually, this thesis designs and implements a value-based data sharing auctio
 日常生活中会有许多需要策略决策的场景，例如卖出一台二手电视机，但此时其价格难以确定。又或者需要确定在办公室购置一台新的电冰箱，而同事们愿意为这个冰箱各自付出多少经济支持也是未知的。那么确定是否购入冰箱的策略可能是依次去询问他们，并告诉后面的人前面的人的估值。也可以同时询问所有人的估值来判断是否购入冰箱。当然，两种模式产生的效果是不同的。这两种模式都在参与者中引入了一种非合作性的策略博弈。参与者知道博弈的结果不仅取决于自身的选择，也取决于其他人的策略。因而每个参与者自身的最优策略依赖于其他参与者的策略。机制设计理论因此建立于博弈论。博弈论以游戏的规作为输入，对策略玩家的表现进行预测。而机制设计是关于选择游戏的最优规则。更确切得说，机制设计是关于多个参与者的隐藏信息，在二手电视机的问题中，它是各个买家参与者对这台电视机的内心真实估值。而在冰箱问题中，它是同事对新冰箱的真实购买意愿。机制规则一旦被确定后，便不再更改，无论是参与者还是设计者。这是机制有效运行的基础。
 
 \subsection{简单拍卖及理想机制}
-本节简要介绍二价拍卖相关的简单拍卖机制及其导出的理想机制概念。
+本节简要介绍二价拍卖相关的简单拍卖机制及理想机制概念。
 \subsubsection{单物品拍卖}
 考虑现有一个卖家，仅有一件物品需要卖出。同时有$n$个潜在的买家需要购买该物品。为了对买家的策略进行推断，需要一个模型来描述买家的收益。第一个关键假设是每个买家都有一个非负的估值$v_i$，来表征他对该物品的真实购买需求程度。在现实场景中，人的真实购买需求意愿是不断变化的。但在此模型中，对于每个买方，其真实估值$v_i$被认为是不变且私密的，即除了该买家自己，卖方和其它买方都无法获得其真实值。买家的效用函数模型为：$u_i$ = $v_i-p_i$，若买家获得该物品;$0$，若买家未获得。这被称为准线性效用模型，本文也采用该模型来描述各个参与者的效用。
 
@@ -464,7 +464,7 @@ p_i(\mathbf{b})=\left(\max_{\omega\in\Omega}\sum_{j\neq i}{b_j(\omega)}\right)-\
 %本章首先介绍了机制设计、麦尔森引理、最优拍卖、背包拍卖等算法机制设计中的关键概念。然后简要说明了动态规划的思想及背包问题的中泛化物品的概念。为后文针对具体场景进行机制设计及分析做准备。
 本章介绍了二价拍卖、麦尔森引理、最优拍卖、背包拍卖等算法机制设计中的关键概念,为后文针对具体场景进行机制设计及分析做准备。
 
-\chapter{面向简单可并行数据价值共享计算的激励机制}
+\chapter{简单可并行数据价值共享计算的激励机制}
 本章介绍了理想的多方数据价值共享计算模式，针对简单可并行场景提出多约束价值共享激励模型。主要对数据量约束、指标集约束、机构约束三种问题进行分析，设计社会福利最大化的DSIC拍卖机制。
 
 \section{多方数据价值共享计算模式}
@@ -565,14 +565,16 @@ p_i(\mathbf{b})=\left(\max_{\omega\in\Omega}\sum_{j\neq i}{b_j(\omega)}\right)-\
 %\label{dpdingyi}
 接下来在述定义的基础上引入指标集约束条件。$level_i\in {1,2,3}$为$agent_i$的信誉及可靠性评估。对于$1\leq j \leq 3$,胜出者集合中第$j$级参与者数量$=parti_j$。$timeperunit_i$是$agent_i$关于$任务T$完成每单位
 计算任务所花费的时间。$transmitcost_i$是$agent_i$向平台方提交结果数据所花费的平均时间，主要由网络时延、吞吐量等因素决定。分配规则需要满足时效性要求指标：$\sum_{i=1}^{n}{timeperunit_i*allocation_i+\mathbf{I}(allocation_i > 0)*transmitcost_i} < TIME$。
-\footnote{$\mathbf{I}(\text{表达式}) = \begin{cases}{}
-        0&,\text{表达式为假}\\
-        1&,\text{表达式为真}
-        \end{cases}$
-}%，$timeperunit_i$和$transmitcost_i$的定义见\ref{dpdingyi}节。}
-社会福利$SW$的定义仍然不变。
+其中$\mathbf{I}(\text{表达式}) = 1$当且仅当表达式为真。否则$\mathbf{I}(\text{*}) = 0$。社会福利$SW$的定义仍然不变。
 
-对于指标集约束，假设所有参与者已经真实地表达多方计算任务的估值，并给出标的，即$\mathbf{bid} = \mathbf{val}$，此时对于平台方来说，社会福利最大化等价于最优化问题\ref{dpmoxing}
+%\footnote{$\mathbf{I}(\text{表达式}) = \begin{cases}{}
+        %0&,\text{表达式为假}\\
+        %1&,\text{表达式为真}
+        %\end{cases}$
+%}%，$timeperunit_i$和$transmitcost_i$的定义见\ref{dpdingyi}节。}
+
+
+对于指标集约束，假设所有参与者已经真实地表达多方计算任务的估值，并给出标的，即$\mathbf{bid} = \mathbf{val}$，此时对于平台方来说，社会福利最大化等价于最优化问题\ref{dpmoxing}。
 
 \begin{align}
     \label{dpmoxing}\max_{\vec{allocation}} \quad&\sum_{i=1}^{n}{bid_i*allocation_i}\\
@@ -719,7 +721,7 @@ dp[0,0...datademand,0...parti_1,0...parti_2,0...parti_3,0...TIME] =-\infty \nota
 dp[0,0,0,0,0,0...TIME] = 0 \notag
 \end{gather}
 
-上述转移方程中，值得一提的是状态的初始化方法。考虑最优化问题\ref{dpmoxing}的限制条件可知，只有总体响应时间和是不等式限制，其余四项限制指标均等式。这可以通过设置初始状态的合法性来解决。如\ref{dpfangcheng}所示，在限制指标张成的五维空间中，仅有关于运行时间的一维子空间(此处的状态空间是离散的)被赋予合法性。其余非法状态置$-\infty$。当限制指标集扩展时，针对不同类型的限制属性也可以按此思路进行初始状态设定。
+上述转移方程中，值得一提的是状态的初始化方法。考虑最优化问题\ref{dpmoxing}的限制条件可知，只有总体响应时间和是不等式限制，其余四项限制指标均等式。这可以通过设置初始状态的合法性来解决。如转移方程\ref{dpfangcheng}所示，在限制指标张成的五维空间中，仅有关于运行时间的一维子空间(此处的状态空间是离散的)被赋予合法性。其余非法状态置$-\infty$。当限制指标集扩展时，针对不同类型的限制属性也可以按此思路进行初始状态设定。
 为了减少状态存储，转移方程\ref{dpfangcheng}可以记忆化搜索的方式进行。
 
 \begin{algorithm}[H]
@@ -767,8 +769,9 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
 \end{equation}
 
 解方程组\ref{jieyuedian},可以得到所有阶跃点序列$b_1,b_2,b_3...b_k$。值得注意的是，该序列不一定单调递增。
+价格规则实现如算法\ref{dp_zhifu}所示，其中$\mathbf{I}(\text{表达式}) = 1$当且仅当表达式为真。否则$\mathbf{I}(\text{*}) = 0$。
 
-\setcounter{footnote}{0}
+%\setcounter{footnote}{0}
 
 \begin{algorithm}[h]
 \KwIn{$\mathbf{datacount,timeperunit,level,bid},datademand$,及\ref{xingshihua}节中定义的限制指标集}
@@ -779,7 +782,7 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
         $payment_i \leftarrow 0$\;
         将$agent_i$移至末位，重新运行算法\ref{jiyihua},得到:\;
         $ndp[0] = dp[n-1,datademand,parti_1,parti_2,parti_3,TIME]$\;
-        $ndp[k] = dp[n-1,datademand-k,parti_1-\mathbf{I\footnotemark}(level_i=1),parti_2-\mathbf{I}(level_i=2),parti_3-\mathbf{I}(level_i=3),TIME-k*timeperunit_i-transmitcost_i],1\leq k\leq datacount_i$\;
+        $ndp[k] = dp[n-1,datademand-k,parti_1-\mathbf{I}(level_i=1),parti_2-\mathbf{I}(level_i=2),parti_3-\mathbf{I}(level_i=3),TIME-k*timeperunit_i-transmitcost_i],1\leq k\leq datacount_i$\;
         $record \leftarrow 0$\;
         \For{$ind \leftarrow 1$\KwTo $allocation_i$}{
             $record \leftarrow max(record,ndp[ind-1] - ndp[ind])$\;
@@ -790,16 +793,16 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
 \label{dp_zhifu}
 \end{algorithm}
 
-\footnotetext{$\mathbf{I}(\text{表达式}) = \begin{cases}{}
-        0&,\text{表达式为假}\\
-        1&,\text{表达式为真}
-        \end{cases}$
-}
+%\footnotetext{$\mathbf{I}(\text{表达式}) = \begin{cases}{}
+        %0&,\text{表达式为假}\\
+        %1&,\text{表达式为真}
+        %\end{cases}$
+%}
 
 \FloatBarrier
 
 \subsubsection{机构约束}
-对于机构约束下的社会福利最大化问题\ref{shuxingmoxing}，为森林状的机构添加虚根，使其转为树形结构。然后将上述场景抽象成图\ref{chouxiangtree}。其中圆形代表机构，三角形代表机构中的计算单元，即机制的参与者。颜色的不同体现了其数据来源的差异性，从而将他们划分为不同的互斥组。此时的社会福利最大化问题解决思路与前两节相似，不同点在于动态规划需要在整个树形结构上进行。
+对于机构约束下的社会福利最大化问题\ref{shuxingmoxing}，为森林状的机构添加虚根，使其转为树形结构。然后将上述场景抽象成图\ref{chouxiangtree}。其中圆形代表机构，三角形及矩形代表机构中的计算单元，即机制的参与者。形状的不同体现了其数据来源的差异性，从而将他们划分为不同的互斥组。此时的社会福利最大化问题解决思路与前两节相似，不同点在于动态规划需要在整个树形结构上进行。
 
 \begin{figure}[h]
     \includegraphics[width=300pt]{chouxiangtree.pdf}
@@ -878,13 +881,14 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
 运行本章的三种限制条件下的算法机制，观察其性能。结果如图\ref{times}所示，仅有数据量约束条件下，算法的运行速度是较快的，基本能够在秒级完成。然而，引入指标集约束和机构约束后，由于算法的伪多项式性质，其时间花费大大增加。因此，在这两种情形下，相关环境参数的设置是较为敏感的。若需要求解的问题有较大的数据范围，可能会引入较大的时间花费。幸运的是，伪多项式算法是这些参数的多项式形式，其性能仍然完全优于指数级算法。由于相对尺度的原因，图\ref{times}中数据量限制的算法运行时间并非近似线性，其运行效率的细节如图\ref{greedytimes}。
 
 \begin{figure}[H]
-    \includegraphics[width=300pt]{exp/threetimes.pdf}
+    \includegraphics[width=350pt]{exp/threetimes.pdf}
     \caption{不同限制条件下的运行效率}
     \label{times}
 \end{figure}
 
+
 \begin{figure}[H]
-    \includegraphics[width=300pt]{exp/greedytimes.pdf}
+    \includegraphics[width=350pt]{exp/greedytimes.pdf}
     \caption{贪心算法的运行效率细节}
     \label{greedytimes}
 \end{figure}
@@ -892,7 +896,7 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
 另一方面，对于每个参与者来说，其效用总是随着人数的增加而不断减少。因为参与者之间的竞争随着人数的增加而愈发激烈。这个结论可以由图\ref{utility}所示实验结果得出。在该实验中，以一名参与者$agent_k$作为观察的目标，增加参与者的数量，重新运行机制，计算该参与者的效用。为保证实验效率，只以数据量作为限制条件，即使用算法\ref{tanxin_zhifu}。
 
 \begin{figure}[H]
-\includegraphics[width=300pt]{exp/utility.pdf}
+\includegraphics[width=350pt]{exp/utility.pdf}
 \caption{参与者的效用变化}
 \label{utility}
 \end{figure}
@@ -902,7 +906,7 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
 \section{本章小结}
 本章在简单可并行数据价值共享计算场景下提出多约束价值共享激励模型，依次讨论了数据量约束、指标集约束、机构约束等议题。数据量约束是拍卖机制的基础部分。在有限理性人、准线性效用等假设下，分配规则为满足任务方数据量需求限制条件下的社会福利最大化。指标集约束引入了任务方对多方计算任务执行者的进一步细节要求。例如：时效性，参与者数量，信誉评级等。而机构约束引入了机构组织的概念，更进一步考虑了参与者的上下级关系带来的新的限制，以及数据同质参与者之间的互斥性。以上三种激励机制均满足社会福利最大化、DSIC。数据量约束可以在多项式时间内求解，而指标集约束和机构约束需要在伪多项式时间内求解。
 
-\chapter{面向依赖相关数据价值共享计算的激励机制}
+\chapter{依赖相关数据价值共享计算的激励机制}
 本章从依赖相关计算场景出发，提出时间敏感价值共享激励模型。主要分析多方数据价值共享计算模式中复杂问题的计算时间限制，分别给出社会福利最大化和期望税收最大化的DSIC拍卖机制。
 
 \section{引言}
@@ -1258,19 +1262,19 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
 为了验证贪心算法\ref{jichumoxing2tanxin2}的计算有效性。本文在不同阶数的AOE网中利用该算法进行求解。
 
 \begin{figure}[H]
-    \includegraphics[width=300pt]{exp/exetime.pdf}
+    \includegraphics[width=325pt]{exp/exetime.pdf}
     \caption{贪心算法关于AOE网阶数的执行效率}
     \label{exetime}
 \end{figure}
 
-上述实验对10至1000阶有向图进行模拟求解。由图\ref{exetime}可知，贪心算法\ref{jichumoxing2tanxin2}是计算有效的多项式算法，实验结果与时间复杂度分析吻合。
+以上实验对10至1000阶有向图进行模拟求解。由图\ref{exetime}可知，贪心算法\ref{jichumoxing2tanxin2}是计算有效的多项式算法，实验结果与时间复杂度分析吻合。
 
 在本实验环境设定中，相关变量主要有：aoe网络的阶数、aoe网络的结构、参与者数量、参与者标的分布。接下来以一系列实验分析这些因素对于税收的影响，此处以社会福利最大化为例。
 
 由于本文用于实验的计算资源有限，设定aoe网络的生成核为线性函数$kernel(x)=x$（核函数的幂指数越高意味着网络结构并行化程度越高），每个子任务的参与者数量上界为$100$，参与者标的服从正态分布$N(50,1)$。观察aoe网络的阶数对任务方税收的影响，结果如图\ref{revenuevsv}。可知税收近似是网络阶数的线性函数，这与直觉相符合。因为每个子任务必须有一个胜出者，其税收最多为其标的，总税收近似等于$\text{平均标的}*|E|$。而本实验中aoe网的边数$|E|$是阶数|V|的同阶线性函数，故总税收应近似为aoe网络阶数的线性函数。
 
 \begin{figure}[H]
-    \includegraphics[width=300pt]{exp/revenuevsv.pdf}
+    \includegraphics[width=325pt]{exp/revenuevsv.pdf}
     \caption{税收关于aoe网阶数的变化}
     \label{revenuevsv}
 \end{figure}
@@ -1278,7 +1282,7 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
 然后设定aoe网络的阶数为$200$，网络生成核为线性函数$kernel(x)=x$，参与者标的服从正态分布$N(50,1)$，观察每个子任务的竞争参与者数量上界$C$对总体税收的影响。结果如图\ref{revenuevsc}，可知当$C \in [2,20]$时，此时参与者数量较少，竞争强度较低，为保证可以完成拍卖任务，大部分子任务的税收都是0。所以总体税收较低，但是从实验数据可以发现，税收随着$C$的增长快速增加。当$C > 20$以后，参与者的竞争已经达到饱和，总税收不再明显上升。此时限制总税收增加的其实是参与者的估值的分布，也就是子任务的带给参与者的实际价值。
 
 \begin{figure}[H]
-    \includegraphics[width=300pt]{exp/revenuevsc.pdf}
+    \includegraphics[width=325pt]{exp/revenuevsc.pdf}
     \caption{税收关于每个子任务参与者数量上界的变化}
     \label{revenuevsc}
 \end{figure}
@@ -1286,23 +1290,29 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
 接下来设定aoe网络的阶数为$200$，每个子任务的参与者数量上界为$100$，参与者标的服从正态分布$N(50,1)$，观察aoe网络的生成核函数的幂指数$power$对总体税收的影响。结果如图\ref{revenuevspower},可知当核函数为线性函数时，税收不高。此时是因为网络结构复杂，并行化程度较低，时间限制极容易被破坏，前文设计的机制会选择计算时间耗费更小的参与者，而这意味着总体税收会降低。另外当$power>5$左右时，税收快速上升并逐渐稳定，这也一定程度上说明了核函数的有效使用范围。
 
 \begin{figure}[H]
-    \includegraphics[width=300pt]{exp/revenuevspower.pdf}
+    \includegraphics[width=325pt]{exp/revenuevspower.pdf}
     \caption{税收关于网络生成核函数幂指数的变化}
     \label{revenuevspower}
 \end{figure}
 
-接下来设定aoe网络的阶数为$200$，每个子任务的参与者数量上界为$100$，网络生成核为线性函数$kernel(x)=x$，观察参与者标的分布的方差对总体税收的影响。如图\ref{revenuevsvar}所示，当方差增大时，总体税收的方差也增大，而税收期望的缓慢增加。这可能是由于标的的方差在本机制中具有不同的影响。一方面，由于本章的社会福利求解使用了贪心启发式算法，该算法优先考虑标的较高的参与者，这意味着越大的标的方差会使贪心启发式算法的近似程度增加，使得其税收靠近精确社会福利最大化的税收。另一方面，方差的增加也会增大总体税收的方差。因而得到了图\ref{revenuevsvar}所示总体税收方差和期望同时增加的情形。
+接下来设定aoe网络的阶数为$200$，每个子任务的参与者数量上界为$100$，网络生成核为线性函数$kernel(x)=x$，观察参与者标的分布的方差对总体税收的影响。如图\ref{revenuevsvar}所示，当方差增大时，总体税收的方差也增大，而税收期望的缓慢增加。这可能是由于标的的方差在本机制中具有不同的影响。
+
+一方面，由于本章的社会福利求解使用了贪心启发式算法，该算法优先考虑标的较高的参与者，这意味着越大的标的方差会使贪心启发式算法的近似程度增加，使得其税收靠近精确社会福利最大化的税收。
+
+另一方面，方差的增加也会增大总体税收的方差。因而得到了图\ref{revenuevsvar}所示总体税收方差和期望同时增加的情形。
 
 \begin{figure}[H]
-    \includegraphics[width=300pt]{exp/revenuevsvar.pdf}
+    \includegraphics[width=325pt]{exp/revenuevsvar.pdf}
     \caption{税收关于参与者标的方差的变化}
     \label{revenuevsvar}
 \end{figure}
 
+\FloatBarrier
+
 为了验证最优拍卖机制的有效性，将其与社会福利最大化对应机制在200阶有向图范围内进行对比试验，以任务方的税收作为参考指标。其中各个参与者估值的先验概率分布均为正态分布，具有相同方差，不同的均值。具体的是，所有参与者的均值服从均值为50的正态分布。其余环境设定与前文实验类似。结果如图\ref{picc}所示，相比于社会福利最大化的机制，在多数情况下，最优拍卖机制能够有效提升任务方的税收性能。
 
 \begin{figure}[H]
-    \includegraphics[width=300pt]{exp/SWandoptimal.pdf}
+    \includegraphics[width=325pt]{exp/SWandoptimal.pdf}
     \caption{最优拍卖的有效性实验}
     \label{picc}
 \end{figure}
@@ -1310,7 +1320,7 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
 在上述实验的基础上，在参与者标的向量$\mathbf{v}$的维度上做样本均值。由于计算资源有限，只对部分阶数的aoe网络做实验验证。相关实验结果如图\ref{picc2}所示，当aoe网的阶数较低时，最优拍卖总是能够提升税收性能，这与理论分析相符。但当aoe网阶数增至200时，期望税收并未明显提升。这可能是因为随着阶数增大，税收的方差也随之增大，而需要更多的样本来获得更加稳定的均值。于是，可知最优拍卖的确能够在期望意义下提升拍卖机制的税收性能。
 
 \begin{figure}[H]
-    \includegraphics[width=300pt]{exp/expswandoptimal.pdf}
+    \includegraphics[width=325pt]{exp/expswandoptimal.pdf}
     \caption{期望税收的比较}
     \label{picc2}
 \end{figure}
@@ -1368,7 +1378,7 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
 \end{figure}
 
 \subsection{前端展示子系统}
-前端展示子系统主要包括多方数据可视化模块及用户UI模块。多方数据可视化模块可以对现有的数据资源进行可视化展示，用户UI模块是用户使用系统的主要接口。所有多方数据价值共享激励拍卖相关的操作均需要在用户UI完成。用户及资源管理子系统中
+前端展示子系统主要包括多方数据可视化模块及用户UI模块。多方数据可视化模块可以对现有的数据资源进行可视化展示。用户UI模块是用户使用系统的主要接口，所有多方数据价值共享激励拍卖相关的操作均需要在用户UI完成。
 
 \begin{figure}[h]
     \includegraphics{pic/qianduan.pdf}
@@ -1550,9 +1560,9 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
 %
 %感谢陈爱国老师，陈老师在这三年中给予了我许多帮助，无论是在项目工程或是论文撰写，都尽心尽力，耐心地给予督导和指点。在我遇到陌生的研究%领域及较大的科研困难时，还常常请求其他老师给予我针对性的帮助。陈老师认真负责的科研工作态度也激励着我进一步的努力学习，钻研探索。
 %
-%也要感谢田玲老师，尤其是三年前的秋天，我独自来到实验室面试，非常感谢田老师在短短一个小时的面谈中肯定我的学习能力及成绩，并给予在实%验室继续攻读硕士学位的机会。
+%也要感谢田玲老师，尤其是三年前的秋天，我独自来到实验室面试，非常感谢田老师在短短一个小时的面谈中肯定我的学习能力及成绩，并给予在实验室继续攻读硕士学位的机会。在本论文的撰写过程中田老师也给予了指导和帮助。
 %
-%然后感谢郑旭老师，在过去的两年时光中，郑老师经常参与我们的组会，为我们提供了许多科研项目的新思路和见解，使我们受益匪浅。在论文撰写的%过程中，郑老师也给予我非常多的指导和帮助。郑老师的学术能力、处事方式都值得我学习。
+%然后感谢郑旭老师，在过去的两年时光中，郑老师经常参与我们的组会，为我们提供了许多科研项目的新思路和见解，使我们受益匪浅。在论文撰写的过程中，郑老师也给予我非常多的指导和帮助。郑老师的学术能力、处事方式都值得我学习。
 %
 %还要感谢赵太银老师，赵老师专业知识扎实，为人非常有亲和力，在日常学习生活中也给予我许多帮助，是值得学生敬重与爱戴的好老师。
 %
@@ -1569,7 +1579,7 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
 
 感谢***老师，*老师在这三年中给予了我许多帮助，无论是在项目工程或是论文撰写，都尽心尽力，耐心地给予督导和指点。在我遇到陌生的研究领域及较大的科研困难时，还常常请求其他老师给予我针对性的帮助。*老师认真负责的科研工作态度也激励着我进一步的努力学习，钻研探索。
 
-也要感谢**老师，尤其是三年前的秋天，我独自来到实验室面试，非常感谢*老师在短短一个小时的面谈中肯定我的学习能力及成绩，并给予在实验室继续攻读硕士学位的机会。
+也要感谢**老师，尤其是三年前的秋天，我独自来到实验室面试，非常感谢*老师在短短一个小时的面谈中肯定我的学习能力及成绩，并给予在实验室继续攻读硕士学位的机会。在本论文的撰写过程中*老师也给予了指导和帮助。
 
 然后感谢**老师，在过去的两年时光中，*老师经常参与我们的组会，为我们提供了许多科研项目的新思路和见解，使我们受益匪浅。在论文撰写的过程中，*老师也给予我非常多的指导和帮助。*老师的学术能力、处事方式都值得我学习。
 
@@ -1591,8 +1601,12 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
 % \bibliographystyle{thesis-uestc}
 % \bibliography{reference}
 %
-\begin{thesistheaccomplish}
-\bibitem{jiang1}
-\end{thesistheaccomplish}
-%\thesisloadaccomplish{publications}
+
+%\begin{thesistheaccomplish}
+%\item 获奖情况
+%\bibitem{jiang1}学业一等奖学金，2017年10月
+%\end{thesistheaccomplish}
+
+\thesisloadaccomplish{publications}
+
 \end{document}
