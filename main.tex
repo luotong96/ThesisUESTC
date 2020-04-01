@@ -602,7 +602,7 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
 \FloatBarrier
 
 \subsection{分析及求解}
-现分别对上述三种约束限制问题进行分析及求解，给出相应的分配规则和价格规则。
+现分别对上述三种约束限制问题进行分析及求解，给出相应的分配算法和价格算法。
 
 \subsubsection{数据量约束}
 
@@ -625,7 +625,7 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
         $allocation_i \leftarrow temp$\;
         $i \leftarrow i + 1$\;
     }
-\caption{贪心算法求解数据量约束模型}
+\caption{贪心求解数据量约束模型}
 \label{tanxin}
 \end{algorithm}
 
@@ -692,7 +692,7 @@ $agentpinorg_i=\{agent_k|agent_k属于机构i\}$是隶属于机构$orgs_i$的参
             $ind += 1$\;
         }
     }
-\caption{贪心算法求解数据量约束模型的支付规则}
+\caption{数据量约束模型的支付算法}
 \label{tanxin_zhifu}
 \end{algorithm}
 
@@ -789,7 +789,7 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
             $payment_i \leftarrow payment_i + record$\;
         }
     }
-\caption{指标集约束问题价格规则}
+\caption{指标集约束问题的价格算法}
 \label{dp_zhifu}
 \end{algorithm}
 
@@ -852,7 +852,7 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
     }
     将$init[,limit_i+1...datademand,,,,]$中的所有状态置为非法状态\;
     \Return $init$\;
-\caption{机构约束问题的分配规则}
+\caption{机构约束问题的分配算法}
 \label{tree_allocation}
 \end{algorithm}
 
@@ -869,7 +869,7 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
             $payment_i \leftarrow payment_i + b$
         }
     }
-\caption{机构约束问题的支付规则}
+\caption{机构约束问题的支付算法}
 \label{tree_zhifu}
 \end{algorithm}
 
@@ -926,7 +926,7 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
 
 如图\ref{zirennwu_aoe}所示，每个顶点意味着子任务的同步等待。只有当指向该节点的所有边上所示子任务均完成时，同步等待方结束，继续进行后续子任务计算。
 
-另一方面，在前文的机制设计中，平台方根据定义好的社会福利来确定分配规则及价格规则，对应于社会福利最大化问题。这样的分配规则可以使得系统整体收益最优，但此时任务方的收益无法确切保证。若任务方的预算是有限的，则需要设计新的分配规则及价格函数来保证其收益。即，在完成任务方依赖相关计算任务的条件下，尽可能减少任务方的成本。
+另一方面，在前文的机制设计中，平台方根据定义好的社会福利来确定分配规则及价格规则，对应于社会福利最大化问题。这样的分配规则可以使得系统整体收益最优，但此时任务方的收益无法确切保证。若任务方的预算是有限的，则需要设计新的分配规则及价格规则来保证其收益。即，在完成任务方依赖相关计算任务的条件下，尽可能减少任务方的成本。
 
 \FloatBarrier
 
@@ -1133,7 +1133,7 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
             }
         }
     }
-\caption{贪心近似求解依赖相关计算问题2支付规则}
+\caption{贪心近似求解依赖相关计算问题2的支付算法}
 \label{jichumoxing2tanxin2zhifu}
 \end{algorithm}
 
@@ -1156,7 +1156,7 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
     \KwOut{$\mathbf{allocation}$}
     将所有参与者的标的$bid_i$以其虚拟估值$\varphi _i(bid_i)$替代\;
     其它信息不更改，运行算法\ref{jichumoxing2tanxin2}，得到$\mathbf{allocation}$\;
-\caption{最优拍卖机制分配规则}
+\caption{最优拍卖机制的分配算法}
 \label{optimalauction}
 \end{algorithm}
 
@@ -1168,7 +1168,7 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
 虚拟社会福利可能引入的负数标的不影响原问题求解。算法\ref{jichumoxing2tanxin2}所示分配规则单调不减，若分布的失效率函数单调不减，则虚拟估值$\varphi _i(v_i)$单调不减，则$allocation_i(z,\mathbf{bid_{-i}})$也单调不减。
 \end{proof}
 
-类似地，给出最优拍卖的支付规则。
+类似地，给出最优拍卖的支付算法。
 
 \begin{algorithm}[H] 
     \KwIn{建模定义的所有量}
@@ -1179,7 +1179,7 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
     {
         将$payment_i$替换为$\varphi _{i}^{-1}{payment_i}$
     }
-\caption{最优拍卖机制支付规则}
+\caption{最优拍卖机制的支付算法}
 \label{optimalauctionzhifu}
 \end{algorithm}
 
@@ -1526,6 +1526,32 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
 \end{figure}
 
 \FloatBarrier
+
+\section{系统功能测试}
+本系统的核心功能是完成数据资源申报及完成多方数据价值共享激励拍卖。拍卖主要有简单可并行和依赖相关两种不同的计算任务类型。因而本节针对本系统的核心功能点做测试，并测量系统完成相应功能逻辑所需时间，从而估计系统使用者的服务等待时间。主要结果如表\ref{functiontest}所示。
+
+由测试结果可知，系统的功能运转基本正常，能够在可接受的时间范围内给出用户服务响应，可以承担数据价值共享拍卖的任务。
+
+\begin{table}[h]
+\caption{核心功能测试结果表}
+\label{functiontest}
+\begin{tabular}{cccc}
+    \toprule
+    功能点名称&测试步骤&测试结果&运行时间（秒）\\
+    \midrule
+    可计算资源申报功能测试&\tabincell{l}{1.以多方计算参与者的身份登录。\\2.进入数据资源申报。\\
+    3.点击新增条目。\\4.输入详细的数据信息并提交。}&通过&2s\\
+    \cmidrule{1-4}
+    简单可并行拍卖任务功能测试&\tabincell {l}{1.以多方计算参与者的身份登录。\\2.进入数据价值共享拍卖。\\3.选择具体任务并投标。\\4.等待系统公布竞拍结果。}&通过&3s\\
+    \cmidrule{1-4}
+    %\cmidrule
+    依赖相关拍卖任务功能测试&\tabincell{l}{1.以多方计算参与者的身份登录系统。\\2.进入数据价值共享拍卖。\\3.选择具体任务并投标。\\4.等待系统公布竞拍结果。}&通过&20s\\
+    \cmidrule{1-4}
+    %\cmidrule
+    拍卖任务发布功能测试&\tabincell{l}{1.以任务发布者的身份登录系统。\\2.进入数据价值共享拍卖。\\3.点击任务发布，填写任务详细信息。\\4.提交系统，等待系统更新。}&通过&2s\\
+    \bottomrule
+\end{tabular}
+\end{table}
 
 \section{本章小结}
 本章对数据价值共享激励拍卖系统进行了实现，将本文三四章的场景及算法应用到具体的系统环境中。首先概述了系统的硬件环境及技术方法，然后依次分析了系统的总体模块设计、子系统的详细模块设计，最后对部分功能界面进行展示分析。由系统的运行情况可知，主体功能运行良好，能够有效实现数据价值共享的主要竞拍流程。
