@@ -27,13 +27,13 @@
 
 \begin{chineseabstract}
 
-在科技不断发展的今天，人们的日常生活每天都会产生海量数据，而对这些数据资源的分析应用已经创造了大量的经济价值、社会价值。对于中心化的数据资源，可以使用现有的大数据分析技术对其进行价值挖掘。而地理上分布于不同组织及个人的海量数据却难以实现高效联合应用。因为受限于成本，隐私、社会规范等诸多因素，数据拥有者们可能并不愿意将数据直接共享。这造成了“数据孤岛”的现象。而数据价值共享的目标是：尽可能利用这些地理上分散的多方数据来创建计算应用，同时阻止原始数据直接传递，最大限度保证数据隐私安全。即共享数据价值，而非共享数据本身。
+在科学技术不断发展的今天，人们每天的日常生活都会产生海量数据，而对这些数据资源的分析应用已经创造了大量的经济价值、社会价值。对于中心化的数据资源，可以使用现有的大数据分析技术对其进行价值挖掘。而地理上分布于不同组织及个人的海量数据却难以实现高效联合应用。因为受限于成本，隐私、社会规范等诸多因素，理性的数据拥有者们可能并不愿意将原始数据直接共享。这造成了“数据孤岛”的现象。而数据价值共享的目标是：尽可能利用这些地理上分散的多方数据来创建计算应用，同时避免原始数据直接传递，从而最大限度保证数据使用安全。即共享数据价值，而非共享数据本身。
 
 为此，本文提出了一种多方数据价值共享计算模式，该计算模式能够在传递数据价值的同时，避免原始数据直接共享。在该计算模式下，提供相同或相似内容的数据拥有者之间会产生竞争。为了妥善处理这些竞争，选出参与数据价值共享的胜出者，同时激励理性的参与者尽可能真实地参与数据价值共享，保证该计算模式的有效性，并最大化系统整体收益，本文针对该数据价值共享模式的两种不同具体计算场景设计了性质良好的激励机制。本文的具体工作如下：
 
-1、描述了多方数据价值共享计算模式。针对简单可并行的计算任务提出了多约束价值共享激励模型。本文首先对问题进行建模，分析了数据量约束、指标集约束、机构约束三种具体应用实例，并设计了计算有效、真实、社会福利最大化的DSIC激励拍卖机制。模拟实验说明了机制的有效性及良好性能。
+1、提出了多方数据价值共享计算模式。针对简单可并行的计算任务提出了多约束价值共享激励模型。本文首先对问题进行建模，分析了数据量约束、指标集约束、机构约束三种具体应用实例，并设计了计算有效、真实、社会福利最大化的DSIC激励拍卖机制。模拟实验说明了该模型的有效性及良好性能。
 
-2、针对依赖相关的计算任务，提出了以计算时间作为重要限制指标的时间敏感价值共享激励模型。本文首先以AOE网对任务流程进行建模。论证了相应社会福利最大化问题的NP困难性。然后对一类贪心思路进行证否，并提出另一种基于贪心思想的启发式算法来近似求解社会福利最大化问题。最后，设计了考虑任务方收益的最优拍卖机制。模拟实验说明了该模型的性能和有效性。
+2、针对依赖相关的计算任务，提出了以计算时间作为重要限制指标的时间敏感价值共享激励模型。本文首先以AOE网对任务流程进行建模。论证了相应社会福利最大化问题的NP困难性。然后对一类朴素贪心思路进行证否，并提出基于另一种贪心思想的启发式算法来确定分配方法。最后，设计了考虑任务方收益的最优拍卖机制。模拟实验说明了该模型的性能和有效性。
 
 3、本文最后设计并实现了数据价值共享拍卖系统，完成了系统的总体设计，子系统及模块化设计。将多约束价值共享激励模型和时间敏感价值共享激励模型部署至具体的应用环境，并对激励拍卖系统的核心流程进行界面展示。系统功能完善，运行良好。
 
@@ -42,15 +42,15 @@
 \end{chineseabstract}
 
 \begin{englishabstract}
-With the continuous development of science and technology, people's daily life produces massive data, and the analysis and application of these data resources have created a large number of economic and social values. For centralized data resources, the existing big data analysis technology can be applied for value mining easily. However, the massive data geographically distributed in different organizations and individuals are difficult to realize efficient joint application.  Due to many factors such as cost, privacy, and social regulation, data owners may not be willing to share data directly.  This resulted in the phenomenon of "data island". And the goal of value-based data sharing is to use these geographically distributed multi-party data as much as possible to create computing applications while preventing the direct transmission of original data which ensures data privacy security to the greatest extent. That is, to share the value of data, not the data itself.
+With the continuous development of science and technology, people's daily life produces massive data, and the analysis and application of these data resources have created a large number of economic and social values. For centralized data resources, the existing big data analysis technology can be applied for value mining easily. However, it's hard to deploy efficient joint application to the massive geographically distributed data owned by different organizations and individuals. Due to many factors such as cost, privacy, and social regulation, rational data owners may not be willing to donate their data directly. This resulted in the phenomenon of "data island". And the goal of value-based data sharing is to exploit these geographically distributed multi-party data as much as possible to construct computing applications while avoiding the direct transfer of the original data so as to ensure data security. That is, to share the value of data instead of data itself.
 
-Therefore, this thesis proposes a value-based data sharing scheme, which avoids sharing original data directly while transferring data values.In the scheme, there will be competitions between data owners who provide the same or similar content. In order to properly handle these competitions, select the winners who participate in the data value sharing, encourage rational participants to participate in the data value sharing as truthfully as possible, ensure the effectiveness of the value-based data sharing scheme and maximize the overall welfare of the system, it designs ideal incentive mechanisms for two specific computing scenarios. The work of this thesis is as follows:
+Therefore, this thesis proposes a value-based data sharing scheme, which avoids sharing original data directly while transferring data values.In the scheme, there will be competitions between data owners who provide equivalent content. For the purpose of breaking the tie, selecting the winners who participate in the scheme, encouraging rational participants to be as truthfully as possible, ensuring the effectiveness of the scheme and maximizing the overall welfare of the system, it designs ideal incentive mechanisms for two specific scenarios. The specific work of this thesis is as follows:
 
-Firstly, it describes the multi-party value-base data sharing scheme.  For simple and parallelizable computation tasks it propose an multi-constraint value-based data sharing incentive model. Then the formal modeling of the problem is carried out, then three specific application instances of data volume constraint, indicator set constraint and organization constraint are analyzed, and a DSIC incentive auction mechanism with effective computation, truthfullness as well as maximum social welfare is designed.  Simulation experiments show the effectiveness and good performance of the mechanism.
+Firstly, a multi-party value-base data sharing scheme is proposed. Aiming at simple and parallelizable computation tasks, a multi-constraint value-based data sharing incentive model follows. Specifically, the formal modeling of the problem is carried out, then three specific application instances (data volume constraint, indicator set constraint, organization constraint) are analysed, after that a DSIC incentive auction mechanism which is computational effective, truthful as well as social welfare maximized is designed. Simulation experiments show the effectiveness and good performance of the model.
 
-Secondly, for dependency-related computing tasks, a time-sensitive value-based data sharing incentive model is proposed, in which calculation time is taken as an essential limiting indicator. It first analyzes the modeling of task flow using AOE network with time constraints as an important indicator.  The NP hardness of the corresponding social welfare maximization problem is demonstrated.  Then, we prove the ineffectiveness of some greedy thoughts and give another greedy heuristic algorithm which works well to approximately solve the social welfare maximization problem.  Finally, the optimal auction mechanism considering the revenue of the task initiator is given.  Simulation experiments show the effectiveness of the model.
+Secondly, for dependency-related computation tasks, a time-sensitive value-based data sharing incentive model is proposed, in which execution time is taken as an essential limiting indicator. Specifically, the task flow is modeled by AOE network. After that, the NP hardness of corresponding social welfare maximization problem is demonstrated. Then, the ineffectiveness of some greedy thoughts is proved while another greedy heuristic algorithm is given which works well to approximate the optimal allocation rule. Finally, the optimal auction mechanism considering the revenue of the task initiator is given. Simulation experiments show the effectiveness of the model.
 
-Eventually, this thesis designs and implements a value-based data sharing auction system. And the overall design, subsystem and modular design of the auction system is carried out. The multi-constraint value-based data sharing incentive model and the time-sensitive value-based data sharing incentive model are deployed to the specific application environments. The core processes of the auction are displayed then.The system performs well.
+Eventually, this thesis designs and implements a value-based data sharing auction system. In addition to overall design,the subsystem and modular design is completed correspondingly. The above multi-constraint value-based data sharing incentive model and time-sensitive value-based data sharing incentive model are deployed to specific application environments. The core process of the auction is displayed then, which shows good performance of the system.
 
 \englishkeyword{mechanism design,data value,multiparty computation,knapsack auction}
 \end{englishabstract}
@@ -61,15 +61,15 @@ Eventually, this thesis designs and implements a value-based data sharing auctio
 
 \section{研究工作的背景与意义}
 
-在科学技术不断发展的今天，人类的一切活动及其产生的影响都可以被信息化。衣食住行、自然观测、历史记载等领域都不例外。随之产生的海量数据中存在巨大的潜在价值，现在已经有精彩纷呈的数据挖掘及分析技术(机器学习、深度学习等)应用于这些数据上，训练网络、学习知识，从而获取巨大的社会及经济价值。《2019中国大数据产业发展白皮书》\citing{2019baipishu}指出，2015年以来，随着国家和地方政府的大力推动，大数据产业加速发展。2018年整体规模达到4384.5亿元，预计到2021年将达到8070.6亿元，持续促进传统产业转型升级，激发经济增长活力，主力新型智慧城市和数字化建设。海量数据早已成为一种重要的资源。然而在数据的使用方法不断革新，前途一片光明的同时，数据使用的合法性、安全性也成为亟待解决的难题。各个数据拥有者，可能出于隐私防护、利益诉求、知识产权、保密责任等各种原因，不愿将数据直接共享，以创造更大的价值。于是，各个“数据孤岛”产生了。而在网络安全事件，隐私泄露事件频发的今天，面对复杂的低信任度网络环境，如何打破这些孤岛之间的共享障碍，促进数据更好地使用，同时限制数据暴露的程度来降低数据安全风险是现有研究努力的方向。
+在科学技术不断发展的今天，人类的活动及其产生的影响都可以被信息化。衣食住行、自然观测、历史记载等领域都不例外。随之产生的海量数据中存在巨大的潜在价值，而现在已经有精彩纷呈的数据挖掘及分析技术(机器学习、深度学习等)应用于这些数据上，训练网络、学习知识，从而获取巨大的社会及经济价值。《2019中国大数据产业发展白皮书》\citing{2019baipishu}指出，2015年以来，随着国家和地方政府的大力推动，大数据产业加速发展。2018年整体规模达到4384.5亿元，预计到2021年将达到8070.6亿元，持续促进传统产业转型升级，激发经济增长活力，主力新型智慧城市和数字化建设。海量数据早已成为一种重要的资源。然而在数据的使用方法不断革新，前途一片光明的同时，数据使用的合法性、安全性也成为亟待解决的难题。各个数据拥有者，可能出于隐私防护、利益诉求、知识产权、保密责任等各种原因，不愿将数据直接共享，以创造更大的价值。于是，各个“数据孤岛”产生了。而在网络安全事件，隐私泄露事件频发的今天，面对复杂的低信任度网络环境，如何打破这些孤岛之间的共享障碍，促进数据更好地使用，同时限制数据暴露的程度来降低数据安全风险是现有研究努力的方向。
 
-而解决以上“数据孤岛”难题的一种思想是将计算模型根据现有的数据分布进行重组拆分，拆分后的子计算任务在相应数据拥有方进行本地计算。这些本地计算仅依赖于本地的隐私敏感数据。最后各个子计算任务的结果由中心节点进行整合。从而实现数据不直接共享，仅共享数据价值的计算模式。其充分利用分布式的多方数据创造更多价值的同时，可以有力保证数据拥有者的数据隐私安全。
+解决以上“数据孤岛”难题的一种方法是将计算模型根据现有的数据分布进行重组拆分，拆分后的子计算任务在相应数据拥有方进行本地计算。这些本地计算仅依赖于本地的隐私敏感数据。最后各个子计算任务的结果由中心节点进行整合。从而实现数据不直接共享，仅共享数据价值的计算模式。在充分利用分布式多方数据创造更多价值的同时，该计算模式可以有力保证数据拥有者的数据隐私安全。
 
 %“大数据”指的数据规模太大或者复杂以至于无法以传统方式进行处理。具有三个方面的特征：
 %1、规模：各个机构组织从不同来源进行数据收集：包括商业交易，智能设备(IOT)，工业设施，电子音像、社会媒体等等。在过去，存储这些数据也是极大的难题。
 %2、速度：随着物联网的快速发展，商业中的数据流必须。
 
-然而，数据价值共享必然不可避免得带给数据拥有者损失(提供计算、保持通信的资源消耗)，这不利于数据拥有者主动参与价值共享生态。这要求系统对数据拥有者进行补偿，从而鼓励数据拥有者在受限的数据暴露程度下贡献其数据价值。系统中的环境、规则形成了整个数据价值共享的体系机制，好的规则体系能够充分调动所有数据拥有方的积极性，提升整体性能。而坏的机制可能使得数据拥有者罢工，为体系带来一系列不可估量的风险，甚至使整个系统停止运转。因而在打破“数据孤岛”壁垒的同时，针对具体应用场景确定性能优良的价格体系，完善激励机制对数据价值共享生态有着极大的促进和支撑作用。但大数据产业目前仍然处于探索与研究的阶段，满足数据价值共享场景的激励体系研究极少。针对理想的数据价值共享计算模式设计公平合理、计算高效的价格体系是具有重要意义的。
+然而，数据价值共享必然不可避免得带给数据拥有者损失(提供计算、保持通信的资源消耗、数据的获取及维护成本)，这不利于数据拥有者主动参与价值共享生态。因而需要系统对数据拥有者进行补偿，从而鼓励数据拥有者在受限的数据暴露程度下贡献其数据价值。系统中的环境、规则形成了整个数据价值共享的体系机制，好的规则体系能够充分调动所有数据拥有方的积极性，提升整体性能。而坏的机制可能使得数据拥有者罢工，为体系带来一系列不可估量的风险，甚至使整个系统停止运转。所以在打破“数据孤岛”壁垒的同时，针对具体应用场景确定性能优良的价格体系，完善激励机制对数据价值共享生态有着极大的促进和支撑作用。但大数据产业目前仍然处于探索与研究的阶段，满足数据价值共享场景的激励体系研究极少。针对理想的数据价值共享计算模式设计公平合理、计算高效的价格体系是具有重要意义的。
 
 
 \section{国内外研究历史与现状}
