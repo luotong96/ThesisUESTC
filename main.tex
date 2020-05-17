@@ -80,7 +80,7 @@ Eventually, this thesis designs and implements a value-based data sharing auctio
 
 另一方面，算法机制设计起源于Nisan\citing{nisan2001algorithmic}和Lehmann等人\citing{lehmann2002truth}。单变量环境的概念由Archer和Tardos\citing{archer2001truthful}于2001年提出。而在资源分配领域应用广泛的背包拍卖是由Mu'Alem和Nisan\citing{mu2008truthful}提出。显示定理来自于Gibbard\citing{gibbard1973manipulation}。而近年来算法机制设计领域的快速发展得益于其与近似算法领域的紧密连接。Ibarra和Kim\citing{ibarra1975fast}于1975年给出了背包问题的经典FPTAS近似算法。Briest\citing{briest2005approximation}以此为基础给出了计算可行且性质良好的背包拍卖机制。类似的，Lehmann等人\citing{lehmann2002truth}以集合覆盖问题为基础，以贪心算法实现了性质良好的机制。
 
-前述的算法大多考虑社会福利最大化，而着重考虑拍卖方收益的最优拍卖机制起源于Myerson\citing{myerson1981optimal}的研究。Ostrovsky和Schwarz\citing{ostrovsky2009reserve}在将此思想应用至雅虎公司的关键字拍卖中。雅虎高层管理者认为设置更高的保留价格是雅虎公司在2008年第三季度的搜索引擎获利增加的最主要原因。
+前述的算法大多考虑社会福利最大化，而着重考虑拍卖方收益的最优拍卖机制起源于Myerson\citing{myerson1981optimal}的研究。Ostrovsky和Schwarz\citing{ostrovsky2011reserve}在将此思想应用至雅虎公司的关键字拍卖中。雅虎高层管理者认为设置更高的保留价格是雅虎公司在2008年第三季度的搜索引擎获利增加的最主要原因。
 
 机制设计的应用场景还涉及到频谱拍卖领域\citing{gao2010map}\citing{wang2011district}\citing{yang2014promise}\citing{zhou2008ebay}。在单次频谱拍卖中，可能涉及的金额高达百万美元。因而失败的机制将带来不可挽回的经济损失。Rassenti等人\citing{rassenti1982combinatorial}早在1982年就尝试以组合拍卖来确定机场的时隙分配。Cramon\citing{cramton2000collusive}详细描述了早期频谱拍卖中的出现的共谋和竞标信号问题。美国联邦通信委员会(FCC)\citing{federal2015procedures}于2015年给出了FCC激励拍卖机制的细节。该机制使政府可以以反向拍卖的方式从广播电视台回购频谱，同时保证未被回购的频谱不会产生冲突，然后进行资源整合并重新出售整合后的宽频谱，从而更好得分配频谱资源并带来更多的经济收益。其反向拍卖的核心问题与平面图的点着色问题有关。
 
@@ -90,7 +90,7 @@ Eventually, this thesis designs and implements a value-based data sharing auctio
 
 而在数据直接共享方面，激励机制的应用主要集中在众包领域。$SenseMart$\citing{chou2007sensing}讨论了在感知数据交付机制中的激励问题并提出了一系列具有挑战的难题。在与众包相近的参与感知领域中也存在一些关于激励机制的研究。Reddy等人\citing{reddy2010recruitment}来设计了一种关于匹配感知任务最优参与者的激励框架。然而，他们仅仅关注于参与者的选择，而并未涉及激励机制的设计。Danezis等人\citing{danezis2005much}设计了一种密封二价拍卖机制来提高参与者的参与度。然而，他们没有在机制设计中进一步考虑众包者本身的效用。Lee和Hoh\citing{lee2010sell}设计并且评估了一种动态价格激励机制，参与者可以将感知数据以自己的标的价格卖给需求方，但这种机制中的参与者可能会为了最大化自身效用而给出非真实估值。duan等人\citing{duan2012incentive}研究了两种应用场景：数据获取和分布式计算。对于数据获取，他们考虑了一种阈值模型来保证数据感知的有效性，并且所有的参与者共享预设的报酬。对于分布式计算的场景，他们设计了一种基于契约理论的机制来适应参与者的多样性。另外Li和Cao\citing{li2013providing}在激励机制设计中考虑了隐私保护的目标。另外，还存在一些特殊目的机制设计。Koutsopoulos\citing{koutsopoulos2013optimal}研究了一种随机化的激励机制，在保证能够达到某一阈值的数据感知服务质量级别的情况下，最小化付给参与者的报酬。在参与者估值的概率分布已知的情况下，Luo等人\citing{luo2014profit}设计了一种最大化期望收益同时满足理性人约束的激励体系。这些提及的机制均为离线机制，即众包者获取所有的信息后再进行参与者选择。而一些在线机制也有被研究与讨论，Zhao等人\citing{zhao2014crowdsource}就设计了在线的激励机制，每个参与者到达时，众包者必须就现有信息立即给出该参与者的胜出结果。
 
-在与数据直接共享相对的数据价值共享方面，与本文的研究对象(数据价值共享模式)最为相近的概念是联邦机器学习。Google于2018年提出联邦机器学习的概念，并设计了名为Gboard\citing{hard2018federated}的虚拟键盘应用。在相似的研究方向上，Yang等人\citing{yang2019federated}进一步讨论了联邦学习的概念、架构以及潜在应用。在优化方向上，Wang等人\citing{wang2019edge}将深度增强学习和联邦学习框架融合进网络边缘的移动设备来实现移动边缘学习、缓存及通信优化。Tran等人\citing{tran2019federated}提出了无线网络联邦学习的优化问题，以获得较优的训练时间、精确度和能量损耗。Samarakoon等人\citing{samarakoon2018federated}使用联邦学习来估计网络队列的尾端概率分布，从而最小化网络负担，同时保证车辆系统之间的可靠低时延通信。在框架安全相关的研究方向上，Shayan\citing{shayan2018biscotti}认为移动设备可能会利用泄露的信息对联邦学习的模型进行污染攻击，或者直接破坏其他移动端参与者。针对该问题，他们使用了拒绝负面影响防护模式(RONI)来阻止模型的破坏，另外使用差分隐私模式来进行隐私保护。该模型被实现在区块链系统中。类似得，Kim等人\citing{kim2019blockchained}以区块链来存储验证本地的模型更新，他们还分析了端到端的学习完成时延来优化区块产生的速率。Fung等人\citing{fung2018mitigating}介绍了女巫攻击，然后以参与者的贡献相似度来识别这些恶意攻击。这些与联邦学习算法相关的研究大多是 关于性能优化：模型学习时间或者模型学习安全。他们大多有着相似的假设：参与者总是无条件地为联邦学习提供数据、通信及计算资源\citing{yang2019federated}。而这样的假设是不符合实际场景的。Nishio and Yonetani\citing{nishio2019client}考虑了资源受限和参与者选择的问题，但是其忽略了参与者的可靠性因素。在没有合适激励机制的情况下，资源丰富的数据拥有者往往不愿意参与模型学习。
+在与数据直接共享相对的数据价值共享方面，与本文的研究对象(数据价值共享模式)最为相近的概念是联邦机器学习。Google于2018年提出联邦机器学习的概念，并设计了名为Gboard\citing{hard2018federated}的虚拟键盘应用。在相似的研究方向上，Yang等人\citing{yang2019federated}进一步讨论了联邦学习的概念、架构以及潜在应用。在优化方向上，Wang等人\citing{wang2019edge}将深度增强学习和联邦学习框架融合进网络边缘的移动设备来实现移动边缘学习、缓存及通信优化。Tran等人\citing{tran2019federated}提出了无线网络联邦学习的优化问题，以获得较优的训练时间、精确度和能量损耗。Samarakoon等人\citing{samarakoon2018federated}使用联邦学习来估计网络队列的尾端概率分布，从而最小化网络负担，同时保证车辆系统之间的可靠低时延通信。在框架安全相关的研究方向上，Shayan\citing{shayan2019biscotti}认为移动设备可能会利用泄露的信息对联邦学习的模型进行污染攻击，或者直接破坏其他移动端参与者。针对该问题，他们使用了拒绝负面影响防护模式(RONI)来阻止模型的破坏，另外使用差分隐私模式来进行隐私保护。该模型被实现在区块链系统中。类似得，Kim等人\citing{kim2019blockchained}以区块链来存储验证本地的模型更新，他们还分析了端到端的学习完成时延来优化区块产生的速率。Fung等人\citing{fung2018mitigating}介绍了女巫攻击，然后以参与者的贡献相似度来识别这些恶意攻击。这些与联邦学习算法相关的研究大多是 关于性能优化：模型学习时间或者模型学习安全。他们大多有着相似的假设：参与者总是无条件地为联邦学习提供数据、通信及计算资源\citing{yang2019federated}。而这样的假设是不符合实际场景的。Nishio and Yonetani\citing{nishio2019client}考虑了资源受限和参与者选择的问题，但是其忽略了参与者的可靠性因素。在没有合适激励机制的情况下，资源丰富的数据拥有者往往不愿意参与模型学习。
 
 \section{本文的研究目标与研究内容}
 由相关领域的研究历史及现状可知，激励机制已经被应用于科学与应用的诸多方面。在众包领域有大量的激励机制，但他们大都是针对移动场景设计，并且是数据直接共享，与本文数据价值共享场景不符，因而相关激励机制无法直接使用。在与本文的数据价值共享概念极为相似的联邦学习领域，相关研究却主要着眼于联邦学习算法性能和使用安全，对于激励机制的研究极少。另一方面，联邦学习建立在同态加密技术之上，数据会加密后进行传输，并且需要借助第三方做数据交换。若在更加严格的数据使用限制环境内，加密传输也被禁止。那么联邦学习的思想并不完全适用于本文场景。因而本文需要抽象出理想的数据价值共享模式，以此为基础挖掘数据价值共享流程中的细节信息，并设计不同应用场景中的激励机制。从而鼓励“数据孤岛”之间互联互通，在受限的数据暴露程度下使用数据，充分创造新的价值。确切地说，主要有以下三个研究点：
@@ -1415,19 +1415,19 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
 
 在前端展示子系统中，人机接口是最重要的模块。这是用户参与数据价值共享的窗口，友好的界面可以增加用户的使用体验，有利于促进数据价值共享。本节对数据价值共享激励拍卖系统部分核心功能进行界面展示。
 
-\begin{figure}[H]
-    \includegraphics[width=400pt]{ui/register.png}
-    \caption{用户注册}
-    \label{register}
-\end{figure}
-
-\begin{figure}[H]
-    \includegraphics[width=400pt]{ui/login.png}
-    \caption{用户登录}
-    \label{login}
-\end{figure}
-
-如图\ref{register}和图\ref{login}所示，用户可以在系统中进行实名注册，然后参与到拍卖系统流程中。
+%\begin{figure}[H]
+%    \includegraphics[width=400pt]{ui/register.png}
+%    \caption{用户注册}
+%    \label{register}
+%\end{figure}
+%
+%\begin{figure}[H]
+%    \includegraphics[width=400pt]{ui/login.png}
+%    \caption{用户登录}
+%    \label{login}
+%\end{figure}
+%
+%如图\ref{register}和图\ref{login}所示，用户可以在系统中进行实名注册，然后参与到拍卖系统流程中。
 
 \begin{figure}[H]
     \includegraphics[width=400pt]{ui/gerenxinxiguanli.png}
