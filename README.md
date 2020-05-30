@@ -1,7 +1,5 @@
 # ThesisUESTC-电子科技大学毕业论文模板
-[![](https://img.shields.io/badge/license-LPPL-blue)](https://www.latex-project.org/lppl/)
-[![](https://img.shields.io/github/last-commit/x-magus/ThesisUESTC)](https://github.com/x-magus/ThesisUESTC/zipball/master)
-[![](https://img.shields.io/github/issues/x-magus/ThesisUESTC)](https://github.com/x-magus/ThesisUESTC/issues)
+[![](https://img.shields.io/badge/license-LPPL-blue)](https://www.latex-project.org/lppl/) [![](https://img.shields.io/github/last-commit/x-magus/ThesisUESTC)](https://github.com/x-magus/ThesisUESTC/zipball/master) [![](https://img.shields.io/github/issues/x-magus/ThesisUESTC)](https://github.com/x-magus/ThesisUESTC/issues)
 
 此项目提供用于排版电子科技大学毕业论文的LaTeX模板类，旨在帮助电子科技大学的毕业生高效地完成毕业论文的写作。模板提供各种方便的命令，自动化地排版论文的各个部分，使毕业论文轻易地满足学校的格式要求。为了支持更好的字体效果，模板基于XeLaTeX编写，并且放弃对CTeX的依赖，使模板更加稳定。
 
@@ -20,7 +18,7 @@ The template is authored by Wang Wen, a 2014 master graduate of UESTC. Because o
 
 模板采用LaTeX类的形式封装，导入模板只需要把`thesis-uestc.cls`文件放在文档所在目录，在文档开头使用`\documentclass{thesis-uestc}`命令将文档的类设置成`thesis-uestc`即可。使用BibTeX录入参考文献还需要`thesis-uestc.bst`风格定义文件。
 
-模板类有bachelor、master、promaster、doctor和engdoctor四个学位选项，对应本科、硕士、专业硕士和博士的毕业论文，默认选项为`master`。文档内容的书写参考范例`main.tex`。英语使用者可以启用`english`选项，模版会按照英语论文的格式排版。
+模板类有bachelor、master、promaster、doctor和engdoctor四个学位选项，对应本科、硕士、专业硕士、博士和工程博士的毕业论文，默认选项为`master`。文档内容的书写参考范例`main.tex`。英语使用者可以启用`english`选项，模版会按照英语论文的格式排版。
 
 ### 文档编译
 编译文档请使用XeLaTeX引擎。模版提供latexmk设置文件用于自动编译。将命令行工作目录切换到项目文件夹下，执行
@@ -47,7 +45,9 @@ xelatex main.tex
 xelatex main.tex
 ```
 
-使用Overleaf在线编辑只需打开发布在Overleaf Gallery里的[模板](https://www.overleaf.com/latex/templates/uestc-thesis-template/nwpkhtrtjhrg)，点击OPEN AS TEMPLATE即可使用，在线自动编译和预览。Overleaf模板唯一的区别在于直接使用放置在项目根目录的字体文件。
+使用Overleaf在线编辑只需点击下方图片链接打开发布在 Overleaf Gallery 里的模版，点击 Open as Template 即可使用，在线自动编译和预览。Overleaf模板唯一的区别在于直接使用放置在项目根目录的字体文件。
+
+[<img src="https://x-magus.github.io/pic/save/logo_overleaf.png" width="300" />](https://www.overleaf.com/latex/templates/uestc-thesis-template/nwpkhtrtjhrg)
 
 ## 论文写作指南
 
@@ -66,9 +66,15 @@ xelatex main.tex
 |\major{#1}{#2}| 专业中文名| 专业英文名 |
 |\studentnumber{#1}| 学号 | 无 |
 
+此外可以用`\setdate`命令设置扉页所显示的日期。这个命令的三个选项`oral`, `submit`和`confer`分别对应答辩，论文提交和学位授予的日期。
+
+| 选项 | 例子 | 定义 |
+|---|---|---|
+| oral | \setdate[oral]{2019.4.15} | 答辩日期 |
+| submit | \setdate[submit]{2019.3.15} | 论文提交日期 |
+| confer | \setdate[confer]{2019年6月} | 学位授予日期 |
+
 如果想使用自己定义的封面，可以用`\bindpdfcover`命令添加已经做好的PDF格式的封面，如`\bindpdfcover{cover.pdf}`。
-
-
 
 ### 中英文摘要
 
@@ -88,11 +94,11 @@ xelatex main.tex
 
 ### 数学环境
 
-数学环境的字体加粗可以使用`\mathbf`或者`\bm`命令，使用斜体粗体的符号。由于 Times New Roman 字体的拉丁字母字形修长，偶尔会出现字符粘连的情况。这种情况下可以使用占位符波浪号调整距离，如`$f^{~l}$`和`$\hat{f~}$`。
+数学环境的字体加粗可以使用`\mathbf`或者`\bm`命令，使用斜体粗体的符号。正体加粗可以使用`\mathbd`命令。由于 Times New Roman 字体的拉丁字母字形修长，偶尔会出现字符粘连的情况。这种情况下可以使用占位符波浪号调整距离，如`$f^{~l}$`和`$\hat{f~}$`。
 
 ### 致谢
 
-致谢部分由命令`\thesisacknowledgement`开始，实际上是开始了一个无编号的章节。
+致谢部分由命令`\thesisacknowledgement`开始，实际上是一个无编号的章节。
 
 ### 参考文献
 
@@ -100,7 +106,9 @@ xelatex main.tex
 
 在这个命令之前使用`\nocite{*}`命令会在文档中列出数据库中的所有条目，无论是否引用，其他情况下只列出引用过的条目。有些编辑器会识别`\bibliography`命令导入的数据库文件，并提供更好的编辑支持，所以模板也支持原生的`\bibliography`命令导入文献列表，只需要导入之前指定参考文献风格（`\bibliographystyle{thesis-uestc}`）即可。
 
-参考文献的在文中的引用分两种：在原文中作句法成分的为直接引用，使用`\cite`命令，否则为`\citing`命令，在文中文献编号显示为上标。模版的文献条目处理兼容 IEEE Xplore 和 ScienceDirect 的引用格式，还有其他主流的数据库。获得参考文献条目信息只需要在对应的文章页面点击下载引用的按钮（在 IEEE Xplore 中按钮在PDF下载旁边一个向下的箭头；在 ScienceDirect 中为文章标题上面的 Export 链接），选择BibTeX格式，将文本复制到 bib 文件即可。
+参考文献的在文中的引用分两种：在原文中作句法成分的为直接引用，使用`\cite`命令，否则为`\citing`命令，在文中文献编号显示为上标。
+
+模版支持所有常用的条目类型，文献条目处理兼容 Google Scholar, IEEE Xplore 和 ScienceDirect 的引用格式，还有其他主流的数据库。获得参考文献条目信息，只需要在对应的文章页面点击下载引用的按钮（Google Scholar 为文献条目下方第二个显示为双引号的按钮；在 IEEE Xplore 中是文章标题下方的 Cite This 按钮；在 ScienceDirect 中为文章标题上面的 Export 链接），选择BibTeX格式，将文本复制到 bib 文件即可。其他一些类型的条目如专利、学位论文等可以参考`reference.bib`提供的样例。
 
 当引用中文文献，而文献作者超过三位时，后面的作者想使用“等”字省略，可以在文章条目添加语言选项`language = {zh}`。模版会自动按照中文的习惯处理作者信息。
 
@@ -112,7 +120,9 @@ xelatex main.tex
 
 ### 攻读学位期间取得的成果
 
-使用BibTeX录入研究成果由`\thesisaccomplish`命令导入`*.bib`文献列表，方法与参考文献相同。文献列表风格自动设置为`thesis-uestc`。此命令没有可选参数，自动在文档中列出数据库中的所有条目。手动添加使用`\bibitem`命令将文章条目列在`thesistheaccomplish`环境下，方法与参考文献相同。
+使用BibTeX录入研究成果由`\thesisaccomplish`命令导入`*.bib`文献列表，方法与参考文献相同。文献列表风格自动设置为`thesis-uestc`。此命令没有可选参数，自动在文档中列出数据库中的所有条目。在编译过程中需要注意所使用的编译方式正确执行`bibtex accomplish.aux`命令，否则不会生成研究成果。
+
+手动添加使用`\bibitem`命令将文章条目列在`thesistheaccomplish`环境下，方法与参考文献相同，这种方法优势在于可以在条目间加小标题区分项目或论文成果。
 
 ### 外文资料原文及译文
 
@@ -165,9 +175,9 @@ latexmk main_multifile.tex
 
 ### 图表目录和缩略词
 
-图目录、表目录和缩略词表分别对应`\thesisfigurelist`，`\thesistablelist`，`\thesisglossarylist`命令，这些列表不会出现在目录里。
+图目录、表目录分别对应`\thesisfigurelist`和`\thesistablelist`命令，这些列表不会出现在目录里。
 
-缩略词表使用`glossaries`宏包实现。定义缩略词使用`\newglossaryentry{<label>}{<description>}`命令，例如：
+缩略词表使用`glossaries`宏包实现。生成缩略词表需要在文档导言区加入`\makeglossaries`命令，再在缩略词表显示的位置使用`\thesisglossarylist`命令。定义缩略词使用`\newglossaryentry{<label>}{<description>}`命令，例如：
 ```latex
 \newglossaryentry{Linux}
 {
@@ -198,6 +208,26 @@ xelatex main.tex
 xelatex main.tex
 ```
 推荐使用latexmk命令进行编译，自动处理以上的问题。
+
+## 常见问题
+
+### 为何论文编译没有生成攻读学位期间所取得的成果？
+模版推荐使用latexmk的方式编译。很多编辑器有自己的编译选项，标明使用xelatex方式进行编译的，使用之后没有生成攻读学位期间所取得的成果。这种情况是编译过程中漏掉`bibtex accomplish.aux`命令，在各类编辑器中相当普遍。推荐无论是命令行还是编辑器都明确指定latexmk的编译方式。
+
+### 生成的文档是否可以直接提交查重？
+仅以学校认可的标准的知网查重平台来讲，模版生成的PDF文档不需要任何改动就可以提交查重，不会误把页眉、参考文献等当作正文进行审查。
+
+### 论文封面是否符合学校要求？
+模版参照学校提供的样例，并且遵循简洁美观的原则生成论文封面和扉页。由于最终提交论文时，文印中心会统一提供封面和扉页，不论自己排版的封面是否有问题，在格式审查时也会忽略封面部分，从某种意义上讲学校对封面并无要求。模版生成的封面或许有微小的出入，但是不会影响论文的提交和审核。
+
+### 如何将攻读学位期间所取得的成果分成几个部分？
+使用bibtex录入成果无法划分部分，但是使用`thesistheaccomplish`环境添加成果可以在文献列表中间插入小标题。
+
+### 如何录入专利或学位论文等文献条目？
+模版提供的`reference.bib`包含所有可用条目类型的样例，包括期刊论文，会议论文，专利、学位论文和电子出版物等，可以参考这些条目录入文献信息。
+
+### 为什么从生成的PDF复制文本都是乱码，且查重无法正确识别文本内容？
+这种现象出现在2018版的TeXLive上。将TeXLive的版本更新到2019或2020即可消除这个问题。
 
 ## 技术交流
 

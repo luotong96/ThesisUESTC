@@ -71,6 +71,7 @@
 \fi
 
 \DeclareMathAlphabet{\mathbf}{\eu@enc}{\eu@mathrm}{\bfdefault}{it}
+\DeclareMathAlphabet{\mathbd}{\eu@enc}{\eu@mathrm}{\bfdefault}{n}
 \newcommand{\bm}{\mathbf}
 
 \RequirePackage{zhnumber}
@@ -120,6 +121,8 @@
 \urlstyle{rm}
 \raggedbottom
 
+% \AtBeginDocument{\pretocmd{\ref}{~}{}{}\apptocmd{\ref}{}{}{}}
+
 \newcommand{\thesistablelist}{
   \listoftables
 }
@@ -152,12 +155,12 @@
 
 \setlength{\intextsep}{9pt}
 
-\AtBeginEnvironment{figure}{
-  \def\@floatboxreset{\centering}
+\AtBeginEnvironment{figure}{%
+  \def\@floatboxreset{\centering}%
 }
 
-\AtBeginEnvironment{table}{
-  \def\@floatboxreset{\centering}
+\AtBeginEnvironment{table}{%
+  \def\@floatboxreset{\centering}%
 }
 
 \AtBeginEnvironment{tabular}{\small}
@@ -273,8 +276,8 @@
 \newcommand{\chinesekeyword}[1]{
   \vspace{\baselineskip}
   \noindent
-  \parbox[t]{48pt}{\textbf{关键词\chinesecolon}}
-  \parbox[t]{\linewidth - 48pt}{#1}
+  \parbox[t]{48pt}{\textbf{关键词\chinesecolon}}%
+  \parbox[t]{\linewidth - 48.06pt}{#1}
 }
 
 \newenvironment{englishabstract}{
@@ -300,8 +303,8 @@
 \newcommand{\englishkeyword}[1]{
   \vspace{\baselineskip}
   \noindent
-  \parbox[t]{2.1cm}{\textbf{Keywords:}}
-  \parbox[t]{\linewidth - 2.1cm}{#1}
+  \parbox[t]{2.1cm}{\textbf{Keywords:}}%
+  \parbox[t]{\linewidth - 2.106cm}{#1}
 }
 
 \AddEverypageHook{\addtocontents{toc}{
@@ -383,6 +386,22 @@
 
 \newcommand{\studentnumber}[1]{
   \renewcommand{\thestudentnumber}{#1}
+}
+
+\newcommand{\thedateoral}{}
+\newcommand{\thedatesubmit}{}
+\newcommand{\thedateconfer}{年\chinesespace 月}
+
+\newcommand{\setdate}[2][]{ 
+\ifthenelse{\equal{#1}{oral}}{
+  \renewcommand{\thedateoral}{#2}
+}{}
+\ifthenelse{\equal{#1}{submit}}{
+  \renewcommand{\thedatesubmit}{#2}
+}{}
+\ifthenelse{\equal{#1}{confer}}{
+  \renewcommand{\thedateconfer}{#2}
+}{}
 }
 
 \renewcommand{\strong}{\heiti}
@@ -566,7 +585,7 @@
     \printglossary[style=long-uestc, title={\protect\centering Glossary}, nonumberlist, nogroupskip]
   }
 }
-\makeglossaries
+% \makeglossaries
 
 \newcommand{\makecover}{
 \thispagestyle{empty}
@@ -598,7 +617,7 @@
   \end{tabular} \\[\baselineskip]
   \begin{tabular}{>{\heiti\fontsize{16pt}{16pt}\selectfont}l
       >{\centering\arraybackslash\heiti\fontsize{16pt}{16pt}\selectfont}
-      p{3.77in}p{20pt}}
+      p{3.77in}p{15pt}}
     学科专业 & \zh@themajor &\\
     \cline{2-2}
     学\chinesespace\chinesespace 号 & \thestudentnumber & \\
@@ -668,15 +687,15 @@ UDC\textsuperscript{ 注1} \uline{\hspace{2.5in}} \\[12bp]
       >{\fontsize{12pt}{12pt}\selectfont}l
       >{\centering\arraybackslash\fontsize{16pt}{16pt}\heiti\selectfont}
       p{2.0in}}
-      提交论文日期 &  &
-      论文答辩日期 & \\
+      提交论文日期 & \thedatesubmit &
+      论文答辩日期 & \thedateoral \\
     \cline{2-2}
     \cline{4-4}
   \end{tabular} \\
   \begin{tabular}{>{\fontsize{12pt}{12pt}\selectfont}l
       >{\centering\arraybackslash\fontsize{16pt}{16pt}\heiti\selectfont}
       p{3.97in}}
-      学位授予单位和日期 & 电子科技大学\chinesespace 年\chinesespace 月 \\
+      学位授予单位和日期 & 电子科技大学\chinesespace{} \thedateconfer \\
     \cline{2-2}
   \end{tabular} \\
   \begin{tabular}{>{\fontsize{12pt}{12pt}\selectfont}l
@@ -745,7 +764,7 @@ School: & \en@theschool \\
   \noindent\begin{center}
   \fontsize{18pt}{20pt}\selectfont\heiti 独创性声明
   \end{center}
-    \par{\fontsize{14pt}{16pt}\selectfont\noindent\null\hspace{28pt}
+    \par{\fontsize{14pt}{16pt}\selectfont\noindent\null\hspace{28pt}%
     本人声明所呈交的学位论文是本人在导师指导下进行的研究工作及取得的研究成果。%
     据我所知，除了文中特别加以标注和致谢的地方外，论文中不包含其他人已经发表或撰写过的研究成果，%
     也不包含为获得电子科技大学或其它教育机构的学位或证书而使用过的材料。%
@@ -846,6 +865,7 @@ School: & \en@theschool \\
 \newcommand{\thesisappendix}{
   \newpage
   \appendix
+  \interlinepenalty=0
   \ifchinesebook{}{\addtocontents{toc}{\protect\addtolength{\cftchapnumwidth}{12pt}}}
   \addtocontents{toc}{\protect\setcounter{tocdepth}{2}}
   \titleformat{\chapter}[block]
@@ -873,6 +893,7 @@ School: & \en@theschool \\
 \newcommand{\thesissingleappendix}{
   \newpage
   \appendix
+  \interlinepenalty=0
   \addtocontents{toc}{\protect\setcounter{tocdepth}{2}}
   \titleformat{\chapter}[block]
     {\centering\fontsize{15pt}{15pt}\selectfont\strong\thispagestyle{fancy}}{附\hspace{12pt}录}{7.5pt}{}
@@ -915,6 +936,7 @@ School: & \en@theschool \\
 }
 
 \newcommand{\thesistranslationoriginal}{
+  \interlinepenalty=0
   \chapter*{\translation@originaltitle}
   \addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
   \renewcommand\thesection{\arabic{section}}
@@ -931,6 +953,7 @@ School: & \en@theschool \\
 }
 
 \newcommand{\thesistranslationchinese}{
+  \interlinepenalty=0
   \addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
   \chapter*{\translation@chinesetitle}
   \renewcommand\thesection{\arabic{section}}
@@ -999,15 +1022,20 @@ School: & \en@theschool \\
 \newcites{accomplish}{\thesisaccomplishtitle}
 
 \newenvironment{thesistheaccomplish}{
+  \addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
+  \renewcommand\thesection{\arabic{section}}
+  \setcounter{section}{0}
   \nociteaccomplish{*}
   \renewcommand{\bibname}{\thesisaccomplishtitle}
   \begin{thebibliography}{lo}
   \interlinepenalty=10000
+  \setlength{\itemsep}{0bp}\setlength{\parskip}{0pt}
   \begin{spacing}{1.667}
   \thispagestyle{fancy}
   \small
 }{
-  \end{spacing}\end{thebibliography}
+  \end{spacing}
+  \end{thebibliography}
   \renewcommand{\bibname}{\thesisbibname}
 }
 
