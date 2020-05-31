@@ -3,27 +3,32 @@
 
 \title{面向数据价值共享的激励技术研究与实现}{The Study and Implementation of Incentive Techniques for Value-based Data Sharing}
 
-\author{**}{**}
-\advisor{**}{**}
-\school{**}{**}
-\major{计算机技术}{Computer Technology}
-\studentnumber{**}
-
-
-%\author{罗通}{Luo Tong}
-%\advisor{罗光春\chinesespace 教授}{Dr. Guangchun Luo}
-%\school{计算机科学与工程学院\chineseleftparenthesis网络空间安全学院\chineserightparenthesis}{School of Computer Science and Engineering}
+%\author{**}{**}
+%\advisor{**}{**}
+%\school{**}{**}
 %\major{计算机技术}{Computer Technology}
-%\studentnumber{201722060929}
+%\studentnumber{**}
+
+
+\author{罗通}{Luo Tong}
+\advisor{罗光春\chinesespace 教授}{Dr. Guangchun Luo}
+\school{计算机科学与工程学院}{School of Computer Science \& Engineering}
+\major{计算机技术}{Computer Technology}
+\studentnumber{201722060929}
+\setdate[oral]{2020.5.19}
+\setdate[submit]{2020.4.2}
+\setdate[confer]{2020年6月}
 
 \usepackage{placeins}
 \newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}} %放在导言区
 
 \begin{document}
 
-\makecover
+%\makecover
 
-\originalitydeclaration
+%\originalitydeclaration
+\bindpdfcover{mycover.pdf}
+
 
 \begin{chineseabstract}
 
@@ -52,7 +57,7 @@ Secondly, for dependency-related computation tasks, a time-sensitive value-based
 
 Eventually, this thesis designs and implements a value-based data sharing auction system. In addition to overall design,the subsystem and modular design is completed correspondingly. The above multi-constraint value-based data sharing incentive model and time-sensitive value-based data sharing incentive model are deployed to specific application environments. The core process of the auction is displayed then, which shows good performance of the system.
 
-\englishkeyword{mechanism design,data value,multiparty computation,knapsack auction}
+\englishkeyword{mechanism design，data value，multiparty computation，knapsack auction}
 \end{englishabstract}
 
 \thesistableofcontents
@@ -1580,42 +1585,42 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
     \item 本文的两个场景的拍卖机制均为单变量环境下的DSIC机制，可以进一步挖掘计算场景的特点，考虑多变量环境下的组合拍卖机制设计，或非DSIC机制设计。
 \end{enumerate}
 
-%\thesisacknowledgement
-
-%时间过得很快，三年的研究生生涯就要划上句号。在这三年中，一方面我进一步夯实了基础知识，见识到了更加广阔的学术领域和氛围，坚定了内心的%想法与方向。另一方面也结实了更多良师益友，收获很多。
-%
-%首先感谢我的导师罗光春老师， %他扎实的专业知识及严谨的治学风范为我树立了良好的榜样。激励着我在科研学习及日常生活中踏实努力，不断追求新的高度。
-%
-%感谢陈爱国老师，陈老师在这三年中给予了我许多帮助，无论是在项目工程或是论文撰写，都尽心尽力，耐心地给予督导和指点。在我遇到陌生的研究%领域及较大的科研困难时，还常常请求其他老师给予我针对性的帮助。陈老师认真负责的科研工作态度也激励着我进一步的努力学习，钻研探索。
-%
-%也要感谢田玲老师，尤其是三年前的秋天，我独自来到实验室面试，非常感谢田老师在短短一个小时的面谈中肯定我的学习能力及成绩，并给予在实验室继续攻读硕士学位的机会。在本论文的撰写过程中田老师也给予了指导和帮助。
-%
-%然后感谢郑旭老师，在过去的两年时光中，郑老师经常参与我们的组会，为我们提供了许多科研项目的新思路和见解，使我们受益匪浅。在论文撰写的过程中，郑老师也给予我非常多的指导和帮助。郑老师的学术能力、处事方式都值得我学习。
-%
-%还要感谢赵太银老师，赵老师专业知识扎实，为人非常有亲和力，在日常学习生活中也给予我许多帮助，是值得学生敬重与爱戴的好老师。
-%
-%另外感谢各位同组同门：陈远帆、邵福骏、谢渊、骆佳程、李思宁，以及好朋友刘竹、胡小东。
-%
-%最后感谢我的父母，生活中给予我无微不至的照顾与关怀。
-
-
 \thesisacknowledgement
 
 时间过得很快，三年的研究生生涯就要划上句号。在这三年中，一方面我进一步夯实了基础知识，见识到了更加广阔的学术领域和氛围，坚定了内心的想法与方向。另一方面也结实了更多良师益友，收获很多。
 
-首先感谢我的导师***老师，他扎实的专业知识及严谨的治学风范为我树立了良好的榜样。激励着我在科研学习及日常生活中踏实努力，不断追求新的高度。
+首先感谢我的导师罗光春老师， 他扎实的专业知识及严谨的治学风范为我树立了良好的榜样。激励着我在科研学习及日常生活中踏实努力，不断追求新的高度。
 
-感谢***老师，*老师在这三年中给予了我许多帮助，无论是在项目工程或是论文撰写，都尽心尽力，耐心地给予督导和指点。在我遇到陌生的研究领域及较大的科研困难时，还常常请求其他老师给予我针对性的帮助。*老师认真负责的科研工作态度也激励着我进一步的努力学习，钻研探索。
+感谢陈爱国老师，陈老师在这三年中给予了我许多帮助，无论是在项目工程或是论文撰写，都尽心尽力，耐心地给予督导和指点。在我遇到陌生的研究领域及较大的科研困难时，还常常请求其他老师给予我针对性的帮助。陈老师认真负责的科研工作态度也激励着我进一步的努力学习，钻研探索。
 
-也要感谢**老师，尤其是三年前的秋天，我独自来到实验室面试，非常感谢*老师在短短一个小时的面谈中肯定我的学习能力及成绩，并给予在实验室继续攻读硕士学位的机会。在本论文的撰写过程中*老师也给予了指导和帮助。
+也要感谢田玲老师，尤其是三年前的秋天，我独自来到实验室面试，非常感谢田老师在短短一个小时的面谈中肯定我的学习能力及成绩，并给予在实验室继续攻读硕士学位的机会。在本论文的撰写过程中田老师也给予了指导和帮助。
 
-然后感谢**老师，在过去的两年时光中，*老师经常参与我们的组会，为我们提供了许多科研项目的新思路和见解，使我们受益匪浅。在论文撰写的过程中，*老师也给予我非常多的指导和帮助。*老师的学术能力、处事方式都值得我学习。
+然后感谢郑旭老师，在过去的两年时光中，郑老师经常参与我们的组会，为我们提供了许多科研项目的新思路和见解，使我们受益匪浅。在论文撰写的过程中，郑老师也给予我非常多的指导和帮助。郑老师的学术能力、处事方式都值得我学习。
 
-还要感谢***老师，*老师专业知识扎实，为人非常有亲和力，在日常学习生活中也给予我许多帮助，是值得学生敬重与爱戴的好老师。
+还要感谢赵太银老师，赵老师专业知识扎实，为人非常有亲和力，在日常学习生活中也给予我许多帮助，是值得学生敬重与爱戴的好老师。
 
-另外感谢各位同组同门：***、***、**、***、***，以及好朋友**、***。
+另外感谢各位同组同门：陈远帆、邵福骏、谢渊、骆佳程、李思宁，以及好朋友刘竹、胡小东。
 
 最后感谢我的父母，生活中给予我无微不至的照顾与关怀。
+
+
+\thesisacknowledgement
+
+% 时间过得很快，三年的研究生生涯就要划上句号。在这三年中，一方面我进一步夯实了基础知识，见识到了更加广阔的学术领域和氛围，坚定了内心的想法与方向。另一方面也结实了更多良师益友，收获很多。
+
+% 首先感谢我的导师***老师，他扎实的专业知识及严谨的治学风范为我树立了良好的榜样。激励着我在科研学习及日常生活中踏实努力，不断追求新的高度。
+
+% 感谢***老师，*老师在这三年中给予了我许多帮助，无论是在项目工程或是论文撰写，都尽心尽力，耐心地给予督导和指点。在我遇到陌生的研究领域及较大的科研困难时，还常常请求其他老师给予我针对性的帮助。*老师认真负责的科研工作态度也激励着我进一步的努力学习，钻研探索。
+
+% 也要感谢**老师，尤其是三年前的秋天，我独自来到实验室面试，非常感谢*老师在短短一个小时的面谈中肯定我的学习能力及成绩，并给予在实验室继续攻读硕士学位的机会。在本论文的撰写过程中*老师也给予了指导和帮助。
+
+% 然后感谢**老师，在过去的两年时光中，*老师经常参与我们的组会，为我们提供了许多科研项目的新思路和见解，使我们受益匪浅。在论文撰写的过程中，*老师也给予我非常多的指导和帮助。*老师的学术能力、处事方式都值得我学习。
+
+% 还要感谢***老师，*老师专业知识扎实，为人非常有亲和力，在日常学习生活中也给予我许多帮助，是值得学生敬重与爱戴的好老师。
+
+% 另外感谢各位同组同门：***、***、**、***、***，以及好朋友**、***。
+
+% 最后感谢我的父母，生活中给予我无微不至的照顾与关怀。
 
 
 \nocite{*}
