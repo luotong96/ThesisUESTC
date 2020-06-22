@@ -1123,7 +1123,10 @@ dp[0,0,0,0,0,0...TIME] = 0 \notag
                     在$G_v$的基础上将$agent_i$置为所属子任务的胜出者，得到新解$S'$，以算法\ref{jichumoxing2tanxin2}中最长路的计算方法检查$S'$的合法性\;
                     \If{$S'$不合法}
                     {
-                        $payment_i = bid_i + max(\text{产生}G_v\text{所对应的相对标的},agent_i\text{后一位的相对标的}b_{next}\text{的第一关键字}) - agent_i$的相对标的$z$\;
+                        rela = 产生$G_v$的相对标的值\;
+                        rbnext = $agent_i$后一位相对标的$b_{next}$值\;
+                        z = $agent_i$的相对标的值\;
+                        $payment_i = bid_i + max(rela,rbnext) - z$\;
                         break\;
                     }
                 }
