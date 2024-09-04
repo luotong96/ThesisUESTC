@@ -1,5 +1,9 @@
 # The Study and Implementation of Incentive  Techniques for Value-based Data Sharing
-This thesis  for degree of Master of Engineering(Computer Technique) was submitted to University of Electronic Science and Technology of China (UESTC) in 2020. See [pdf](https://github.com/luotong96/ThesisUESTC/blob/master/main.pdf) for original paper in Chinese.
+This thesis  for degree of Master of Engineering(Computer Technique) was submitted to University of Electronic Science and Technology of China (UESTC) in 2020.  
+
+The point of the thesis is an application of mechanism  design mentioned in [Twenty Lectures on Algorithmic Game Theory](https://assets.cambridge.org/97811071/72661/frontmatter/9781107172661_frontmatter.pdf).  
+
+See [pdf](https://github.com/luotong96/ThesisUESTC/blob/master/main.pdf) for original paper in Chinese.
 
 ## Abstract:
 
